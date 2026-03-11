@@ -142,7 +142,7 @@ class StatController extends Controller
                     $statistics[$k]['server_name'] = $server['name'];
                 }
             }
-            $statistics[$k]['total'] = $statistics[$k]['total'] / 1073741824;
+            $statistics[$k]['total'] = round($statistics[$k]['total'] / 1073741824, 2);
         }
         array_multisort(array_column($statistics, 'total'), SORT_DESC, $statistics);
         return [
@@ -185,7 +185,7 @@ class StatController extends Controller
                     $statistics[$k]['server_name'] = $server['name'];
                 }
             }
-            $statistics[$k]['total'] = $statistics[$k]['total'] / 1073741824;
+            $statistics[$k]['total'] = round($statistics[$k]['total'] / 1073741824, 2);
         }
         array_multisort(array_column($statistics, 'total'), SORT_DESC, $statistics);
         return [
@@ -217,7 +217,7 @@ class StatController extends Controller
             $id = $statistics[$k]['user_id'];
             $user = User::where('id', $id)->first();
             $statistics[$k]['email'] = empty($user) ? "null" : $user['email'];
-            $statistics[$k]['total'] = $statistics[$k]['total'] * $statistics[$k]['server_rate'] / 1073741824;
+            $statistics[$k]['total'] = round($statistics[$k]['total'] * $statistics[$k]['server_rate'] / 1073741824, 2);
             if (isset($idIndexMap[$id])) {
                 $index = $idIndexMap[$id];
                 $data[$index]['total'] += $statistics[$k]['total'];
@@ -257,7 +257,7 @@ class StatController extends Controller
             $id = $statistics[$k]['user_id'];
             $user = User::where('id', $id)->first();
             $statistics[$k]['email'] = empty($user) ? "null" : $user['email'];
-            $statistics[$k]['total'] = $statistics[$k]['total'] * $statistics[$k]['server_rate'] / 1073741824;
+            $statistics[$k]['total'] = round($statistics[$k]['total'] * $statistics[$k]['server_rate'] / 1073741824, 2);
             if (isset($idIndexMap[$id])) {
 
                 $index = $idIndexMap[$id];
@@ -293,4 +293,3 @@ class StatController extends Controller
     }
 
 }
-

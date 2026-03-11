@@ -8,6 +8,7 @@ use App\Http\Requests\Staff\UserUpdate;
 use App\Jobs\SendEmailJob;
 use App\Models\Plan;
 use App\Models\User;
+use App\Utils\Helper;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -102,6 +103,72 @@ class UserController extends Controller
 
         return response([
             'data' => true
+        ]);
+    }
+
+    /**
+     * Apply filters to user query
+     */
+    private function filter(Request $request, $builder)
+    {
+        if ($request->input('filter')) {
+            foreach ($request->input('filter') as $filter) {
+                if (empty($filter['key']) || empty($filter['condition']) || $filter['value'] === null) continue;
+                
+                $key = $filter['key'];
+                $condition = $filter['condition'];
+                $value = $filter['value'];
+                
+                switch ($condition) {
+                    case '~':
+                        $builder->where($key, 'LIKE', "%{$value}%");
+                        break;
+                    case '=':
+                        $builder->where($key, $value);
+                        break;
+                    case '>=':
+                        $builder->where($key, '>=', $value);
+                        break;
+                    case '<=':
+                        $builder->where($key, '<=', $value);
+                        break;
+                    case '>':
+                        $builder->where($key, '>', $value);
+                        break;
+                    case '<':
+                        $builder->where($key, '<', $value);
+                        break;
+                }
+            }
+        }
+    }
+
+    public function resetSecurity(Request $request)
+    {
+        $staffUserId = $request->input('user.id');
+        $targetUserId = $request->input('target_user_id');
+        
+        // Chỉ reset được user của staff này (invite_user_id = staff_id)
+        $targetUser = User::where('id', $targetUserId)
+            ->where('invite_user_id', $staffUserId)
+            // ->where('is_admin', 0)
+            // ->where('is_staff', 0)
+            ->first();
+            
+        if (!$targetUser) {
+            return response()->json(['message' => 'You do not have permission'], 403);
+        }
+        
+        // Reset UUID và token
+        $targetUser->uuid = Helper::guid(true);
+        $targetUser->token = Helper::guid();
+        $targetUser->save();
+        
+        return response()->json([
+            'data' => [
+                'success' => true,
+                'new_subscribe_url' => Helper::getSubscribeUrl($targetUser->token)
+            ]
         ]);
     }
 }

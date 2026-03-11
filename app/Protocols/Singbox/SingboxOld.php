@@ -86,7 +86,7 @@ class SingboxOld
     protected function addProxies($proxies)
     {
         foreach ($this->config['outbounds'] as &$outbound) {
-            if (($outbound['type'] === 'selector' && $outbound['tag'] === '节点选择') || ($outbound['type'] === 'urltest' && $outbound['tag'] === '自动选择') || ($outbound['type'] === 'selector' && strpos($outbound['tag'], '#') === 0 )) {
+            if (($outbound['type'] === 'selector' && $outbound['tag'] === 'auto_proxy') || ($outbound['type'] === 'urltest' && $outbound['tag'] === 'auto_test') || ($outbound['type'] === 'selector' && strpos($outbound['tag'], '#') === 0 )) {
                 array_push($outbound['outbounds'], ...array_column($proxies, 'tag'));
             }
         }
@@ -350,6 +350,7 @@ class SingboxOld
         return $array;
     }
 
+
     protected function buildHysteria2($password, $server, $user)
     {
         $parts = explode(",",$server['port']);
@@ -380,3 +381,4 @@ class SingboxOld
         return $array;
     }
 }
+

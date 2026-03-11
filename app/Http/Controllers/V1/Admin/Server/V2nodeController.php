@@ -7,6 +7,7 @@ use App\Models\ServerV2node;
 use Illuminate\Http\Request;
 use ParagonIE_Sodium_Compat as SodiumCompat;
 use App\Utils\Helper;
+use Illuminate\Support\Facades\Cache;
 
 class V2nodeController extends Controller
 {
@@ -44,10 +45,8 @@ class V2nodeController extends Controller
             'show' => 'nullable|in:0,1',
             'sort' => 'nullable'
         ]);
-        if ($params['protocol'] == 'anytls' && $params['tls'] === 0) {
-            $params['tls'] = 1;
-        }
-        if (in_array($params['protocol'], ['hysteria2', 'trojan', 'tuic'])) {
+
+        if (in_array($params['protocol'], ['anytls', 'hysteria2', 'trojan', 'tuic'])) {
             $params['tls'] = 1;
         }
         if (isset($params['tls']) && (int)$params['tls'] === 2) {

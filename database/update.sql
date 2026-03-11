@@ -806,6 +806,14 @@ CREATE TABLE `v2_server_anytls` (
                                       PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+ALTER TABLE `v2_staff`
+    ADD `plan_id` JSON NULL AFTER `domain`;
+
+ALTER TABLE `v2_staff`
+    MODIFY `custom_html` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL;
+
+
 ALTER TABLE `v2_user`
 ADD UNIQUE `token` (`token`);
 
@@ -856,3 +864,4 @@ CREATE TABLE `v2_server_v2node` (
 
 ALTER TABLE `v2_server_route`
 CHANGE `action_value` `action_value` text NULL AFTER `action`;
+

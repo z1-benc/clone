@@ -53,6 +53,7 @@ class ConfigSave extends FormRequest
         'show_info_to_server_enable' => 'in:0,1',
         'show_subscribe_method' => 'in:0,1,2',
         'show_subscribe_expire' => 'nullable|integer',
+        'noti_admin_giftcard' => 'in:0,1',
         // server
         'server_api_url' => 'nullable|string',
         'server_token' => 'nullable|min:16',
@@ -81,6 +82,7 @@ class ConfigSave extends FormRequest
         'telegram_discuss_id' => '',
         'telegram_channel_id' => '',
         'telegram_discuss_link' => 'nullable|url',
+        'apple_share_api' => 'nullable|url',
         // app
         'windows_version' => '',
         'windows_download_url' => '',
@@ -101,6 +103,7 @@ class ConfigSave extends FormRequest
         'register_limit_count' => 'integer',
         'register_limit_expire' => 'integer',
         'secure_path' => 'min:8|regex:/^[\w-]*$/',
+        'staff_path' => 'min:5|regex:/^[\w-]*$/',
         'password_limit_enable' => 'in:0,1',
         'password_limit_count' => 'integer',
         'password_limit_expire' => 'integer',
@@ -132,6 +135,7 @@ class ConfigSave extends FormRequest
         // illiteracy prompt
         return [
             'app_url.url' => '站点URL格式不正确，必须携带http(s)://',
+            'apple_share_api.url' => 'apple share api phải là link http(s)://',
             'subscribe_url.url' => '订阅URL格式不正确，必须携带http(s)://',
             'subscribe_path.regex' => '订阅路径必须以/开头',
             'server_token.min' => '通讯密钥长度必须大于16位',
@@ -140,6 +144,8 @@ class ConfigSave extends FormRequest
             'logo.url' => 'LOGO URL格式不正确，必须携带https(s)://',
             'secure_path.min' => '后台路径长度最小为8位',
             'secure_path.regex' => '后台路径只能为字母或数字',
+            'staff_path.min' => 'link web con ít nhất 5 ký tự',
+            'staff_path.regex' => 'link webcon có vấn đề',
         ];
     }
 }

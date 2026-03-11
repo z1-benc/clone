@@ -116,6 +116,7 @@ class ConfigController extends Controller
                 'show_info_to_server_enable' => (int)config('v2board.show_info_to_server_enable', 0),
                 'show_subscribe_method' => (int)config('v2board.show_subscribe_method', 0),
                 'show_subscribe_expire' => (int)config('v2board.show_subscribe_expire', 5),
+                'noti_admin_giftcard' => (int)config('v2board.noti_admin_giftcard', 0),
             ],
             'frontend' => [
                 'frontend_theme' => config('v2board.frontend_theme', 'v2board'),
@@ -145,7 +146,8 @@ class ConfigController extends Controller
             'telegram' => [
                 'telegram_bot_enable' => config('v2board.telegram_bot_enable', 0),
                 'telegram_bot_token' => config('v2board.telegram_bot_token'),
-                'telegram_discuss_link' => config('v2board.telegram_discuss_link')
+                'telegram_discuss_link' => config('v2board.telegram_discuss_link'),
+                'apple_share_api' => config('v2board.apple_share_api')
             ],
             'app' => [
                 'windows_version' => config('v2board.windows_version'),
@@ -159,6 +161,7 @@ class ConfigController extends Controller
                 'email_verify' => (int)config('v2board.email_verify', 0),
                 'safe_mode_enable' => (int)config('v2board.safe_mode_enable', 0),
                 'secure_path' => config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key')))),
+                'staff_path' => config('v2board.staff_path', 'webctv'),
                 'email_whitelist_enable' => (int)config('v2board.email_whitelist_enable', 0),
                 'email_whitelist_suffix' => config('v2board.email_whitelist_suffix', Dict::EMAIL_WHITELIST_SUFFIX_DEFAULT),
                 'email_gmail_limit_enable' => config('v2board.email_gmail_limit_enable', 0),
