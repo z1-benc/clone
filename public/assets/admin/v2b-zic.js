@@ -166,12 +166,33 @@
     return '';
   }
 
+  // ========== TNETZ CONFIG LINK ==========
+  function injectTnetzLink() {
+    if (document.getElementById('tnetz-config-link')) return;
+    // Find the sidebar menu — look for "系统设置" or "Cài đặt hệ thống"
+    const menuItems = document.querySelectorAll('.ant-menu-item, .ant-menu-submenu-title');
+    menuItems.forEach(item => {
+      const text = item.textContent.trim();
+      if ((text.includes('系统设置') || text.includes('Cài đặt hệ thống') || text.includes('Cài Đặt Hệ Thống')) && !item.parentElement.querySelector('#tnetz-config-link')) {
+        const link = document.createElement('li');
+        link.id = 'tnetz-config-link';
+        link.className = item.className;
+        link.style.cssText = 'cursor:pointer;';
+        link.innerHTML = '<a href="' + window.location.pathname + '/tnetz" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:6px;"><span>⚙️</span><span>TNETZ Config</span></a>';
+        if (item.parentElement) {
+          item.parentElement.insertBefore(link, item.nextSibling);
+        }
+      }
+    });
+  }
+
   // ========== INIT ==========
   
   window.addEventListener('load', translatePage);
   const observer = new MutationObserver(function() {
     translatePage();
     injectQRButtons();
+    injectTnetzLink();
   });
   observer.observe(document.documentElement, { childList: true, subtree: true });
 })();

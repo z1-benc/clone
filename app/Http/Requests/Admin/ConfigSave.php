@@ -107,6 +107,14 @@ class ConfigSave extends FormRequest
         'password_limit_enable' => 'in:0,1',
         'password_limit_count' => 'integer',
         'password_limit_expire' => 'integer',
+        // tnetz
+        'clash_custom_config' => 'nullable|string',
+        'singbox_custom_rules' => 'nullable|string',
+        'sni_list' => 'nullable|string',
+        'clash_dns_config' => 'nullable|string',
+        'clash_proxy_group' => 'nullable|string',
+        'singbox_dns_config' => 'nullable|string',
+        'singbox_outbound_config' => 'nullable|string',
     ];
     /**
      * Get the validation rules that apply to the request.

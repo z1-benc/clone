@@ -65,6 +65,13 @@ Route::get('/' . config('v2board.secure_path', config('v2board.frontend_admin_pa
     ]);
 });
 
+// TNETZ config page
+Route::get('/' . config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key')))) . '/tnetz', function () {
+    return view('tnetz.index', [
+        'secure_path' => config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key'))))
+    ]);
+});
+
 // Staff routes
 $staffPath = config('v2board.staff_path', 'staff');
 

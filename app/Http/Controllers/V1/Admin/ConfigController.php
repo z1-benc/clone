@@ -174,6 +174,15 @@ class ConfigController extends Controller
                 'password_limit_enable' => (int)config('v2board.password_limit_enable', 1),
                 'password_limit_count' => config('v2board.password_limit_count', 5),
                 'password_limit_expire' => config('v2board.password_limit_expire', 60)
+            ],
+            'tnetz' => [
+                'clash_custom_config' => config('v2board.clash_custom_config', ''),
+                'singbox_custom_rules' => config('v2board.singbox_custom_rules', ''),
+                'sni_list' => config('v2board.sni_list', ''),
+                'clash_dns_config' => config('v2board.clash_dns_config', ''),
+                'clash_proxy_group' => config('v2board.clash_proxy_group', ''),
+                'singbox_dns_config' => config('v2board.singbox_dns_config', ''),
+                'singbox_outbound_config' => config('v2board.singbox_outbound_config', ''),
             ]
         ];
         if ($key && isset($data[$key])) {
