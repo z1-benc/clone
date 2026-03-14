@@ -11,188 +11,308 @@
   function translateNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
       const translated = translateText(node.nodeValue);
-      if (translated !== node.nodeValue) {
-        node.nodeValue = translated;
-      }
+      if (translated !== node.nodeValue) node.nodeValue = translated;
     } else if (node.nodeType === Node.ELEMENT_NODE) {
       ATTRS.forEach(attr => {
         if (node.hasAttribute(attr)) {
           const original = node.getAttribute(attr);
           const translated = translateText(original);
-          if (translated !== original) {
-            node.setAttribute(attr, translated);
-          }
+          if (translated !== original) node.setAttribute(attr, translated);
         }
       });
       node.childNodes.forEach(translateNode);
     }
   }
 
-  function translatePage() {
-    translateNode(document.body);
+  function translatePage() { translateNode(document.body); }
+
+  function translatePlaceholders() {
+    document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
+      var ph = el.getAttribute('placeholder');
+      if (ph && /[\u4e00-\u9fff]/.test(ph)) {
+        var t = translateText(ph);
+        if (t !== ph) el.setAttribute('placeholder', t);
+      }
+    });
   }
 
-  // ========== QR CODE GENERATOR (lightweight, no external library) ==========
-  // Minimal QR Code generator using Canvas API + qrcode encoding
-  // Uses the free qrserver API to generate QR images
-  
-  function createQRModal() {
-    if (document.getElementById('qr-modal-overlay')) return;
-    
-    const overlay = document.createElement('div');
-    overlay.id = 'qr-modal-overlay';
-    overlay.style.cssText = 'display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;justify-content:center;align-items:center;';
-    
-    const modal = document.createElement('div');
-    modal.style.cssText = 'background:#fff;border-radius:12px;padding:24px;text-align:center;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);';
-    
-    modal.innerHTML = `
-      <h3 style="margin:0 0 8px;font-size:16px;color:#333;">QR Code đăng ký</h3>
-      <p id="qr-modal-email" style="margin:0 0 16px;font-size:13px;color:#888;word-break:break-all;"></p>
-      <div id="qr-modal-img-wrap" style="display:flex;justify-content:center;margin-bottom:16px;">
-        <img id="qr-modal-img" style="width:220px;height:220px;border:1px solid #eee;border-radius:8px;" />
-      </div>
-      <p id="qr-modal-url" style="margin:0 0 16px;font-size:11px;color:#aaa;word-break:break-all;max-height:60px;overflow:auto;"></p>
-      <div style="display:flex;gap:8px;justify-content:center;">
-        <button id="qr-modal-download" style="padding:8px 20px;background:#1890ff;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;">⬇ Tải QR</button>
-        <button id="qr-modal-close" style="padding:8px 20px;background:#f5f5f5;color:#333;border:1px solid #d9d9d9;border-radius:6px;cursor:pointer;font-size:13px;">Đóng</button>
-      </div>
-    `;
-    
+  function translateSelectOptions() {
+    document.querySelectorAll('.ant-select-selection-item, .ant-select-item-option-content').forEach(el => {
+      var text = el.textContent.trim();
+      if (/[\u4e00-\u9fff]/.test(text)) {
+        var t = translateText(text);
+        if (t !== text) el.textContent = t;
+      }
+    });
+  }
+
+  function translateMessages() {
+    document.querySelectorAll('.ant-message-notice-content, .ant-notification-notice-message, .ant-notification-notice-description, .ant-modal-confirm-content').forEach(el => {
+      var text = el.textContent.trim();
+      if (/[\u4e00-\u9fff]/.test(text)) {
+        var t = translateText(text);
+        if (t !== text) el.textContent = t;
+      }
+    });
+  }
+
+  // ========== SET SNI FOR USER (Admin dropdown injection) ==========
+  var sniCache = null;
+
+  function fetchSniList() {
+    if (sniCache) return Promise.resolve(sniCache);
+    var adminPath = window.settings ? window.settings.secure_path || '' : '';
+    return fetch('/api/v1/' + (window.location.pathname.split('/')[1]) + '/config/fetch?key=tnetz', {
+      headers: { 'Authorization': localStorage.getItem('authorization') || document.cookie }
+    }).then(r => r.json()).then(data => {
+      var raw = (data.data && data.data.tnetz && data.data.tnetz.sni_list) || '';
+      sniCache = [];
+      if (raw) {
+        raw.split('\n').forEach(line => {
+          line = line.trim();
+          if (!line) return;
+          var parts = line.split('|');
+          sniCache.push({ name: parts[0].trim(), value: (parts[1] || parts[0]).trim() });
+        });
+      }
+      return sniCache;
+    }).catch(() => []);
+  }
+
+  function showSniModal(userId, userEmail) {
+    var existing = document.getElementById('sni-admin-modal');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'sni-admin-modal';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:99999;display:flex;justify-content:center;align-items:center;';
+
+    var modal = document.createElement('div');
+    modal.style.cssText = 'background:#fff;border-radius:12px;padding:24px;width:400px;max-width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);';
+    modal.innerHTML = '<h3 style="margin:0 0 4px;font-size:16px;">🔒 Set SNI</h3>' +
+      '<p style="margin:0 0 16px;font-size:13px;color:#888;">' + (userEmail || 'User #' + userId) + '</p>' +
+      '<select id="sni-select" style="width:100%;padding:8px 12px;border:1px solid #d9d9d9;border-radius:6px;font-size:14px;margin-bottom:16px;"><option value="">Đang tải...</option></select>' +
+      '<div style="display:flex;gap:8px;justify-content:flex-end;">' +
+      '<button id="sni-cancel" style="padding:8px 20px;background:#f5f5f5;color:#333;border:1px solid #d9d9d9;border-radius:6px;cursor:pointer;">Hủy</button>' +
+      '<button id="sni-save" style="padding:8px 20px;background:#1890ff;color:#fff;border:none;border-radius:6px;cursor:pointer;">Lưu SNI</button></div>';
+
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
-    
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) hideQRModal();
+
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    document.getElementById('sni-cancel').addEventListener('click', () => overlay.remove());
+
+    fetchSniList().then(list => {
+      var sel = document.getElementById('sni-select');
+      sel.innerHTML = '<option value="">-- Chọn SNI --</option>';
+      list.forEach(s => {
+        sel.innerHTML += '<option value="' + s.value + '">' + s.name + ' (' + s.value + ')</option>';
+      });
     });
-    
-    document.getElementById('qr-modal-close').addEventListener('click', hideQRModal);
-    document.getElementById('qr-modal-download').addEventListener('click', function() {
-      const img = document.getElementById('qr-modal-img');
-      const a = document.createElement('a');
-      a.href = img.src;
-      a.download = 'subscribe-qr.png';
-      a.click();
+
+    document.getElementById('sni-save').addEventListener('click', () => {
+      var sel = document.getElementById('sni-select');
+      var val = sel.value;
+      if (!val) { alert('Chọn SNI trước'); return; }
+      var adminPrefix = window.location.pathname.split('/')[1];
+      fetch('/api/v1/' + adminPrefix + '/user/setSni', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('authorization') || '' },
+        body: JSON.stringify({ id: userId, name_sni: sel.options[sel.selectedIndex].text.split(' (')[0], network_settings: val })
+      }).then(r => r.json()).then(d => {
+        if (d.data) {
+          alert('✅ Đã set SNI thành công!');
+          overlay.remove();
+        } else {
+          alert('❌ Lỗi: ' + (d.message || 'Unknown'));
+        }
+      }).catch(e => alert('❌ Lỗi: ' + e.message));
     });
-  }
-  
-  function showQRModal(url, email) {
-    createQRModal();
-    const overlay = document.getElementById('qr-modal-overlay');
-    const img = document.getElementById('qr-modal-img');
-    const emailEl = document.getElementById('qr-modal-email');
-    const urlEl = document.getElementById('qr-modal-url');
-    
-    emailEl.textContent = email || '';
-    urlEl.textContent = url;
-    img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(url);
-    overlay.style.display = 'flex';
-  }
-  
-  function hideQRModal() {
-    const overlay = document.getElementById('qr-modal-overlay');
-    if (overlay) overlay.style.display = 'none';
   }
 
-  // Inject QR button into admin user action dropdowns
-  function injectQRButtons() {
-    // Find all "Sao Chép URL" or "复制订阅URL" menu items and add QR option
-    const menuItems = document.querySelectorAll('.ant-dropdown-menu-item');
-    menuItems.forEach(item => {
-      const text = item.textContent.trim();
-      if ((text.includes('Sao Chép URL') || text.includes('复制订阅URL')) && !item.dataset.qrInjected) {
-        item.dataset.qrInjected = 'true';
-        
-        const qrItem = item.cloneNode(true);
-        qrItem.dataset.qrInjected = 'true';
-        qrItem.textContent = '📱 QR Code đăng ký';
-        qrItem.style.color = '#1890ff';
-        
-        qrItem.addEventListener('click', function(e) {
+  function injectSetSniButton() {
+    document.querySelectorAll('.ant-dropdown-menu-item').forEach(item => {
+      var text = item.textContent.trim();
+      if ((text.includes('Lấy QR code') || text.includes('获取QR码')) && !item.dataset.sniInjected) {
+        item.dataset.sniInjected = 'true';
+        // Create a fresh element instead of cloneNode to avoid breaking React event handlers
+        var sniItem = document.createElement('li');
+        sniItem.className = 'ant-dropdown-menu-item';
+        sniItem.setAttribute('role', 'menuitem');
+        sniItem.dataset.sniInjected = 'true';
+        sniItem.innerHTML = '<a style="color:#722ed1;"><span>🔒 Set SNI</span></a>';
+        sniItem.addEventListener('click', e => {
           e.preventDefault();
           e.stopPropagation();
-          
-          // Find the subscribe URL from the same row context
-          // The URL is typically copied via the original button's click handler
-          // We need to find it from the table row data
-          const row = findParentRow(item);
-          if (row) {
-            const subscribeUrl = extractSubscribeUrl(row);
-            const email = extractEmail(row);
-            if (subscribeUrl) {
-              showQRModal(subscribeUrl, email);
-            }
+          // Find user info from the row
+          var row = document.querySelector('.ant-table-row-selected, .ant-table-row:hover');
+          if (!row) {
+            var rows = document.querySelectorAll('.ant-table-row');
+            row = rows.length ? rows[0] : null;
           }
+          var userId = row ? row.querySelector('td')?.textContent.trim() : '';
+          var email = '';
+          if (row) {
+            row.querySelectorAll('td').forEach(td => {
+              if (td.textContent.includes('@')) email = td.textContent.trim();
+            });
+          }
+          showSniModal(userId, email);
         });
-        
-        item.parentNode.insertBefore(qrItem, item.nextSibling);
+        item.parentNode.insertBefore(sniItem, item.nextSibling);
       }
     });
-  }
-  
-  function findParentRow(el) {
-    // Walk up to find the table row that triggered this dropdown
-    let current = el;
-    while (current) {
-      if (current.classList && current.classList.contains('ant-table-row')) {
-        return current;
-      }
-      current = current.parentElement;
-    }
-    // Fallback: try to find the row from the dropdown's trigger
-    return null;
-  }
-  
-  function extractSubscribeUrl(row) {
-    // Try to get subscribe URL from row data attributes or cells
-    const cells = row ? row.querySelectorAll('td') : [];
-    for (const cell of cells) {
-      const text = cell.textContent;
-      if (text && text.includes('/api/')) {
-        return text.trim();
-      }
-    }
-    return null;
-  }
-  
-  function extractEmail(row) {
-    const cells = row ? row.querySelectorAll('td') : [];
-    for (const cell of cells) {
-      const text = cell.textContent.trim();
-      if (text && text.includes('@')) {
-        return text;
-      }
-    }
-    return '';
   }
 
-  // ========== TNETZ CONFIG LINK ==========
-  function injectTnetzLink() {
-    if (document.getElementById('tnetz-config-link')) return;
-    // Find the sidebar menu — look for "系统设置" or "Cài đặt hệ thống"
-    const menuItems = document.querySelectorAll('.ant-menu-item, .ant-menu-submenu-title');
-    menuItems.forEach(item => {
-      const text = item.textContent.trim();
-      if ((text.includes('系统设置') || text.includes('Cài đặt hệ thống') || text.includes('Cài Đặt Hệ Thống')) && !item.parentElement.querySelector('#tnetz-config-link')) {
-        const link = document.createElement('li');
-        link.id = 'tnetz-config-link';
-        link.className = item.className;
-        link.style.cssText = 'cursor:pointer;';
-        link.innerHTML = '<a href="' + window.location.pathname + '/tnetz" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:6px;"><span>⚙️</span><span>TNETZ Config</span></a>';
-        if (item.parentElement) {
-          item.parentElement.insertBefore(link, item.nextSibling);
-        }
-      }
+  // ========== TNETZ TAB IN SYSTEM CONFIG ==========
+  var tnetzTabInjected = false;
+
+  function injectTnetzTab() {
+    if (tnetzTabInjected) return;
+    if (!window.location.hash.includes('/config/system')) return;
+    if (document.getElementById('tnetz-tab')) return;
+    
+    // Ant Design v3: .ant-tabs-nav.ant-tabs-nav-animated > div (no class) holds tabs
+    var navAnimated = document.querySelector('.ant-tabs-nav.ant-tabs-nav-animated');
+    if (!navAnimated) return;
+    var tabContainer = navAnimated.querySelector(':scope > div:first-child');
+    if (!tabContainer) return;
+    var inkBar = navAnimated.querySelector('.ant-tabs-ink-bar');
+    
+    var existingTab = tabContainer.querySelector('.ant-tabs-tab');
+    if (!existingTab) return;
+
+    // Create new tab matching Ant Design v3 style
+    var newTab = document.createElement('div');
+    newTab.id = 'tnetz-tab';
+    newTab.setAttribute('role', 'tab');
+    newTab.setAttribute('aria-disabled', 'false');
+    newTab.setAttribute('aria-selected', 'false');
+    newTab.className = 'ant-tabs-tab';
+    newTab.textContent = 'TNETZ';
+    newTab.style.cursor = 'pointer';
+    tabContainer.appendChild(newTab);
+
+    // Create content panel — matching native form-item style like Telegram tab
+    var contentArea = document.querySelector('.ant-tabs-content');
+    if (!contentArea) contentArea = document.querySelector('.ant-tabs');
+
+    var adminPrefix = window.location.pathname.split('/')[1];
+
+    var tnetzPanel = document.createElement('div');
+    tnetzPanel.id = 'tnetz-config-panel';
+    tnetzPanel.style.cssText = 'display:none;';
+    tnetzPanel.innerHTML =
+      // Row 1: SNI List textarea
+      '<div style="display:flex;align-items:flex-start;padding:24px 0;border-bottom:1px solid #f0f0f0;">' +
+        '<div style="flex:0 0 45%;padding-right:24px;">' +
+          '<div style="font-weight:600;font-size:14px;color:rgba(0,0,0,0.85);">Danh sách SNI</div>' +
+          '<div style="font-size:13px;color:rgba(0,0,0,0.45);margin-top:4px;">Mỗi dòng là 1 SNI. Định dạng: Tên|Giá trị</div>' +
+        '</div>' +
+        '<div style="flex:1;">' +
+          '<textarea id="tnetz-sni-textarea" rows="6" style="width:100%;padding:8px 12px;border:1px solid #d9d9d9;border-radius:4px;font-family:monospace;font-size:13px;resize:vertical;transition:border-color 0.3s;" placeholder="Viettel|dl.viettel.vn&#10;MobiFone|gg.gg.vn&#10;VinaPhone|zalo.vn"></textarea>' +
+        '</div>' +
+      '</div>' +
+      // Save button row — matching native umi.js style
+      '<div style="padding:24px 0;text-align:right;">' +
+        '<button id="tnetz-sni-save" class="ant-btn ant-btn-primary" style="padding:4px 24px;height:32px;border-radius:4px;background:#1890ff;border:1px solid #1890ff;color:#fff;cursor:pointer;font-size:14px;">Lưu</button>' +
+        '<span id="tnetz-sni-status" style="margin-left:12px;color:#52c41a;font-size:13px;"></span>' +
+      '</div>';
+    contentArea.parentNode.insertBefore(tnetzPanel, contentArea.nextSibling);
+
+    // Add hover effect to textarea
+    var ta = document.getElementById('tnetz-sni-textarea');
+    if (ta) {
+      ta.addEventListener('focus', () => { ta.style.borderColor = '#40a9ff'; ta.style.boxShadow = '0 0 0 2px rgba(24,144,255,0.2)'; });
+      ta.addEventListener('blur', () => { ta.style.borderColor = '#d9d9d9'; ta.style.boxShadow = 'none'; });
+    }
+
+    // Load current SNI data
+    fetch('/api/v1/' + adminPrefix + '/config/fetch?key=tnetz', {
+      headers: { 'Authorization': localStorage.getItem('authorization') || '' }
+    }).then(r => r.json()).then(data => {
+      var ta = document.getElementById('tnetz-sni-textarea');
+      if (!ta || !data.data) return;
+      // Try nested (tnetz.sni_list) or flat (sni_list)
+      var val = (data.data.tnetz && data.data.tnetz.sni_list) || data.data.sni_list || '';
+      ta.value = val;
+    }).catch(() => {});
+
+    // Save button
+    document.getElementById('tnetz-sni-save').addEventListener('click', () => {
+      var ta = document.getElementById('tnetz-sni-textarea');
+      var status = document.getElementById('tnetz-sni-status');
+      var btn = document.getElementById('tnetz-sni-save');
+      btn.textContent = 'Đang lưu...';
+      btn.disabled = true;
+
+      fetch('/api/v1/' + adminPrefix + '/config/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('authorization') || '' },
+        body: JSON.stringify({ sni_list: ta.value })
+      }).then(r => r.json()).then(d => {
+        btn.textContent = 'Lưu';
+        btn.disabled = false;
+        status.textContent = '✅ Đã lưu thành công!';
+        sniCache = null;
+        setTimeout(() => { status.textContent = ''; }, 3000);
+      }).catch(e => {
+        btn.textContent = 'Lưu';
+        btn.disabled = false;
+        status.textContent = '❌ Lỗi: ' + e.message;
+      });
     });
+
+    // Move ink-bar to TNETZ tab
+    function moveInkBar(targetTab) {
+      if (!inkBar) return;
+      var left = targetTab.offsetLeft;
+      var width = targetTab.offsetWidth;
+      inkBar.style.transform = 'translate3d(' + left + 'px, 0px, 0px)';
+      inkBar.style.width = width + 'px';
+    }
+
+    // Tab click: show TNETZ panel, hide main content, move ink-bar
+    newTab.addEventListener('click', () => {
+      tabContainer.querySelectorAll('.ant-tabs-tab').forEach(t => t.classList.remove('ant-tabs-tab-active'));
+      newTab.classList.add('ant-tabs-tab-active');
+      contentArea.style.display = 'none';
+      tnetzPanel.style.display = 'block';
+      moveInkBar(newTab);
+    });
+
+    // Other tabs: hide TNETZ panel, restore content, move ink-bar back
+    tabContainer.querySelectorAll('.ant-tabs-tab:not(#tnetz-tab)').forEach(tab => {
+      tab.addEventListener('click', () => {
+        tnetzPanel.style.display = 'none';
+        newTab.classList.remove('ant-tabs-tab-active');
+        contentArea.style.display = '';
+        // Let Ant Design handle ink-bar by removing our forced style
+        if (inkBar) {
+          inkBar.style.transform = '';
+          inkBar.style.width = '';
+        }
+      });
+    });
+
+    tnetzTabInjected = true;
   }
 
   // ========== INIT ==========
-  
-  window.addEventListener('load', translatePage);
-  const observer = new MutationObserver(function() {
+  window.addEventListener('load', () => { translatePage(); translatePlaceholders(); });
+
+  var observer = new MutationObserver(() => {
     translatePage();
-    injectQRButtons();
-    injectTnetzLink();
+    translatePlaceholders();
+    translateSelectOptions();
+    translateMessages();
+    injectSetSniButton();
+    injectTnetzTab();
   });
-  observer.observe(document.documentElement, { childList: true, subtree: true });
+  observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['placeholder'] });
+
+  // Reset tab injection on hash change
+  window.addEventListener('hashchange', () => { tnetzTabInjected = false; });
+
+  setInterval(() => { translatePlaceholders(); translateSelectOptions(); translateMessages(); }, 800);
 })();
