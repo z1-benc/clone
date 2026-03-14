@@ -21,6 +21,7 @@ class AdminRoute
             // Plan
             $router->get ('/plan/fetch', 'V1\\Admin\\PlanController@fetch');
             $router->post('/plan/save', 'V1\\Admin\\PlanController@save');
+            $router->post('/plan/saveExtra', 'V1\\Admin\\PlanController@saveExtra');
             $router->post('/plan/drop', 'V1\\Admin\\PlanController@drop');
             $router->post('/plan/update', 'V1\\Admin\\PlanController@update');
             $router->post('/plan/sort', 'V1\\Admin\\PlanController@sort');

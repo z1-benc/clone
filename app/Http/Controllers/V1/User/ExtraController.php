@@ -36,36 +36,21 @@ class ExtraController extends Controller
             abort(500, 'Số lượng không hợp lệ (1-10)');
         }
         $totalCost = $price * $quantity;
-        if ($user->balance < $totalCost) {
-            abort(500, 'Số dư không đủ. Cần ' . number_format($totalCost / 100) . '₫');
-        }
-
         DB::beginTransaction();
         try {
-            $user->balance -= $totalCost;
-            $user->extra_devices += $quantity;
-            $user->device_limit += $quantity;
-            
-            // Create order record
+            // Create unpaid order record
             $order = new Order();
             $order->user_id = $user->id;
             $order->plan_id = $user->plan_id;
             $order->period = 'extra_device';
             $order->trade_no = Helper::generateOrderNo();
             $order->total_amount = $totalCost;
-            $order->status = 3; // paid
-            $order->callback_no = "Mua thêm {$quantity} thiết bị";
+            $order->status = 0; // unpaid
             $order->save();
-            $user->save();
             
             DB::commit();
             return response([
-                'data' => [
-                    'success' => true,
-                    'extra_devices' => $user->extra_devices,
-                    'device_limit' => $user->device_limit,
-                    'balance' => $user->balance
-                ]
+                'data' => $order->trade_no
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -98,34 +83,21 @@ class ExtraController extends Controller
         }
         $totalCost = $price * $quantity;
         $totalData = $amount * $quantity; // GB
-        if ($user->balance < $totalCost) {
-            abort(500, 'Số dư không đủ. Cần ' . number_format($totalCost / 100) . '₫');
-        }
-
         DB::beginTransaction();
         try {
-            $user->balance -= $totalCost;
-            $user->transfer_enable += $totalData * 1073741824; // GB → bytes
-
+            // Create unpaid order record
             $order = new Order();
             $order->user_id = $user->id;
             $order->plan_id = $user->plan_id;
             $order->period = 'extra_data';
             $order->trade_no = Helper::generateOrderNo();
             $order->total_amount = $totalCost;
-            $order->status = 3;
-            $order->callback_no = "Mua thêm {$totalData}GB data";
+            $order->status = 0; // unpaid
             $order->save();
-            $user->save();
 
             DB::commit();
             return response([
-                'data' => [
-                    'success' => true,
-                    'added_gb' => $totalData,
-                    'transfer_enable' => $user->transfer_enable,
-                    'balance' => $user->balance
-                ]
+                'data' => $order->trade_no
             ]);
         } catch (\Exception $e) {
             DB::rollBack();

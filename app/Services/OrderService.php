@@ -67,6 +67,12 @@ class OrderService
             case 'onetime_price':
                 $this->buyByOneTime($order, $plan);
                 break;
+            case 'extra_device':
+                $this->buyExtraDevice($order, $plan);
+                break;
+            case 'extra_data':
+                $this->buyExtraData($order, $plan);
+                break;
             case 'reset_price':
                 $this->buyByResetTraffic();
                 break;
@@ -107,7 +113,7 @@ class OrderService
         $order = $this->order;
         if ($order->period === 'deposit'){
             $order->type = 9;
-        } else if ($order->period === 'reset_price') {
+        } else if (in_array($order->period, ['reset_price', 'extra_device', 'extra_data'])) {
             $order->type = 4;
         } else if ($user->plan_id !== NULL && $order->plan_id !== $user->plan_id && ($user->expired_at > time() || $user->expired_at === NULL)) {
             if (!(int)config('v2board.plan_change_enable', 1)) abort(500, '目前不允许更改订阅，请联系客服或提交工单操作');
@@ -326,6 +332,27 @@ class OrderService
         $this->user->plan_id = $plan->id;
         $this->user->group_id = $plan->group_id;
         $this->user->expired_at = $this->getTime($order->period, $this->user->expired_at);
+    }
+
+    private function buyExtraDevice(Order $order, Plan $plan)
+    {
+        $price = $plan->extra_device_price && $plan->extra_device_price > 0 ? $plan->extra_device_price : 0;
+        $qty = $price > 0 ? floor(($order->total_amount + ($order->discount_amount ?? 0)) / $price) : 1;
+        if ($qty < 1) $qty = 1;
+
+        // Default constraints from user table to ensure safety
+        $this->user->extra_devices = ($this->user->extra_devices ?? 0) + $qty;
+        $this->user->device_limit = ($this->user->device_limit ?? $plan->device_limit) + $qty;
+    }
+
+    private function buyExtraData(Order $order, Plan $plan)
+    {
+        $price = $plan->extra_data_price && $plan->extra_data_price > 0 ? $plan->extra_data_price : 0;
+        $qty = $price > 0 ? floor(($order->total_amount + ($order->discount_amount ?? 0)) / $price) : 1;
+        if ($qty < 1) $qty = 1;
+
+        $amount = $plan->extra_data_amount ?? 100;
+        $this->user->transfer_enable += ($qty * $amount) * 1073741824;
     }
 
     private function buyByOneTime(Order $order, Plan $plan)

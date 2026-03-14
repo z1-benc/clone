@@ -439,12 +439,12 @@
         if (!v1) return;
         // Save extra fields separately via API
         var body = { id: parseInt(pid) };
-        if (v1.value) body.extra_device_price = parseInt(v1.value);
-        if (v2.value) body.extra_data_price = parseInt(v2.value);
-        if (v3.value) body.extra_data_amount = parseInt(v3.value);
+        if (v1.value !== '') body.extra_device_price = parseInt(v1.value);
+        if (v2.value !== '') body.extra_data_price = parseInt(v2.value);
+        if (v3.value !== '') body.extra_data_amount = parseInt(v3.value);
 
         setTimeout(() => {
-          fetch('/api/v1/' + adminPrefix + '/plan/save', {
+          fetch('/api/v1/' + adminPrefix + '/plan/saveExtra', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('authorization') || '' },
             body: JSON.stringify(body)

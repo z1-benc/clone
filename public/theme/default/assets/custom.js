@@ -129,17 +129,24 @@
           btn.textContent = 'Đang xử lý...';
           btn.disabled = true;
           apiPost('/extra/' + (isDevice ? 'buyDevice' : 'buyData'), { quantity: parseInt(qty) }).then(d => {
-            if (d.data && d.data.success) {
+            if (d.data && typeof d.data === 'string') {
+              btn.textContent = '✅ Đang chuyển...';
+              window.location.hash = '#/order/' + d.data;
+            } else if (d.data && d.data.success) { // Backward compatible
               btn.textContent = '✅ Thành công!';
               alert('Mua thành công! Số dư còn: ' + formatPrice(d.data.balance));
               loadExtraData();
+              setTimeout(() => {
+                btn.textContent = isDevice ? '📱 Mua thiết bị' : '📦 Mua data';
+                btn.disabled = false;
+              }, 2000);
             } else {
-              btn.textContent = '❌ ' + (d.message || 'Lỗi');
+              btn.textContent = '❌ Lỗi';
+              setTimeout(() => {
+                btn.textContent = isDevice ? '📱 Mua thiết bị' : '📦 Mua data';
+                btn.disabled = false;
+              }, 2000);
             }
-            setTimeout(() => {
-              btn.textContent = isDevice ? '📱 Mua thiết bị' : '📦 Mua data';
-              btn.disabled = false;
-            }, 2000);
           }).catch(e => {
             alert('Lỗi: ' + e.message);
             btn.textContent = isDevice ? '📱 Mua thiết bị' : '📦 Mua data';

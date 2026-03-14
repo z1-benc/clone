@@ -72,6 +72,32 @@ class PlanController extends Controller
         ]);
     }
 
+    public function saveExtra(Request $request)
+    {
+        $plan = Plan::find($request->input('id'));
+        if (!$plan) {
+            abort(500, 'Gói không tồn tại');
+        }
+        $updateData = [];
+        if ($request->has('extra_device_price')) {
+            $updateData['extra_device_price'] = $request->input('extra_device_price');
+        }
+        if ($request->has('extra_data_price')) {
+            $updateData['extra_data_price'] = $request->input('extra_data_price');
+        }
+        if ($request->has('extra_data_amount')) {
+            $updateData['extra_data_amount'] = $request->input('extra_data_amount');
+        }
+        try {
+            $plan->update($updateData);
+        } catch (\Exception $e) {
+            abort(500, 'Lưu thất bại');
+        }
+        return response([
+            'data' => true
+        ]);
+    }
+
     public function drop(Request $request)
     {
         if (Order::where('plan_id', $request->input('id'))->first()) {
