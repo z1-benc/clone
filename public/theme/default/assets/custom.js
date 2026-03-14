@@ -11,15 +11,23 @@
   // ========== HELPERS ==========
   function getAuthHeaders() {
     var token = localStorage.getItem('authorization') || '';
-    return { 'Content-Type': 'application/json', 'Authorization': token };
+    return { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': token };
   }
 
   function apiGet(url) {
-    return fetch(API_BASE + url, { headers: getAuthHeaders() }).then(r => r.json());
+    return fetch(API_BASE + url, { headers: getAuthHeaders() }).then(async r => {
+      var res = await r.json();
+      if (!r.ok) throw new Error(res.message || 'Lỗi hệ thống');
+      return res;
+    });
   }
 
   function apiPost(url, body) {
-    return fetch(API_BASE + url, { method: 'POST', headers: getAuthHeaders(), body: JSON.stringify(body) }).then(r => r.json());
+    return fetch(API_BASE + url, { method: 'POST', headers: getAuthHeaders(), body: JSON.stringify(body) }).then(async r => {
+      var res = await r.json();
+      if (!r.ok) throw new Error(res.message || 'Lỗi hệ thống');
+      return res;
+    });
   }
 
   function formatBytes(bytes) {
@@ -106,8 +114,22 @@
   function loadExtraData() {
     apiGet('/extra/getInfo').then(data => {
       var info = document.getElementById('extra-info');
+      var btnDevice = document.getElementById('extra-buy-device');
+      var btnData = document.getElementById('extra-buy-data');
       if (!info || !data.data) return;
       var d = data.data;
+
+      if (btnDevice) {
+        btnDevice.disabled = (d.extra_device_price <= 0);
+        btnDevice.style.opacity = (d.extra_device_price <= 0) ? '0.5' : '1';
+        btnDevice.style.cursor = (d.extra_device_price <= 0) ? 'not-allowed' : 'pointer';
+      }
+      if (btnData) {
+        btnData.disabled = (d.extra_data_price <= 0);
+        btnData.style.opacity = (d.extra_data_price <= 0) ? '0.5' : '1';
+        btnData.style.cursor = (d.extra_data_price <= 0) ? 'not-allowed' : 'pointer';
+      }
+
       if (d.extra_device_price <= 0 && d.extra_data_price <= 0) {
         info.innerHTML = 'Gói hiện tại không hỗ trợ mua thêm';
         return;
@@ -116,6 +138,9 @@
       if (d.extra_device_price > 0) lines.push('📱 Thiết bị: ' + formatPrice(d.extra_device_price) + '/cái | Đã mua: ' + (d.extra_devices || 0));
       if (d.extra_data_price > 0) lines.push('📦 Data: ' + formatPrice(d.extra_data_price) + '/' + (d.extra_data_amount || 100) + 'GB');
       info.innerHTML = lines.join('<br>');
+    }).catch(e => {
+        var info = document.getElementById('extra-info');
+        if (info) info.innerHTML = 'Lỗi tải dữ liệu: ' + e.message;
     });
 
     ['extra-buy-device', 'extra-buy-data'].forEach(id => {
