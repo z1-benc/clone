@@ -430,34 +430,52 @@
       }).catch(() => {});
     }
 
-    // Hook into the native save button to include extra fields
-    var saveBtn = document.querySelector('.ant-btn-primary');
-    if (saveBtn && !saveBtn.dataset.tnetzHooked) {
-      saveBtn.dataset.tnetzHooked = 'true';
-      saveBtn.addEventListener('click', () => {
-        var pid = currentEditingPlanId || getPlanId();
-        if (!pid) return;
-        var v1 = document.getElementById('tnetz-extra-device-price');
-        var v2 = document.getElementById('tnetz-extra-data-price');
-        var v3 = document.getElementById('tnetz-extra-data-amount');
-        if (!v1) return;
-        // Save extra fields separately via API
-        var body = { id: parseInt(pid) };
-        if (v1.value !== '') body.extra_device_price = parseInt(v1.value);
-        if (v2.value !== '') body.extra_data_price = parseInt(v2.value);
-        if (v3.value !== '') body.extra_data_amount = parseInt(v3.value);
-
-        setTimeout(() => {
-          fetch('/api/v1/' + adminPrefix + '/plan/saveExtra', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('authorization') || '' },
-            body: JSON.stringify(body)
-          }).catch(() => {});
-        }, 500);
-      });
-    }
-
     planFieldsInjected = true;
+  }
+
+  // ========== GLOBAL DELEGATED SAVE HOOK ==========
+  if (!window.tnetzGlobalSaveHooked) {
+    window.tnetzGlobalSaveHooked = true;
+    document.addEventListener('click', (e) => {
+      if (!window.location.hash.includes('/plan')) return;
+      var btn = e.target.closest('.ant-btn-primary');
+      if (!btn) return;
+      
+      var v1 = document.getElementById('tnetz-extra-device-price');
+      var v2 = document.getElementById('tnetz-extra-data-price');
+      var v3 = document.getElementById('tnetz-extra-data-amount');
+      if (!v1 || !v2 || !v3) return;
+
+      var adminPrefix = window.location.pathname.split('/')[1];
+      var pid = null;
+      var idInput = document.querySelector('.ant-drawer-wrapper-body input[disabled]');
+      if (idInput && /^\d+$/.test(idInput.value)) {
+        pid = idInput.value;
+      }
+      if (!pid) {
+          var rows = document.querySelectorAll('.ant-table-row');
+          for (var i = 0; i < rows.length; i++) {
+            if (rows[i].classList.contains('ant-table-row-selected') || rows[i].matches(':hover')) {
+              var td = rows[i].querySelector('td');
+              if (td) pid = td.textContent.trim();
+            }
+          }
+      }
+      if (!pid) return;
+
+      var body = { id: parseInt(pid) };
+      if (v1.value !== '') body.extra_device_price = parseInt(v1.value);
+      if (v2.value !== '') body.extra_data_price = parseInt(v2.value);
+      if (v3.value !== '') body.extra_data_amount = parseInt(v3.value);
+
+      setTimeout(() => {
+        fetch('/api/v1/' + adminPrefix + '/plan/saveExtra', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('authorization') || '' },
+          body: JSON.stringify(body)
+        }).catch(() => {});
+      }, 500);
+    });
   }
 
   // ========== SUBSCRIBE INFO CONFIG IN WEBCON EDIT MODAL ==========
