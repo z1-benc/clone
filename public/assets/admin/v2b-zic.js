@@ -298,6 +298,153 @@
     tnetzTabInjected = true;
   }
 
+  // ========== EXTRA FIELDS IN PLAN EDIT DRAWER ==========
+  var planFieldsInjected = false;
+
+  function injectPlanExtraFields() {
+    if (planFieldsInjected) return;
+    if (!window.location.hash.includes('/plan')) return;
+
+    // Detect plan edit drawer - look for drawer with form
+    var drawer = document.querySelector('.ant-drawer-open .ant-drawer-body');
+    if (!drawer) return;
+    var form = drawer.querySelector('form') || drawer;
+    if (!form) return;
+
+    // Check if it's the plan form (has force_update or transfer_enable-like fields)
+    var formItems = form.querySelectorAll('.ant-form-item');
+    if (formItems.length < 3) return;
+    
+    // Check if already injected
+    if (form.querySelector('#tnetz-plan-extra-fields')) return;
+
+    // Find the submit button to insert before it
+    var submitBtn = form.querySelector('.ant-btn-primary') || drawer.querySelector('.ant-btn-primary');
+    var insertPoint = submitBtn ? submitBtn.closest('.ant-form-item') || submitBtn.parentNode : null;
+
+    // Create extra fields section
+    var section = document.createElement('div');
+    section.id = 'tnetz-plan-extra-fields';
+    section.style.cssText = 'border-top:1px dashed #e8e8e8;padding-top:16px;margin-top:8px;margin-bottom:16px;';
+    section.innerHTML =
+      '<div style="font-weight:600;font-size:14px;color:rgba(0,0,0,0.85);margin-bottom:16px;">🛒 Mua thêm (Extra Purchase)</div>' +
+
+      // Extra device price
+      '<div class="ant-row ant-form-item" style="margin-bottom:16px;">' +
+        '<div class="ant-col ant-form-item-label" style="flex:0 0 33%;max-width:33%;text-align:right;padding-right:8px;">' +
+          '<label title="Giá mua thêm thiết bị">Giá thêm thiết bị</label></div>' +
+        '<div class="ant-col ant-form-item-control-wrapper" style="flex:1;">' +
+          '<div class="ant-form-item-control"><span class="ant-form-item-children">' +
+            '<input id="tnetz-extra-device-price" type="number" class="ant-input" placeholder="VD: 50000 (= 500₫)" style="width:100%;">' +
+          '</span></div>' +
+          '<div style="font-size:11px;color:#999;margin-top:2px;">Đơn vị: đồng × 100 (50000 = 500₫/thiết bị). Để trống = không cho mua thêm</div>' +
+        '</div></div>' +
+
+      // Extra data price
+      '<div class="ant-row ant-form-item" style="margin-bottom:16px;">' +
+        '<div class="ant-col ant-form-item-label" style="flex:0 0 33%;max-width:33%;text-align:right;padding-right:8px;">' +
+          '<label title="Giá mua thêm Data">Giá thêm Data</label></div>' +
+        '<div class="ant-col ant-form-item-control-wrapper" style="flex:1;">' +
+          '<div class="ant-form-item-control"><span class="ant-form-item-children">' +
+            '<input id="tnetz-extra-data-price" type="number" class="ant-input" placeholder="VD: 30000 (= 300₫)" style="width:100%;">' +
+          '</span></div>' +
+          '<div style="font-size:11px;color:#999;margin-top:2px;">Đơn vị: đồng × 100. Để trống = không cho mua thêm</div>' +
+        '</div></div>' +
+
+      // Extra data amount (GB per purchase)
+      '<div class="ant-row ant-form-item" style="margin-bottom:16px;">' +
+        '<div class="ant-col ant-form-item-label" style="flex:0 0 33%;max-width:33%;text-align:right;padding-right:8px;">' +
+          '<label title="Dung lượng mỗi lần mua">Data mỗi lần mua</label></div>' +
+        '<div class="ant-col ant-form-item-control-wrapper" style="flex:1;">' +
+          '<div class="ant-form-item-control"><span class="ant-form-item-children">' +
+            '<input id="tnetz-extra-data-amount" type="number" class="ant-input" value="100" placeholder="VD: 100 (GB)" style="width:100%;">' +
+          '</span></div>' +
+          '<div style="font-size:11px;color:#999;margin-top:2px;">Số GB user nhận khi mua 1 lần</div>' +
+        '</div></div>' +
+
+      // Save button
+      '<div style="text-align:right;">' +
+        '<button id="tnetz-plan-extra-save" class="ant-btn ant-btn-primary" style="margin-right:8px;">💾 Lưu giá mua thêm</button>' +
+        '<span id="tnetz-plan-extra-status" style="color:#52c41a;font-size:13px;"></span>' +
+      '</div>';
+
+    if (insertPoint) {
+      insertPoint.parentNode.insertBefore(section, insertPoint);
+    } else {
+      form.appendChild(section);
+    }
+
+    // Try to detect plan ID from the drawer or URL
+    function getPlanId() {
+      // Look for plan ID in the table row that was clicked
+      var selectedRow = document.querySelector('.ant-table-row-selected td, .ant-table-row:hover td');
+      if (selectedRow) return selectedRow.textContent.trim();
+      // Or from URL hash
+      var match = window.location.hash.match(/plan\/(\d+)/);
+      return match ? match[1] : null;
+    }
+
+    // Load current values
+    var planId = getPlanId();
+    if (planId) {
+      var adminPrefix = window.location.pathname.split('/')[1];
+      fetch('/api/v1/' + adminPrefix + '/plan/fetch', {
+        headers: { 'Authorization': localStorage.getItem('authorization') || '' }
+      }).then(r => r.json()).then(data => {
+        var plans = data.data || [];
+        var plan = plans.find(p => String(p.id) === String(planId));
+        if (plan) {
+          var f1 = document.getElementById('tnetz-extra-device-price');
+          var f2 = document.getElementById('tnetz-extra-data-price');
+          var f3 = document.getElementById('tnetz-extra-data-amount');
+          if (f1 && plan.extra_device_price) f1.value = plan.extra_device_price;
+          if (f2 && plan.extra_data_price) f2.value = plan.extra_data_price;
+          if (f3 && plan.extra_data_amount) f3.value = plan.extra_data_amount;
+        }
+      }).catch(() => {});
+    }
+
+    // Save button handler
+    document.getElementById('tnetz-plan-extra-save').addEventListener('click', () => {
+      var pid = getPlanId();
+      if (!pid) { alert('Không xác định được gói. Hãy mở lại form.'); return; }
+      var btn = document.getElementById('tnetz-plan-extra-save');
+      var status = document.getElementById('tnetz-plan-extra-status');
+      btn.textContent = 'Đang lưu...';
+      btn.disabled = true;
+
+      var adminPrefix = window.location.pathname.split('/')[1];
+      var body = { id: parseInt(pid) };
+      var v1 = document.getElementById('tnetz-extra-device-price').value;
+      var v2 = document.getElementById('tnetz-extra-data-price').value;
+      var v3 = document.getElementById('tnetz-extra-data-amount').value;
+      if (v1) body.extra_device_price = parseInt(v1);
+      if (v2) body.extra_data_price = parseInt(v2);
+      if (v3) body.extra_data_amount = parseInt(v3);
+
+      fetch('/api/v1/' + adminPrefix + '/plan/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('authorization') || '' },
+        body: JSON.stringify(body)
+      }).then(r => r.json()).then(d => {
+        btn.textContent = '💾 Lưu giá mua thêm';
+        btn.disabled = false;
+        if (d.data) {
+          status.textContent = '✅ Đã lưu!';
+        } else {
+          status.textContent = '❌ ' + (d.message || 'Lỗi');
+        }
+        setTimeout(() => { status.textContent = ''; }, 3000);
+      }).catch(e => {
+        btn.textContent = '💾 Lưu giá mua thêm';
+        btn.disabled = false;
+        status.textContent = '❌ ' + e.message;
+      });
+    });
+
+    planFieldsInjected = true;
+  }
+
   // ========== INIT ==========
   window.addEventListener('load', () => { translatePage(); translatePlaceholders(); });
 
@@ -308,11 +455,12 @@
     translateMessages();
     injectSetSniButton();
     injectTnetzTab();
+    injectPlanExtraFields();
   });
   observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['placeholder'] });
 
   // Reset tab injection on hash change
-  window.addEventListener('hashchange', () => { tnetzTabInjected = false; });
+  window.addEventListener('hashchange', () => { tnetzTabInjected = false; planFieldsInjected = false; });
 
   setInterval(() => { translatePlaceholders(); translateSelectOptions(); translateMessages(); }, 800);
 })();
