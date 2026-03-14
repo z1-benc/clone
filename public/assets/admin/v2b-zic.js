@@ -392,9 +392,15 @@
 
     // Load existing values from API
     var adminPrefix = window.location.pathname.split('/')[1];
-    // Get plan ID from the first column of selected/hovered row
+    var currentEditingPlanId = null;
+
     function getPlanId() {
-      // Check all table rows for the one that triggered the drawer/form
+      // Try to get from the input values (id field) inside the drawer
+      var idInput = document.querySelector('.ant-drawer-wrapper-body input[disabled]');
+      if (idInput && /^\d+$/.test(idInput.value)) {
+        return idInput.value;
+      }
+      
       var rows = document.querySelectorAll('.ant-table-row');
       for (var i = 0; i < rows.length; i++) {
         if (rows[i].classList.contains('ant-table-row-selected') || rows[i].matches(':hover')) {
@@ -402,19 +408,17 @@
           if (td) return td.textContent.trim();
         }
       }
-      // Fallback: try to get from the input values (id field)
-      var idInput = document.querySelector('input[value][disabled]');
-      if (idInput && /^\d+$/.test(idInput.value)) return idInput.value;
       return null;
     }
 
-    var planId = getPlanId();
-    if (planId) {
+    currentEditingPlanId = getPlanId();
+
+    if (currentEditingPlanId) {
       fetch('/api/v1/' + adminPrefix + '/plan/fetch', {
         headers: { 'Authorization': localStorage.getItem('authorization') || '' }
       }).then(r => r.json()).then(data => {
         var plans = data.data || [];
-        var plan = plans.find(p => String(p.id) === String(planId));
+        var plan = plans.find(p => String(p.id) === String(currentEditingPlanId));
         if (plan) {
           var f1 = document.getElementById('tnetz-extra-device-price');
           var f2 = document.getElementById('tnetz-extra-data-price');
@@ -431,7 +435,7 @@
     if (saveBtn && !saveBtn.dataset.tnetzHooked) {
       saveBtn.dataset.tnetzHooked = 'true';
       saveBtn.addEventListener('click', () => {
-        var pid = getPlanId();
+        var pid = currentEditingPlanId || getPlanId();
         if (!pid) return;
         var v1 = document.getElementById('tnetz-extra-device-price');
         var v2 = document.getElementById('tnetz-extra-data-price');
