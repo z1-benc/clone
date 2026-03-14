@@ -50,12 +50,17 @@ class CheckServer extends Command
         $servers = $serverService->getAllServers();
         foreach ($servers as $server) {
             if ($server['parent_id']) continue;
-            if ($server['last_check_at'] && (time() - $server['last_check_at']) > 1800) {
+            // Only check nodes with health_check_enabled (if field exists)
+            if (isset($server['health_check_enabled']) && !$server['health_check_enabled']) continue;
+            
+            if ($server['last_check_at'] && (time() - $server['last_check_at']) > 600) {
                 $telegramService = new TelegramService();
+                $offlineMinutes = round((time() - $server['last_check_at']) / 60);
                 $message = sprintf(
-                    "节点掉线通知\r\n----\r\n节点名称：%s\r\n节点地址：%s\r\n",
+                    "⚠️ Cảnh báo Node Offline\r\n----\r\n📍 Node: %s\r\n🌐 Địa chỉ: %s\r\n⏱ Offline: %d phút\r\n",
                     $server['name'],
-                    $server['host']
+                    $server['host'],
+                    $offlineMinutes
                 );
                 $telegramService->sendMessageWithAdmin($message);
                 Cache::forget(CacheKey::get(sprintf("SERVER_%s_LAST_CHECK_AT", strtoupper($server['type'])), $server->id));

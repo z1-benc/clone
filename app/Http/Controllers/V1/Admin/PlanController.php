@@ -42,12 +42,17 @@ class PlanController extends Controller
             // update user group id and transfer
             try {
                 if ($request->input('force_update')) {
-                    User::where('plan_id', $plan->id)->update([
-                        'group_id' => $params['group_id'],
-                        'transfer_enable' => $params['transfer_enable'] * 1073741824,
-                        'device_limit' => $params['device_limit'],
-                        'speed_limit' => $params['speed_limit']
-                    ]);
+                    // Preserve extra_devices when force updating
+                    $users = User::where('plan_id', $plan->id)->get();
+                    foreach ($users as $u) {
+                        $totalDeviceLimit = $params['device_limit'] + ($u->extra_devices ?? 0);
+                        $u->update([
+                            'group_id' => $params['group_id'],
+                            'transfer_enable' => $params['transfer_enable'] * 1073741824,
+                            'device_limit' => $totalDeviceLimit,
+                            'speed_limit' => $params['speed_limit']
+                        ]);
+                    }
                 }
                 $plan->update($params);
             } catch (\Exception $e) {
@@ -122,5 +127,23 @@ class PlanController extends Controller
         return response([
             'data' => true
         ]);
+    }
+
+    // Get users list for a specific plan
+    public function getUsers(Request $request)
+    {
+        $planId = $request->input('plan_id');
+        if (!$planId) {
+            abort(500, 'Tham số không hợp lệ');
+        }
+        $plan = Plan::find($planId);
+        if (!$plan) {
+            abort(500, 'Gói không tồn tại');
+        }
+        $users = User::where('plan_id', $planId)
+            ->select(['id', 'email', 'plan_id', 'expired_at', 'transfer_enable', 'u', 'd', 'banned', 'created_at', 'extra_devices'])
+            ->orderBy('id', 'DESC')
+            ->get();
+        return response(['data' => $users]);
     }
 }

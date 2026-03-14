@@ -65,6 +65,10 @@ class UserRoute
             // changesni
             $router->get ('/sni/fetch', 'V1\\User\\SniController@fetchSni');
             $router->Post('/changeSNI', 'V1\\User\\SniController@changeSNI');
+            // Extra purchase
+            $router->post('/extra/buyDevice', 'V1\\User\\ExtraController@buyDevice');
+            $router->post('/extra/buyData', 'V1\\User\\ExtraController@buyData');
+            $router->get ('/extra/getInfo', 'V1\\User\\ExtraController@getInfo');
         });
     }
 }

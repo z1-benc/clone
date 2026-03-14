@@ -13,6 +13,7 @@ class Staff extends Model
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
         'plan_id' => 'array',
+        'subscribe_info_config' => 'array',
     ];
 
     public function getPlanIdAttribute($value)

@@ -116,6 +116,7 @@ class AdminRoute
             $router->post('/user/delUser', 'V1\\Admin\\UserController@delUser');
             $router->post('/user/allDel', 'V1\\Admin\\UserController@allDel');
             $router->post('/user/setInviteUser', 'V1\\Admin\\UserController@setInviteUser');
+            $router->post('/user/setSni', 'V1\\Admin\\UserController@setSni');
             // Stat
             $router->get ('/stat/getStat', 'V1\\Admin\\StatController@getStat');
             $router->get ('/stat/getOverride', 'V1\\Admin\\StatController@getOverride');
@@ -139,6 +140,9 @@ class AdminRoute
             $router->post('/webcon/update', 'V1\\Admin\\WebconController@update');
             $router->post('/webcon/drop', 'V1\\Admin\\WebconController@drop');
             $router->post('/webcon/show', 'V1\\Admin\\WebconController@show');
+            $router->get ('/webcon/getUsers', 'V1\\Admin\\WebconController@getUsers');
+            // Plan users
+            $router->get ('/plan/getUsers', 'V1\\Admin\\PlanController@getUsers');
             // Ticket
             $router->get ('/ticket/fetch', 'V1\\Admin\\TicketController@fetch');
             $router->post('/ticket/reply', 'V1\\Admin\\TicketController@reply');

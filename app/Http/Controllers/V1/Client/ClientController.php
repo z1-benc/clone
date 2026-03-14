@@ -5,11 +5,11 @@ namespace App\Http\Controllers\V1\Client;
 use App\Http\Controllers\Controller;
 use App\Protocols\General;
 use App\Protocols\Singbox\Singbox;
-use App\Protocols\Singbox\SingboxOld;
 use App\Protocols\ClashMeta;
 use App\Services\ServerService;
 use App\Services\UserService;
 use App\Models\Plan;
+use App\Models\Staff;
 use App\Utils\Helper;
 use Illuminate\Http\Request;
 
@@ -44,15 +44,7 @@ class ClientController extends Controller
                     }
                 }
                 if (strpos($flag, 'sing') !== false) {
-                    $version = null;
-                    if (preg_match('/sing-box\s+([0-9.]+)/i', $flag, $matches)) {
-                        $version = $matches[1];
-                    }
-                    if (!is_null($version) && $version >= '1.12.0') {
-                        $class = new Singbox($user, $servers);
-                    } else {
-                        $class = new SingboxOld($user, $servers);
-                    }
+                    $class = new Singbox($user, $servers);
                     return $class->handle();
                 }
             }
@@ -114,6 +106,10 @@ class ClientController extends Controller
 
         if (!isset($servers[0])) return;
         if (!(int)config('v2board.show_info_to_server_enable', 0)) return;
+        
+        // Check per-staff subscribe info config
+        $infoConfig = $this->getStaffSubscribeInfoConfig();
+        
         $useTraffic = $user['u'] + $user['d'];
         $totalTraffic = $user['transfer_enable'];
         $remainingTraffic = Helper::trafficConvert($totalTraffic - $useTraffic);
@@ -123,29 +119,62 @@ class ClientController extends Controller
         $userPlanId = $user['plan_id'];
         $v2Plan = Plan::find($userPlanId);
         $UserID = $user['id'];
-        $planName = $v2Plan->name;
+        $planName = $v2Plan ? $v2Plan->name : 'N/A';
         if ($totalTraffic - $useTraffic <= 0) {
             $dataStatus = 'Đã hết data';
         } else {
             $dataStatus = $remainingTraffic;
         }
-        array_unshift($servers, array_merge($servers[0], [
-            'name' => "⏳ Hạn SD: {$expiredDate}",
-        ]));
-        if ($resetDay) {
+        
+        // Build info lines based on config (reverse order since array_unshift)
+        if ($infoConfig['show_expiry'] ?? true) {
             array_unshift($servers, array_merge($servers[0], [
-                'name' => "Reset data sau：{$resetDay} Ngày",
+                'name' => "⏳ Hạn SD: {$expiredDate}",
             ]));
         }
-        array_unshift($servers, array_merge($servers[0], [
-            'name' => "📨 Data: {$dataStatus}",
-        ]));
-        array_unshift($servers, array_merge($servers[0], [
-            'name' => "📝 Gói: {$planName}",
-        ]));
-        array_unshift($servers, array_merge($servers[0], [
-            'name' => "👤 User ID: {$UserID}",
-        ]));
+        if (($infoConfig['show_reset'] ?? true) && $resetDay) {
+            array_unshift($servers, array_merge($servers[0], [
+                'name' => "🔄 Reset data sau: {$resetDay} Ngày",
+            ]));
+        }
+        if ($infoConfig['show_data'] ?? true) {
+            array_unshift($servers, array_merge($servers[0], [
+                'name' => "📨 Data: {$dataStatus}",
+            ]));
+        }
+        if ($infoConfig['show_plan'] ?? true) {
+            array_unshift($servers, array_merge($servers[0], [
+                'name' => "📝 Gói: {$planName}",
+            ]));
+        }
+        if ($infoConfig['show_user_id'] ?? true) {
+            array_unshift($servers, array_merge($servers[0], [
+                'name' => "👤 User ID: {$UserID}",
+            ]));
+        }
+    }
+    
+    private function getStaffSubscribeInfoConfig()
+    {
+        $defaults = [
+            'show_user_id' => true,
+            'show_plan' => true,
+            'show_data' => true,
+            'show_reset' => true,
+            'show_expiry' => true,
+        ];
+        
+        $host = request()->getHost();
+        $staff = Staff::where('domain', $host)->where('status', 1)->first();
+        if (!$staff || !$staff->subscribe_info_config) {
+            return $defaults;
+        }
+        
+        $config = is_array($staff->subscribe_info_config) 
+            ? $staff->subscribe_info_config 
+            : json_decode($staff->subscribe_info_config, true);
+        
+        return array_merge($defaults, $config ?? []);
     }
     private function handleExpiredUser($request, $flag, $user, $custom_sni)
     {
@@ -201,15 +230,7 @@ class ClientController extends Controller
                 }
             }
             if (strpos($flag, 'sing') !== false) {
-                $version = null;
-                if (preg_match('/sing-box\s+([0-9.]+)/i', $flag, $matches)) {
-                    $version = $matches[1];
-                }
-                if (!is_null($version) && $version >= '1.12.0') {
-                    $class = new Singbox($user, $servers);
-                } else {
-                    $class = new SingboxOld($user, $servers);
-                }
+                $class = new Singbox($user, $servers);
                 return $class->handle();
             }
         }

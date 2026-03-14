@@ -99,50 +99,44 @@ class UserController extends Controller
             if (!$user) {
                 abort(500, __('The user does not exist'));
             }
-            if ($user->transfer_enable > $user->u + $user->d) {
-                abort(500, __('You have not used up your traffic, you cannot renew your subscription'));
-            }
+            
             $userService = new UserService();
             $reset_day = $userService->getResetDay($user);
             if ($reset_day === null) {
-                abort(500, __('You do not allow to renew the subscription'));
+                abort(500, 'Gói của bạn không hỗ trợ đặt lại lưu lượng');
             }
-            unset($user->plan);
-            $reset_period = $userService->getResetPeriod($user);
-            if ($reset_period === null) {
-                abort(500, __('You do not allow to renew the subscription'));
+            
+            // Calculate remaining subscription days
+            if ($user->expired_at === null) {
+                abort(500, 'Gói vĩnh viễn không cần đặt lại');
             }
-            switch ($reset_period) {
-                case 1:
-                    $reset_day = 30;
-                    $reset_period = 30;
-                    break;
-                case 30:
-                    break;
-                case 12:
-                    $reset_day = 365;
-                    $reset_period = 365;
-                    break;
-                case 365:
-                    break;
-                default:
-                    abort(500, __('Invalid reset period'));
+            $remainingDays = ($user->expired_at - time()) / 86400;
+            
+            // Must have >30 days remaining to allow early reset
+            if ($remainingDays < 30) {
+                abort(500, 'Cần còn ít nhất 30 ngày mới được phép kích hoạt sớm');
             }
-            if ($reset_day <= 0) {
-                $reset_day = $reset_period;
+            
+            // Deduct only the days until next reset, start new cycle immediately
+            // Example: 35 days remaining, 7 days until reset → deduct 7 days, reset now
+            // Example: 86 days remaining, 3 days until reset → deduct 3 days, reset now
+            $daysToDeduct = $reset_day; // days until next natural reset
+            
+            if ($daysToDeduct <= 0) {
+                abort(500, 'Đã đến ngày đặt lại rồi, không cần kích hoạt sớm');
             }
-            if ($user->expired_at !== null && ($reset_period + 1) * 86400 < $user->expired_at - time()) {
-                if (!$user->update(
-                    [
-                        'expired_at' => $user->expired_at - $reset_day * 86400,
-                        'u' => 0,
-                        'd' => 0
-                    ]
-                )) {
-                    throw new \Exception(__('Save failed'));
-                }
-            } else {
-                abort(500, __('You do not have enough time to renew your subscription'));
+            
+            // After deduction, must still have >0 days
+            if ($remainingDays - $daysToDeduct <= 0) {
+                abort(500, 'Không đủ ngày để kích hoạt sớm');
+            }
+            
+            if (!$user->update([
+                'expired_at' => $user->expired_at - $daysToDeduct * 86400,
+                'u' => 0,
+                'd' => 0
+            ])) {
+                throw new \Exception(__('Save failed'));
             }
 
             DB::commit();
@@ -514,6 +508,34 @@ $telegramService->sendMessageWithAdmin($message);
         }
 
         DB::commit();
+
+        // Send Telegram notification to admin about CTV withdrawal
+        if (config('v2board.telegram_bot_enable', 0)) {
+            try {
+                $telegramService = new TelegramService();
+                $displayAmount = number_format($request->input('transfer_amount') / 100);
+                $remainBalance = number_format($user->commission_balance / 100);
+                $message = sprintf(
+                    "💰 CTV Rút Hoa Hồng
+———————————————
+📧 Email: %s
+👤 User ID: %s
+———————————————
+💸 Số tiền rút: %s ₫
+💳 Số dư HH còn lại: %s ₫
+———————————————
+⏰ Thời gian: %s",
+                    $user->email,
+                    $user->id,
+                    $displayAmount,
+                    $remainBalance,
+                    date('Y-m-d H:i:s')
+                );
+                $telegramService->sendMessageWithAdmin($message);
+            } catch (\Exception $e) {
+                // Don't fail the transfer if Telegram fails
+            }
+        }
 
         return response([
             'data' => true

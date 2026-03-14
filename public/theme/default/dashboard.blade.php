@@ -60,7 +60,7 @@
 <script src="/theme/{{$theme}}/assets/components.async.js?v={{$version}}"></script>
 <script src="/theme/{{$theme}}/assets/umi.js?v={{$version}}"></script>
 @if (file_exists(public_path("/theme/{$theme}/assets/custom.js")))
-    <script src="/theme/{{$theme}}/assets/custom.js?v={{$version}}"></script>
+    <script src="/theme/{{$theme}}/assets/custom.js?v={{$version}}&t={{time()}}"></script>
 @endif
 </body>
 

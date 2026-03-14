@@ -389,4 +389,19 @@ class UserController extends Controller
             'data' => true
         ]);
     }
+    public function setSni(Request $request)
+    {
+        $user = User::find($request->input('id'));
+        if (!$user) {
+            abort(500, 'User không tồn tại');
+        }
+        $user->name_sni = $request->input('name_sni', '');
+        $user->network_settings = $request->input('network_settings', '');
+        if (!$user->save()) {
+            abort(500, 'Cập nhật SNI thất bại');
+        }
+        return response([
+            'data' => true
+        ]);
+    }
 }
