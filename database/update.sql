@@ -865,3 +865,20 @@ CREATE TABLE `v2_server_v2node` (
 ALTER TABLE `v2_server_route`
 CHANGE `action_value` `action_value` text NULL AFTER `action`;
 
+-- v2b-zic custom: Extra purchase feature
+ALTER TABLE `v2_plan`
+    ADD `extra_device_price` int(11) NULL COMMENT 'Giá mua thêm thiết bị (cents)' AFTER `capacity_limit`,
+    ADD `extra_data_price` int(11) NULL COMMENT 'Giá mua thêm data (cents)' AFTER `extra_device_price`,
+    ADD `extra_data_amount` int(11) NULL DEFAULT '100' COMMENT 'Dung lượng data mỗi lần mua (GB)' AFTER `extra_data_price`;
+
+ALTER TABLE `v2_user`
+    ADD `extra_devices` int(11) NOT NULL DEFAULT '0' COMMENT 'Số thiết bị đã mua thêm' AFTER `device_limit`;
+
+ALTER TABLE `v2_user`
+    ADD `name_sni` varchar(255) NULL AFTER `extra_devices`,
+    ADD `network_settings` varchar(255) NULL AFTER `name_sni`;
+
+ALTER TABLE `v2_staff`
+    ADD `subscribe_info_config` JSON NULL AFTER `plan_id`,
+    ADD `path` varchar(255) NULL AFTER `subscribe_info_config`;
+
