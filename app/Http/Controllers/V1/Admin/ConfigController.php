@@ -183,6 +183,7 @@ class ConfigController extends Controller
                 'clash_proxy_group' => config('v2board.clash_proxy_group', ''),
                 'singbox_dns_config' => config('v2board.singbox_dns_config', ''),
                 'singbox_outbound_config' => config('v2board.singbox_outbound_config', ''),
+                'subscribe_info_config' => config('v2board.subscribe_info_config', ''),
             ]
         ];
         if ($key && isset($data[$key])) {

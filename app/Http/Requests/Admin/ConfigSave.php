@@ -115,6 +115,7 @@ class ConfigSave extends FormRequest
         'clash_proxy_group' => 'nullable|string',
         'singbox_dns_config' => 'nullable|string',
         'singbox_outbound_config' => 'nullable|string',
+        'subscribe_info_config' => 'nullable|string',
     ];
     /**
      * Get the validation rules that apply to the request.

@@ -213,6 +213,20 @@
           '<textarea id="tnetz-sni-textarea" rows="6" style="width:100%;padding:8px 12px;border:1px solid #d9d9d9;border-radius:4px;font-family:monospace;font-size:13px;resize:vertical;transition:border-color 0.3s;" placeholder="Viettel|dl.viettel.vn&#10;MobiFone|gg.gg.vn&#10;VinaPhone|zalo.vn"></textarea>' +
         '</div>' +
       '</div>' +
+      // Row 2: Subscribe info toggles (web mẹ)
+      '<div style="display:flex;align-items:flex-start;padding:24px 0;border-bottom:1px solid #f0f0f0;">' +
+        '<div style="flex:0 0 45%;padding-right:24px;">' +
+          '<div style="font-weight:600;font-size:14px;color:rgba(0,0,0,0.85);">Hiển thị trên link đăng ký</div>' +
+          '<div style="font-size:13px;color:rgba(0,0,0,0.45);margin-top:4px;">Bật/tắt thông tin hiện trên link subscribe (web mẹ). Web con có config riêng.</div>' +
+        '</div>' +
+        '<div style="flex:1;display:flex;flex-wrap:wrap;gap:8px 24px;">' +
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_user_id" checked style="width:16px;height:16px;accent-color:#1890ff;"> ID</label>' +
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_plan" checked style="width:16px;height:16px;accent-color:#1890ff;"> Gói</label>' +
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_data" checked style="width:16px;height:16px;accent-color:#1890ff;"> Còn (data)</label>' +
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_reset" checked style="width:16px;height:16px;accent-color:#1890ff;"> Làm mới</label>' +
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_expiry" checked style="width:16px;height:16px;accent-color:#1890ff;"> Hạn</label>' +
+        '</div>' +
+      '</div>' +
       // Save button row — matching native umi.js style
       '<div style="padding:24px 0;text-align:right;">' +
         '<button id="tnetz-sni-save" class="ant-btn ant-btn-primary" style="padding:4px 24px;height:32px;border-radius:4px;background:#1890ff;border:1px solid #1890ff;color:#fff;cursor:pointer;font-size:14px;">Lưu</button>' +
@@ -236,6 +250,15 @@
       // Try nested (tnetz.sni_list) or flat (sni_list)
       var val = (data.data.tnetz && data.data.tnetz.sni_list) || data.data.sni_list || '';
       ta.value = val;
+      // Load subscribe_info_config toggles
+      var sic = data.data.subscribe_info_config;
+      if (sic) {
+        try { if (typeof sic === 'string') sic = JSON.parse(sic); } catch(e) {}
+        ['show_user_id','show_plan','show_data','show_reset','show_expiry'].forEach(k => {
+          var cb = document.getElementById('tnetz-sys-' + k);
+          if (cb && sic[k] !== undefined) cb.checked = sic[k] !== false;
+        });
+      }
     }).catch(() => {});
 
     // Save button
@@ -249,7 +272,16 @@
       fetch('/api/v1/' + adminPrefix + '/config/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('authorization') || '' },
-        body: JSON.stringify({ sni_list: ta.value })
+        body: JSON.stringify({
+          sni_list: ta.value,
+          subscribe_info_config: JSON.stringify({
+            show_user_id: document.getElementById('tnetz-sys-show_user_id').checked,
+            show_plan: document.getElementById('tnetz-sys-show_plan').checked,
+            show_data: document.getElementById('tnetz-sys-show_data').checked,
+            show_reset: document.getElementById('tnetz-sys-show_reset').checked,
+            show_expiry: document.getElementById('tnetz-sys-show_expiry').checked
+          })
+        })
       }).then(r => r.json()).then(d => {
         btn.textContent = 'Lưu';
         btn.disabled = false;

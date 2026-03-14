@@ -141,7 +141,7 @@ class ClientController extends Controller
         }
         if ($infoConfig['show_data'] ?? true) {
             array_unshift($servers, array_merge($servers[0], [
-                'name' => "Lưu Lượng: {$dataStatus}",
+                'name' => "Còn: {$dataStatus}",
             ]));
         }
         if ($infoConfig['show_plan'] ?? true) {
@@ -168,15 +168,22 @@ class ClientController extends Controller
 
         $host = request()->getHost();
         $staff = Staff::where('domain', $host)->where('status', 1)->first();
-        if (!$staff || !$staff->subscribe_info_config) {
-            return $defaults;
+        if ($staff && $staff->subscribe_info_config) {
+            // Web con: use staff config
+            $config = is_array($staff->subscribe_info_config)
+                ? $staff->subscribe_info_config
+                : json_decode($staff->subscribe_info_config, true);
+            return array_merge($defaults, $config ?? []);
         }
 
-        $config = is_array($staff->subscribe_info_config)
-            ? $staff->subscribe_info_config
-            : json_decode($staff->subscribe_info_config, true);
+        // Web mẹ (main site): read from system config
+        $sysConfig = config('v2board.subscribe_info_config');
+        if ($sysConfig) {
+            $config = is_array($sysConfig) ? $sysConfig : json_decode($sysConfig, true);
+            return array_merge($defaults, $config ?? []);
+        }
 
-        return array_merge($defaults, $config ?? []);
+        return $defaults;
     }
     private function handleExpiredUser($request, $flag, $user, $custom_sni)
     {
