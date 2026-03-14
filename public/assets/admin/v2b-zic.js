@@ -424,6 +424,127 @@
     planFieldsInjected = true;
   }
 
+  // ========== SUBSCRIBE INFO CONFIG IN WEBCON EDIT MODAL ==========
+  var webconTogglesInjected = false;
+
+  function injectWebconInfoToggles() {
+    if (webconTogglesInjected) return;
+    if (!window.location.hash.includes('/webcon') && !window.location.hash.includes('/staff')) return;
+
+    // Detect the webcon edit modal
+    var modal = document.querySelector('.ant-modal-wrap:not([style*="display: none"]) .ant-modal-body');
+    if (!modal) return;
+    // Confirm it's the webcon modal by looking for "Email admin webcon" or "domain" label
+    var labels = modal.querySelectorAll('.form-group label');
+    var isWebcon = false;
+    labels.forEach(l => { if (l.textContent.includes('Email') || l.textContent.includes('domain')) isWebcon = true; });
+    if (!isWebcon || labels.length < 3) return;
+    if (modal.querySelector('#tnetz-info-toggles')) { webconTogglesInjected = true; return; }
+
+    // Config keys
+    var toggles = [
+      { key: 'show_user_id', label: '👤 User ID', icon: 'user' },
+      { key: 'show_plan', label: '📝 Tên gói', icon: 'book' },
+      { key: 'show_data', label: '📨 Data đã dùng', icon: 'database' },
+      { key: 'show_reset', label: '🔄 Reset data', icon: 'sync' },
+      { key: 'show_expiry', label: '⏳ Hạn sử dụng', icon: 'calendar' },
+    ];
+
+    // Get current config from the submit state (if editing)
+    var currentConfig = {};
+    // Try to read from submit.subscribe_info_config
+    try {
+      var submitData = modal.closest('.ant-modal-wrap');
+      // We'll load from API instead
+    } catch(e) {}
+
+    var section = document.createElement('div');
+    section.id = 'tnetz-info-toggles';
+    section.style.cssText = 'border-top:1px dashed #e8e8e8;padding-top:12px;margin-top:12px;';
+    section.innerHTML =
+      '<div style="font-weight:600;font-size:13px;color:rgba(0,0,0,0.85);margin-bottom:10px;">📋 Hiển thị trên link đăng ký</div>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:4px 16px;">' +
+        toggles.map(t =>
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;padding:4px 0;">' +
+            '<input type="checkbox" id="tnetz-toggle-' + t.key + '" checked style="width:16px;height:16px;cursor:pointer;accent-color:#1890ff;">' +
+            t.label +
+          '</label>'
+        ).join('') +
+      '</div>';
+
+    // Find last form-group in the modal and insert after it
+    var lastFormGroup = null;
+    modal.querySelectorAll('.form-group').forEach(fg => { lastFormGroup = fg; });
+    if (lastFormGroup) {
+      lastFormGroup.parentNode.insertBefore(section, lastFormGroup.nextSibling);
+    } else {
+      modal.appendChild(section);
+    }
+
+    // Load current values from the staff record being edited
+    // Find the staff ID from the table row or modal title
+    var adminPrefix = window.location.pathname.split('/')[1];
+    // Get staff data from the table to find the current subscribe_info_config
+    fetch('/api/v1/' + adminPrefix + '/webcon/fetch', {
+      headers: { 'Authorization': localStorage.getItem('authorization') || '' }
+    }).then(r => r.json()).then(data => {
+      var staffs = data.data || [];
+      // Find the staff being edited by matching email in the modal
+      var emailInput = modal.querySelector('input[class*="ant-input"]');
+      var editEmail = emailInput ? emailInput.value : '';
+      var staff = staffs.find(s => s.email === editEmail);
+      if (staff && staff.subscribe_info_config) {
+        var cfg = typeof staff.subscribe_info_config === 'string' 
+          ? JSON.parse(staff.subscribe_info_config) 
+          : staff.subscribe_info_config;
+        toggles.forEach(t => {
+          var cb = document.getElementById('tnetz-toggle-' + t.key);
+          if (cb) cb.checked = cfg[t.key] !== false; // default true
+        });
+      }
+    }).catch(() => {});
+
+    // Hook into the modal OK button to save config
+    var okBtn = modal.closest('.ant-modal-wrap').querySelector('.ant-modal-footer .ant-btn-primary');
+    if (okBtn && !okBtn.dataset.tnetzInfoHooked) {
+      okBtn.dataset.tnetzInfoHooked = 'true';
+      okBtn.addEventListener('click', () => {
+        // Build config object
+        var config = {};
+        toggles.forEach(t => {
+          var cb = document.getElementById('tnetz-toggle-' + t.key);
+          if (cb) config[t.key] = cb.checked;
+        });
+        // Get email and find staff
+        var emailInput = modal.querySelector('input[class*="ant-input"]');
+        var email = emailInput ? emailInput.value : '';
+        if (!email) return;
+        // Save subscribe_info_config via API after a slight delay
+        setTimeout(() => {
+          fetch('/api/v1/' + adminPrefix + '/webcon/fetch', {
+            headers: { 'Authorization': localStorage.getItem('authorization') || '' }
+          }).then(r => r.json()).then(data => {
+            var staff = (data.data || []).find(s => s.email === email);
+            if (staff) {
+              fetch('/api/v1/' + adminPrefix + '/webcon/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('authorization') || '' },
+                body: JSON.stringify({
+                  id: staff.id,
+                  email: email,
+                  domain: staff.domain,
+                  subscribe_info_config: config
+                })
+              }).catch(() => {});
+            }
+          }).catch(() => {});
+        }, 1000);
+      });
+    }
+
+    webconTogglesInjected = true;
+  }
+
   // ========== INIT ==========
   window.addEventListener('load', () => { translatePage(); translatePlaceholders(); });
 
@@ -435,11 +556,12 @@
     injectSetSniButton();
     injectTnetzTab();
     injectPlanExtraFields();
+    injectWebconInfoToggles();
   });
   observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['placeholder'] });
 
   // Reset tab injection on hash change
-  window.addEventListener('hashchange', () => { tnetzTabInjected = false; planFieldsInjected = false; });
+  window.addEventListener('hashchange', () => { tnetzTabInjected = false; planFieldsInjected = false; webconTogglesInjected = false; });
 
   setInterval(() => { translatePlaceholders(); translateSelectOptions(); translateMessages(); }, 800);
 })();

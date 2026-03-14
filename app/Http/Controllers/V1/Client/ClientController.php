@@ -17,7 +17,7 @@ class ClientController extends Controller
 {
     public function subscribe(Request $request)
     {
-        
+
         $flag = $request->input('flag')
             ?? ($_SERVER['HTTP_USER_AGENT'] ?? '');
         $flag = strtolower($flag);
@@ -32,7 +32,7 @@ class ClientController extends Controller
             $serverService = new ServerService();
             $servers = $serverService->getAvailableServers($user);
 
-            if($flag) {
+            if ($flag) {
                 if (!strpos($flag, 'sing')) {
                     $this->setSubscribeInfoToServers($servers, $user, $custom_sni);
                     foreach (array_reverse(glob(app_path('Protocols') . '/*.php')) as $file) {
@@ -104,12 +104,14 @@ class ClientController extends Controller
             }
         }
 
-        if (!isset($servers[0])) return;
-        if (!(int)config('v2board.show_info_to_server_enable', 0)) return;
-        
+        if (!isset($servers[0]))
+            return;
+        if (!(int) config('v2board.show_info_to_server_enable', 0))
+            return;
+
         // Check per-staff subscribe info config
         $infoConfig = $this->getStaffSubscribeInfoConfig();
-        
+
         $useTraffic = $user['u'] + $user['d'];
         $totalTraffic = $user['transfer_enable'];
         $remainingTraffic = Helper::trafficConvert($totalTraffic - $useTraffic);
@@ -125,35 +127,35 @@ class ClientController extends Controller
         } else {
             $dataStatus = $remainingTraffic;
         }
-        
+
         // Build info lines based on config (reverse order since array_unshift)
         if ($infoConfig['show_expiry'] ?? true) {
             array_unshift($servers, array_merge($servers[0], [
-                'name' => "⏳ Hạn SD: {$expiredDate}",
+                'name' => "Hạn: {$expiredDate}",
             ]));
         }
         if (($infoConfig['show_reset'] ?? true) && $resetDay) {
             array_unshift($servers, array_merge($servers[0], [
-                'name' => "🔄 Reset data sau: {$resetDay} Ngày",
+                'name' => "Làm mới sau: {$resetDay} Ngày",
             ]));
         }
         if ($infoConfig['show_data'] ?? true) {
             array_unshift($servers, array_merge($servers[0], [
-                'name' => "📨 Data: {$dataStatus}",
+                'name' => "Lưu Lượng: {$dataStatus}",
             ]));
         }
         if ($infoConfig['show_plan'] ?? true) {
             array_unshift($servers, array_merge($servers[0], [
-                'name' => "📝 Gói: {$planName}",
+                'name' => "Gói: {$planName}",
             ]));
         }
         if ($infoConfig['show_user_id'] ?? true) {
             array_unshift($servers, array_merge($servers[0], [
-                'name' => "👤 User ID: {$UserID}",
+                'name' => "ID: {$UserID}",
             ]));
         }
     }
-    
+
     private function getStaffSubscribeInfoConfig()
     {
         $defaults = [
@@ -163,22 +165,22 @@ class ClientController extends Controller
             'show_reset' => true,
             'show_expiry' => true,
         ];
-        
+
         $host = request()->getHost();
         $staff = Staff::where('domain', $host)->where('status', 1)->first();
         if (!$staff || !$staff->subscribe_info_config) {
             return $defaults;
         }
-        
-        $config = is_array($staff->subscribe_info_config) 
-            ? $staff->subscribe_info_config 
+
+        $config = is_array($staff->subscribe_info_config)
+            ? $staff->subscribe_info_config
             : json_decode($staff->subscribe_info_config, true);
-        
+
         return array_merge($defaults, $config ?? []);
     }
     private function handleExpiredUser($request, $flag, $user, $custom_sni)
     {
-    
+
         $servers = [
             [
                 'id' => 9991,
@@ -217,8 +219,8 @@ class ClientController extends Controller
                 'is_online' => 1,
             ],
         ];
-    
-    
+
+
         if ($flag) {
             if (!strpos($flag, 'sing')) {
                 foreach (array_reverse(glob(app_path('Protocols') . '/*.php')) as $file) {
