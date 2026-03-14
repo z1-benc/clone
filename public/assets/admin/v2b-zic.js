@@ -443,11 +443,11 @@
 
     // Config keys
     var toggles = [
-      { key: 'show_user_id', label: '👤 User ID', icon: 'user' },
-      { key: 'show_plan', label: '📝 Tên gói', icon: 'book' },
-      { key: 'show_data', label: '📨 Data đã dùng', icon: 'database' },
-      { key: 'show_reset', label: '🔄 Reset data', icon: 'sync' },
-      { key: 'show_expiry', label: '⏳ Hạn sử dụng', icon: 'calendar' },
+      { key: 'show_user_id', label: 'ID', icon: 'user' },
+      { key: 'show_plan', label: 'Gói', icon: 'book' },
+      { key: 'show_data', label: 'Còn (data)', icon: 'database' },
+      { key: 'show_reset', label: 'Làm mới', icon: 'sync' },
+      { key: 'show_expiry', label: 'Hạn', icon: 'calendar' },
     ];
 
     // Get current config from the submit state (if editing)
