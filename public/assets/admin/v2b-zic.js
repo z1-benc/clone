@@ -331,28 +331,28 @@
       // Device price
       '<div class="form-group">' +
         '<label>Giá mỗi thiết bị thêm</label>' +
-        '<div class="ant-input-wrapper ant-input-group" style="display:flex;">' +
-          '<input id="tnetz-extra-device-price" type="number" class="ant-input" placeholder="Để trống = không bán thêm" style="flex:1;">' +
+        '<span class="ant-input-wrapper ant-input-group">' +
+          '<input id="tnetz-extra-device-price" type="number" class="ant-input" placeholder="Để trống = không bán thêm">' +
           '<span class="ant-input-group-addon">₫</span>' +
-        '</div>' +
+        '</span>' +
       '</div>' +
 
       // Data price  
       '<div class="form-group">' +
         '<label>Giá mua thêm lưu lượng</label>' +
-        '<div class="ant-input-wrapper ant-input-group" style="display:flex;">' +
-          '<input id="tnetz-extra-data-price" type="number" class="ant-input" placeholder="Để trống = không bán thêm" style="flex:1;">' +
+        '<span class="ant-input-wrapper ant-input-group">' +
+          '<input id="tnetz-extra-data-price" type="number" class="ant-input" placeholder="Để trống = không bán thêm">' +
           '<span class="ant-input-group-addon">₫</span>' +
-        '</div>' +
+        '</span>' +
       '</div>' +
 
       // Data amount per purchase
       '<div class="form-group">' +
         '<label>Lưu lượng mỗi lần mua</label>' +
-        '<div class="ant-input-wrapper ant-input-group" style="display:flex;">' +
-          '<input id="tnetz-extra-data-amount" type="number" class="ant-input" value="100" placeholder="100" style="flex:1;">' +
+        '<span class="ant-input-wrapper ant-input-group">' +
+          '<input id="tnetz-extra-data-amount" type="number" class="ant-input" value="100" placeholder="100">' +
           '<span class="ant-input-group-addon">GB</span>' +
-        '</div>' +
+        '</span>' +
       '</div>';
 
     // Insert after device_limit form group
