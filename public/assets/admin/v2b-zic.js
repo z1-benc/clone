@@ -460,9 +460,9 @@
 
     var section = document.createElement('div');
     section.id = 'tnetz-info-toggles';
-    section.style.cssText = 'border-top:1px dashed #e8e8e8;padding-top:12px;margin-top:12px;';
+    section.style.cssText = 'border-bottom:1px dashed #e8e8e8;padding-bottom:12px;margin-bottom:12px;';
     section.innerHTML =
-      '<div style="font-weight:600;font-size:13px;color:rgba(0,0,0,0.85);margin-bottom:10px;">📋 Hiển thị trên link đăng ký</div>' +
+      '<div style="font-weight:600;font-size:13px;color:rgba(0,0,0,0.85);margin-bottom:10px;">Hiển thị trên link đăng ký</div>' +
       '<div style="display:flex;flex-wrap:wrap;gap:4px 16px;">' +
         toggles.map(t =>
           '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;padding:4px 0;">' +
@@ -472,13 +472,12 @@
         ).join('') +
       '</div>';
 
-    // Find last form-group in the modal and insert after it
-    var lastFormGroup = null;
-    modal.querySelectorAll('.form-group').forEach(fg => { lastFormGroup = fg; });
-    if (lastFormGroup) {
-      lastFormGroup.parentNode.insertBefore(section, lastFormGroup.nextSibling);
+    // Insert at the TOP of the modal (before first form-group)
+    var firstFormGroup = modal.querySelector('.form-group');
+    if (firstFormGroup) {
+      firstFormGroup.parentNode.insertBefore(section, firstFormGroup);
     } else {
-      modal.appendChild(section);
+      modal.prepend(section);
     }
 
     // Load current values from the staff record being edited
