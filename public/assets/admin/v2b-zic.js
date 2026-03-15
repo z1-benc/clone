@@ -598,6 +598,82 @@
     webconTogglesInjected = true;
   }
 
+  // ========== ORDER COUPON COLUMN INJECTION ==========
+  var orderCouponCache = {};
+
+  // Intercept XHR to cache coupon data from order/fetch responses
+  (function() {
+    var origOpen = XMLHttpRequest.prototype.open;
+    var origSend = XMLHttpRequest.prototype.send;
+    XMLHttpRequest.prototype.open = function(method, url) {
+      this._tnetzUrl = url;
+      return origOpen.apply(this, arguments);
+    };
+    XMLHttpRequest.prototype.send = function() {
+      var self = this;
+      if (self._tnetzUrl && self._tnetzUrl.indexOf('/order/fetch') !== -1) {
+        self.addEventListener('load', function() {
+          try {
+            var data = JSON.parse(self.responseText);
+            if (data && data.data && Array.isArray(data.data)) {
+              data.data.forEach(function(order) {
+                if (order.trade_no) {
+                  orderCouponCache[order.trade_no] = order.coupon_name || null;
+                }
+              });
+              setTimeout(injectOrderCouponColumn, 300);
+            }
+          } catch(e) {}
+        });
+      }
+      return origSend.apply(this, arguments);
+    };
+  })();
+
+  function injectOrderCouponColumn() {
+    if (!window.location.hash.includes('/order')) return;
+    var table = document.querySelector('.ant-table-content table');
+    if (!table) return;
+
+    // Add header if not already present
+    var thead = table.querySelector('thead tr');
+    if (thead && !thead.querySelector('.tnetz-coupon-th')) {
+      var th = document.createElement('th');
+      th.className = 'ant-table-cell tnetz-coupon-th';
+      th.textContent = 'Mã giảm giá';
+      th.style.cssText = 'font-weight:600;white-space:nowrap;';
+      // Insert before last column (actions)
+      var lastTh = thead.querySelector('th:last-child');
+      thead.insertBefore(th, lastTh);
+    }
+
+    // Add coupon data to each row
+    var rows = table.querySelectorAll('tbody tr.ant-table-row');
+    rows.forEach(function(row) {
+      if (row.querySelector('.tnetz-coupon-td')) return;
+      // Find trade_no from the row — first look for it in the text cells
+      var tradeNo = '';
+      var cells = row.querySelectorAll('td');
+      cells.forEach(function(td) {
+        var text = td.textContent.trim();
+        if (/^[a-f0-9]{32,}$/i.test(text) || /^[a-f0-9-]{36}$/i.test(text)) {
+          tradeNo = text;
+        }
+      });
+
+      var td = document.createElement('td');
+      td.className = 'ant-table-cell tnetz-coupon-td';
+      var couponName = tradeNo ? orderCouponCache[tradeNo] : null;
+      if (couponName) {
+        td.innerHTML = '<span style="display:inline-block;padding:2px 8px;background:#f0f5ff;border:1px solid #adc6ff;border-radius:4px;font-size:12px;color:#1d39c4;white-space:nowrap;">🏷️ ' + couponName + '</span>';
+      } else {
+        td.innerHTML = '<span style="color:#bbb;font-size:12px;">—</span>';
+      }
+      var lastTd = row.querySelector('td:last-child');
+      row.insertBefore(td, lastTd);
+    });
+  }
+
   // ========== INIT ==========
   window.addEventListener('load', () => { translatePage(); translatePlaceholders(); });
 
@@ -610,11 +686,12 @@
     injectTnetzTab();
     injectPlanExtraFields();
     injectWebconInfoToggles();
+    injectOrderCouponColumn();
   });
   observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['placeholder'] });
 
   // Reset tab injection on hash change
-  window.addEventListener('hashchange', () => { tnetzTabInjected = false; planFieldsInjected = false; webconTogglesInjected = false; });
+  window.addEventListener('hashchange', () => { tnetzTabInjected = false; planFieldsInjected = false; webconTogglesInjected = false; orderCouponCache = {}; });
 
   setInterval(() => { translatePlaceholders(); translateSelectOptions(); translateMessages(); }, 800);
 })();

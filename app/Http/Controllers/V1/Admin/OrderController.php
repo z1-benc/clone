@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\OrderAssign;
 use App\Http\Requests\Admin\OrderFetch;
 use App\Http\Requests\Admin\OrderUpdate;
 use App\Models\CommissionLog;
+use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Plan;
 use App\Models\User;
@@ -69,6 +70,16 @@ class OrderController extends Controller
             for ($k = 0; $k < count($plan); $k++) {
                 if ($plan[$k]['id'] == $res[$i]['plan_id']) {
                     $res[$i]['plan_name'] = $plan[$k]['name'];
+                }
+            }
+        }
+        // Join coupon name
+        $couponIds = $res->pluck('coupon_id')->filter()->unique()->values()->toArray();
+        if (!empty($couponIds)) {
+            $coupons = Coupon::whereIn('id', $couponIds)->pluck('name', 'id')->toArray();
+            for ($i = 0; $i < count($res); $i++) {
+                if (!empty($res[$i]['coupon_id']) && isset($coupons[$res[$i]['coupon_id']])) {
+                    $res[$i]['coupon_name'] = $coupons[$res[$i]['coupon_id']];
                 }
             }
         }
