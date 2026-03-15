@@ -146,25 +146,17 @@ class UniProxyController extends Controller
                     unset($ips_array[$nodetypeid]);
                 }
             }
-            $count = 0;
-            if (config('v2board.device_limit_mode', 0) == 1) {
-                $ipmap = [];
-                foreach ($ips_array as $nodetypeid => $newdata) {
-                    if (!is_int($newdata) && isset($newdata['aliveips'])) {
-                        foreach ($newdata['aliveips'] as $ip_NodeId) {
-                            $ip = explode("_", $ip_NodeId)[0];
-                            $ipmap[$ip] = 1;
-                        }
-                    }
-                }
-                $count = count($ipmap);
-            } else {
-                foreach ($ips_array as $nodetypeid => $newdata) {
-                    if (!is_int($newdata) && isset($newdata['aliveips'])) {
-                        $count += count($newdata['aliveips']);
+            // Always count unique IPs across all nodes
+            $ipmap = [];
+            foreach ($ips_array as $nodetypeid => $newdata) {
+                if (!is_int($newdata) && isset($newdata['aliveips'])) {
+                    foreach ($newdata['aliveips'] as $ip_NodeId) {
+                        $ip = explode("_", $ip_NodeId)[0];
+                        $ipmap[$ip] = 1;
                     }
                 }
             }
+            $count = count($ipmap);
             $ips_array['alive_ip'] = $count;
             Cache::put('ALIVE_IP_USER_' . $uid, $ips_array, 120);
         }
