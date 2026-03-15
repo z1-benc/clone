@@ -168,8 +168,6 @@ rules:
   - DOMAIN-SUFFIX,office365.com,DIRECT
   - DOMAIN-KEYWORD,officecdn,DIRECT
   - DOMAIN-SUFFIX,oschina.net,DIRECT
-  - DOMAIN-SUFFIX,ppsimg.com,DIRECT
-  - DOMAIN-SUFFIX,pstatp.com,DIRECT
   - DOMAIN-SUFFIX,qcloud.com,DIRECT
   - DOMAIN-SUFFIX,qdaily.com,DIRECT
   - DOMAIN-SUFFIX,qdmm.com,DIRECT
@@ -542,6 +540,88 @@ rules:
   - DOMAIN-SUFFIX,yoyo.org,$app_name
   - DOMAIN-SUFFIX,ytimg.com,$app_name
 
+  # TikTok — Complete (domains + CDN + API + IP)
+  - DOMAIN-SUFFIX,tiktok.com,$app_name
+  - DOMAIN-SUFFIX,tiktokv.com,$app_name
+  - DOMAIN-SUFFIX,tiktokcdn.com,$app_name
+  - DOMAIN-SUFFIX,tiktokcdn-us.com,$app_name
+  - DOMAIN-SUFFIX,tiktokd.org,$app_name
+  - DOMAIN-SUFFIX,tiktokw.us,$app_name
+  - DOMAIN-SUFFIX,tiktok.org,$app_name
+  - DOMAIN-SUFFIX,musical.ly,$app_name
+  - DOMAIN-SUFFIX,muscdn.com,$app_name
+  - DOMAIN-SUFFIX,bytedance.com,$app_name
+  - DOMAIN-SUFFIX,bytecdn.cn,$app_name
+  - DOMAIN-SUFFIX,bytedance.map.fastly.net,$app_name
+  - DOMAIN-SUFFIX,byteoversea.com,$app_name
+  - DOMAIN-SUFFIX,byteimg.com,$app_name
+  - DOMAIN-SUFFIX,ibytedtos.com,$app_name
+  - DOMAIN-SUFFIX,ibyteimg.com,$app_name
+  - DOMAIN-SUFFIX,ipstatp.com,$app_name
+  - DOMAIN-SUFFIX,pstatp.com,$app_name
+  - DOMAIN-SUFFIX,sgsnssdk.com,$app_name
+  - DOMAIN-SUFFIX,snssdk.com,$app_name
+  - DOMAIN-SUFFIX,ttoversea.net,$app_name
+  - DOMAIN-SUFFIX,lf1-cdn-tos.bytegoofy.com,$app_name
+  - DOMAIN-KEYWORD,tiktok,$app_name
+  - DOMAIN-KEYWORD,bytedance,$app_name
+  - DOMAIN-KEYWORD,musically,$app_name
+  # TikTok IP ranges
+  - IP-CIDR,161.117.0.0/16,$app_name,no-resolve
+  - IP-CIDR,152.199.0.0/16,$app_name,no-resolve
+
+  # WhatsApp — Complete (domains + voice/video IPs)
+  - DOMAIN-SUFFIX,whatsapp.com,$app_name
+  - DOMAIN-SUFFIX,whatsapp.net,$app_name
+  - DOMAIN-SUFFIX,waba.whatsapp.net,$app_name
+  - DOMAIN-SUFFIX,wa.me,$app_name
+  - DOMAIN-KEYWORD,whatsapp,$app_name
+  # WhatsApp voice/video IP ranges (Meta ASN)
+  - IP-CIDR,18.194.0.0/15,$app_name,no-resolve
+  - IP-CIDR,34.0.0.0/15,$app_name,no-resolve
+  - IP-CIDR,50.22.198.0/24,$app_name,no-resolve
+  - IP-CIDR,157.240.0.0/16,$app_name,no-resolve
+  - IP-CIDR,185.60.216.0/22,$app_name,no-resolve
+  - IP-CIDR,31.13.24.0/21,$app_name,no-resolve
+  - IP-CIDR,31.13.64.0/18,$app_name,no-resolve
+  - IP-CIDR,179.60.192.0/22,$app_name,no-resolve
+
+  # Facebook + Instagram — Complete (CDN + media + API)
+  - DOMAIN-SUFFIX,facebook.com,$app_name
+  - DOMAIN-SUFFIX,facebook.net,$app_name
+  - DOMAIN-SUFFIX,fbcdn.net,$app_name
+  - DOMAIN-SUFFIX,fbsbx.com,$app_name
+  - DOMAIN-SUFFIX,fb.com,$app_name
+  - DOMAIN-SUFFIX,fb.me,$app_name
+  - DOMAIN-SUFFIX,fbaddins.com,$app_name
+  - DOMAIN-SUFFIX,fbworkmail.com,$app_name
+  - DOMAIN-SUFFIX,fbpigeon.com,$app_name
+  - DOMAIN-SUFFIX,instagram.com,$app_name
+  - DOMAIN-SUFFIX,cdninstagram.com,$app_name
+  - DOMAIN-SUFFIX,accountkit.com,$app_name
+  - DOMAIN-SUFFIX,facebookcorewwwi.onion,$app_name
+  - DOMAIN-SUFFIX,oculus.com,$app_name
+  - DOMAIN-SUFFIX,oculuscdn.com,$app_name
+  - DOMAIN-SUFFIX,threads.net,$app_name
+  - DOMAIN-KEYWORD,facebook,$app_name
+  - DOMAIN-KEYWORD,instagram,$app_name
+  # Facebook/Meta IP ranges
+  - IP-CIDR,102.132.96.0/20,$app_name,no-resolve
+  - IP-CIDR,129.134.0.0/16,$app_name,no-resolve
+  - IP-CIDR,157.240.0.0/16,$app_name,no-resolve
+  - IP-CIDR,163.70.128.0/17,$app_name,no-resolve
+  - IP-CIDR,185.60.216.0/22,$app_name,no-resolve
+  - IP-CIDR,31.13.24.0/21,$app_name,no-resolve
+  - IP-CIDR,31.13.64.0/18,$app_name,no-resolve
+  - IP-CIDR,66.220.144.0/20,$app_name,no-resolve
+  - IP-CIDR,69.63.176.0/20,$app_name,no-resolve
+  - IP-CIDR,69.171.224.0/19,$app_name,no-resolve
+  - IP-CIDR,74.119.76.0/22,$app_name,no-resolve
+  - IP-CIDR,173.252.64.0/18,$app_name,no-resolve
+  - IP-CIDR,204.15.20.0/22,$app_name,no-resolve
+  - IP-CIDR6,2a03:2880::/32,$app_name,no-resolve
+  - IP-CIDR6,2620:0:1c00::/40,$app_name,no-resolve
+
   # Telegram
   - DOMAIN-SUFFIX,telegra.ph,$app_name
   - DOMAIN-SUFFIX,telegram.org,$app_name
@@ -594,3 +674,4 @@ rules:
   # 最终规则
   - GEOIP,CN,DIRECT
   - MATCH,$app_name
+
