@@ -122,7 +122,7 @@ class UniProxyController extends Controller
         return response()->json(['alive' => (object)$alive]);
     }
 
-    // 后端提交在线数据
+    // 后端提交在线数据 — Always count unique IPs across all nodes
     public function alive(Request $request)
     {
         $data = $request->json()->all();
@@ -130,40 +130,52 @@ class UniProxyController extends Controller
             $data = $_POST;
         }
         if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-            // JSON decoding error
-            return response([
-                'error' => 'Invalid online data'
-            ], 400);
+            return response(['error' => 'Invalid online data'], 400);
         }
         $updateAt = time();
+        $staleTimeout = (int)config('v2board.server_push_interval', 60) + 10; // push_interval + buffer
+
         foreach ($data as $uid => $ips) {
             $ips_array = Cache::get('ALIVE_IP_USER_' . $uid) ?? [];
-            // 更新节点数据
-            $ips_array[$this->nodeType . $this->nodeId] = ['aliveips' => $ips, 'lastupdateAt' => $updateAt];
-            // 清理过期数据
+
+            // Update this node's data
+            $ips_array[$this->nodeType . $this->nodeId] = [
+                'aliveips' => $ips,
+                'lastupdateAt' => $updateAt
+            ];
+
+            // Clean stale node data (node stopped reporting = user disconnected)
             foreach ($ips_array as $nodetypeid => $oldips) {
-                if (!is_int($oldips) && ($updateAt - $oldips['lastupdateAt'] > 100)) {
+                if ($nodetypeid === 'alive_ip') continue;
+                if (!is_array($oldips) || !isset($oldips['lastupdateAt'])) {
+                    unset($ips_array[$nodetypeid]);
+                    continue;
+                }
+                if (($updateAt - $oldips['lastupdateAt']) > $staleTimeout) {
                     unset($ips_array[$nodetypeid]);
                 }
             }
-            // Always count unique IPs across all nodes
+
+            // Always count unique IPs (deduplicate across all nodes)
             $ipmap = [];
             foreach ($ips_array as $nodetypeid => $newdata) {
-                if (!is_int($newdata) && isset($newdata['aliveips'])) {
+                if ($nodetypeid === 'alive_ip') continue;
+                if (is_array($newdata) && isset($newdata['aliveips'])) {
                     foreach ($newdata['aliveips'] as $ip_NodeId) {
+                        // Format: "117.183.156.29_v2node79" → extract IP only
                         $ip = explode("_", $ip_NodeId)[0];
-                        $ipmap[$ip] = 1;
+                        if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                            $ipmap[$ip] = 1;
+                        }
                     }
                 }
             }
-            $count = count($ipmap);
-            $ips_array['alive_ip'] = $count;
-            Cache::put('ALIVE_IP_USER_' . $uid, $ips_array, 120);
+
+            $ips_array['alive_ip'] = count($ipmap);
+            Cache::put('ALIVE_IP_USER_' . $uid, $ips_array, $staleTimeout + 30);
         }
 
-        return response([
-            'data' => true
-        ]);
+        return response(['data' => true]);
     }
 
     // 后端获取配置
