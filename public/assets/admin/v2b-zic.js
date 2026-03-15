@@ -193,7 +193,7 @@
     newTab.style.cursor = 'pointer';
     tabContainer.appendChild(newTab);
 
-    // Create content panel — matching native form-item style like Telegram tab
+    // Create content panel — matching native ant-form-item style like Telegram tab
     var contentArea = document.querySelector('.ant-tabs-content');
     if (!contentArea) contentArea = document.querySelector('.ant-tabs');
 
@@ -203,34 +203,41 @@
     tnetzPanel.id = 'tnetz-config-panel';
     tnetzPanel.style.cssText = 'display:none;';
     tnetzPanel.innerHTML =
-      // Row 1: SNI List textarea
-      '<div style="display:flex;align-items:flex-start;padding:24px 0;border-bottom:1px solid #f0f0f0;">' +
-        '<div style="flex:0 0 45%;padding-right:24px;">' +
-          '<div style="font-weight:600;font-size:14px;color:rgba(0,0,0,0.85);">Danh sách SNI</div>' +
-          '<div style="font-size:13px;color:rgba(0,0,0,0.45);margin-top:4px;">Mỗi dòng là 1 SNI. Định dạng: Tên|Giá trị</div>' +
+      // Row 1: SNI List textarea — using native ant-form-item layout
+      '<div class="ant-form-item">' +
+        '<div class="ant-form-item-label" style="flex:0 0 200px;text-align:right;padding-right:16px;padding-top:8px;">' +
+          '<label title="Danh sách SNI">Danh sách SNI</label>' +
         '</div>' +
+        '<div class="ant-form-item-control-wrapper" style="flex:1;">' +
+          '<div class="ant-form-item-control">' +
+            '<textarea id="tnetz-sni-textarea" rows="5" class="ant-input" style="font-family:monospace;font-size:13px;resize:vertical;" placeholder="Viettel|dl.viettel.vn&#10;MobiFone|gg.gg.vn&#10;VinaPhone|zalo.vn"></textarea>' +
+            '<div class="ant-form-extra" style="color:rgba(0,0,0,0.45);font-size:12px;margin-top:4px;">Mỗi dòng là 1 SNI. Định dạng: Tên|Giá trị</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      // Row 2: Subscribe info toggles — native ant-form-item layout
+      '<div class="ant-form-item">' +
+        '<div class="ant-form-item-label" style="flex:0 0 200px;text-align:right;padding-right:16px;padding-top:4px;">' +
+          '<label title="Hiển thị trên subscribe">Hiển thị trên subscribe</label>' +
+        '</div>' +
+        '<div class="ant-form-item-control-wrapper" style="flex:1;">' +
+          '<div class="ant-form-item-control" style="display:flex;flex-wrap:wrap;gap:4px 20px;padding-top:6px;">' +
+            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_user_id" checked style="width:15px;height:15px;accent-color:#1890ff;"> ID</label>' +
+            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_plan" checked style="width:15px;height:15px;accent-color:#1890ff;"> Gói</label>' +
+            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_data" checked style="width:15px;height:15px;accent-color:#1890ff;"> Còn (data)</label>' +
+            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_reset" checked style="width:15px;height:15px;accent-color:#1890ff;"> Làm mới</label>' +
+            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_expiry" checked style="width:15px;height:15px;accent-color:#1890ff;"> Hạn</label>' +
+          '</div>' +
+          '<div class="ant-form-extra" style="color:rgba(0,0,0,0.45);font-size:12px;margin-top:4px;">Bật/tắt thông tin hiện trên link subscribe (web mẹ). Web con có config riêng.</div>' +
+        '</div>' +
+      '</div>' +
+      // Save button row — matching native form submit style
+      '<div class="ant-form-item" style="margin-bottom:0;">' +
+        '<div style="flex:0 0 200px;"></div>' +
         '<div style="flex:1;">' +
-          '<textarea id="tnetz-sni-textarea" rows="6" style="width:100%;padding:8px 12px;border:1px solid #d9d9d9;border-radius:4px;font-family:monospace;font-size:13px;resize:vertical;transition:border-color 0.3s;" placeholder="Viettel|dl.viettel.vn&#10;MobiFone|gg.gg.vn&#10;VinaPhone|zalo.vn"></textarea>' +
+          '<button id="tnetz-sni-save" class="ant-btn ant-btn-primary">Lưu</button>' +
+          '<span id="tnetz-sni-status" style="margin-left:12px;color:#52c41a;font-size:13px;"></span>' +
         '</div>' +
-      '</div>' +
-      // Row 2: Subscribe info toggles (web mẹ)
-      '<div style="display:flex;align-items:flex-start;padding:24px 0;border-bottom:1px solid #f0f0f0;">' +
-        '<div style="flex:0 0 45%;padding-right:24px;">' +
-          '<div style="font-weight:600;font-size:14px;color:rgba(0,0,0,0.85);">Hiển thị trên link đăng ký</div>' +
-          '<div style="font-size:13px;color:rgba(0,0,0,0.45);margin-top:4px;">Bật/tắt thông tin hiện trên link subscribe (web mẹ). Web con có config riêng.</div>' +
-        '</div>' +
-        '<div style="flex:1;display:flex;flex-wrap:wrap;gap:8px 24px;">' +
-          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_user_id" checked style="width:16px;height:16px;accent-color:#1890ff;"> ID</label>' +
-          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_plan" checked style="width:16px;height:16px;accent-color:#1890ff;"> Gói</label>' +
-          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_data" checked style="width:16px;height:16px;accent-color:#1890ff;"> Còn (data)</label>' +
-          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_reset" checked style="width:16px;height:16px;accent-color:#1890ff;"> Làm mới</label>' +
-          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_expiry" checked style="width:16px;height:16px;accent-color:#1890ff;"> Hạn</label>' +
-        '</div>' +
-      '</div>' +
-      // Save button row — matching native umi.js style
-      '<div style="padding:24px 0;text-align:right;">' +
-        '<button id="tnetz-sni-save" class="ant-btn ant-btn-primary" style="padding:4px 24px;height:32px;border-radius:4px;background:#1890ff;border:1px solid #1890ff;color:#fff;cursor:pointer;font-size:14px;">Lưu</button>' +
-        '<span id="tnetz-sni-status" style="margin-left:12px;color:#52c41a;font-size:13px;"></span>' +
       '</div>';
     contentArea.parentNode.insertBefore(tnetzPanel, contentArea.nextSibling);
 
@@ -331,12 +338,9 @@
   }
 
   // ========== EXTRA FIELDS IN PLAN EDIT FORM ==========
-  var planFieldsInjected = false;
-
   function injectPlanExtraFields() {
-    if (planFieldsInjected) return;
     if (!window.location.hash.includes('/plan')) return;
-    if (document.getElementById('tnetz-plan-extra-fields')) { planFieldsInjected = true; return; }
+    if (document.getElementById('tnetz-plan-extra-fields')) return;
 
     // Find plan form by detecting form-group with labels specific to plan page
     // The plan form has labels: 套餐流量 (Lưu lượng gói), 设备数限制, 权限组
@@ -429,8 +433,6 @@
         }
       }).catch(() => {});
     }
-
-    planFieldsInjected = true;
   }
 
   // ========== GLOBAL DELEGATED SAVE HOOK ==========
@@ -473,7 +475,12 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('authorization') || '' },
           body: JSON.stringify(body)
-        }).catch(() => {});
+        }).then(r => r.json()).then(d => {
+          if (!d.data) console.error('[TNETZ] saveExtra failed:', d.message);
+        }).catch(e => {
+          console.error('[TNETZ] saveExtra error:', e.message);
+          alert('❌ Lưu giá mua thêm thất bại. Kiểm tra lại database đã chạy migration chưa.');
+        });
       }, 500);
     });
   }
@@ -691,7 +698,7 @@
   observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['placeholder'] });
 
   // Reset tab injection on hash change
-  window.addEventListener('hashchange', () => { tnetzTabInjected = false; planFieldsInjected = false; webconTogglesInjected = false; orderCouponCache = {}; });
+  window.addEventListener('hashchange', () => { tnetzTabInjected = false; webconTogglesInjected = false; orderCouponCache = {}; });
 
   setInterval(() => { translatePlaceholders(); translateSelectOptions(); translateMessages(); }, 800);
 })();
