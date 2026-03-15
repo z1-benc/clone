@@ -203,41 +203,34 @@
     tnetzPanel.id = 'tnetz-config-panel';
     tnetzPanel.style.cssText = 'display:none;';
     tnetzPanel.innerHTML =
-      // Row 1: SNI List textarea — using native ant-form-item layout
-      '<div class="ant-form-item">' +
-        '<div class="ant-form-item-label" style="flex:0 0 200px;text-align:right;padding-right:16px;padding-top:8px;">' +
-          '<label title="Danh sách SNI">Danh sách SNI</label>' +
+      // Row 1: SNI List — native config style
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 0;border-bottom:1px solid #f0f0f0;">' +
+        '<div style="flex:1;padding-right:40px;">' +
+          '<div style="font-weight:600;font-size:14px;color:rgba(0,0,0,0.85);">Danh sách SNI</div>' +
+          '<div style="font-size:13px;color:rgba(0,0,0,0.45);margin-top:4px;">Mỗi dòng là 1 SNI. Định dạng: Tên|Giá trị. Dùng để set SNI cho user trong trang quản lý.</div>' +
         '</div>' +
-        '<div class="ant-form-item-control-wrapper" style="flex:1;">' +
-          '<div class="ant-form-item-control">' +
-            '<textarea id="tnetz-sni-textarea" rows="5" class="ant-input" style="font-family:monospace;font-size:13px;resize:vertical;" placeholder="Viettel|dl.viettel.vn&#10;MobiFone|gg.gg.vn&#10;VinaPhone|zalo.vn"></textarea>' +
-            '<div class="ant-form-extra" style="color:rgba(0,0,0,0.45);font-size:12px;margin-top:4px;">Mỗi dòng là 1 SNI. Định dạng: Tên|Giá trị</div>' +
-          '</div>' +
+        '<div style="flex:0 0 400px;">' +
+          '<textarea id="tnetz-sni-textarea" rows="4" class="ant-input" style="font-family:monospace;font-size:13px;resize:vertical;" placeholder="Viettel|dl.viettel.vn&#10;MobiFone|gg.gg.vn&#10;VinaPhone|zalo.vn"></textarea>' +
         '</div>' +
       '</div>' +
-      // Row 2: Subscribe info toggles — native ant-form-item layout
-      '<div class="ant-form-item">' +
-        '<div class="ant-form-item-label" style="flex:0 0 200px;text-align:right;padding-right:16px;padding-top:4px;">' +
-          '<label title="Hiển thị trên subscribe">Hiển thị trên subscribe</label>' +
+      // Row 2: Subscribe info toggles — native config style
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 0;border-bottom:1px solid #f0f0f0;">' +
+        '<div style="flex:1;padding-right:40px;">' +
+          '<div style="font-weight:600;font-size:14px;color:rgba(0,0,0,0.85);">Hiển thị trên link đăng ký</div>' +
+          '<div style="font-size:13px;color:rgba(0,0,0,0.45);margin-top:4px;">Bật/tắt thông tin hiện trên link subscribe (web mẹ). Web con có config riêng.</div>' +
         '</div>' +
-        '<div class="ant-form-item-control-wrapper" style="flex:1;">' +
-          '<div class="ant-form-item-control" style="display:flex;flex-wrap:wrap;gap:4px 20px;padding-top:6px;">' +
-            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_user_id" checked style="width:15px;height:15px;accent-color:#1890ff;"> ID</label>' +
-            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_plan" checked style="width:15px;height:15px;accent-color:#1890ff;"> Gói</label>' +
-            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_data" checked style="width:15px;height:15px;accent-color:#1890ff;"> Còn (data)</label>' +
-            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_reset" checked style="width:15px;height:15px;accent-color:#1890ff;"> Làm mới</label>' +
-            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_expiry" checked style="width:15px;height:15px;accent-color:#1890ff;"> Hạn</label>' +
-          '</div>' +
-          '<div class="ant-form-extra" style="color:rgba(0,0,0,0.45);font-size:12px;margin-top:4px;">Bật/tắt thông tin hiện trên link subscribe (web mẹ). Web con có config riêng.</div>' +
+        '<div style="flex:0 0 400px;display:flex;flex-wrap:wrap;gap:8px 20px;padding-top:4px;">' +
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_user_id" checked style="width:15px;height:15px;accent-color:#1890ff;"> ID</label>' +
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_plan" checked style="width:15px;height:15px;accent-color:#1890ff;"> Gói</label>' +
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_data" checked style="width:15px;height:15px;accent-color:#1890ff;"> Còn (data)</label>' +
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_reset" checked style="width:15px;height:15px;accent-color:#1890ff;"> Làm mới</label>' +
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_expiry" checked style="width:15px;height:15px;accent-color:#1890ff;"> Hạn</label>' +
         '</div>' +
       '</div>' +
-      // Save button row — matching native form submit style
-      '<div class="ant-form-item" style="margin-bottom:0;">' +
-        '<div style="flex:0 0 200px;"></div>' +
-        '<div style="flex:1;">' +
-          '<button id="tnetz-sni-save" class="ant-btn ant-btn-primary">Lưu</button>' +
-          '<span id="tnetz-sni-status" style="margin-left:12px;color:#52c41a;font-size:13px;"></span>' +
-        '</div>' +
+      // Save button row
+      '<div style="padding:24px 0;">' +
+        '<button id="tnetz-sni-save" class="ant-btn ant-btn-primary">Lưu</button>' +
+        '<span id="tnetz-sni-status" style="margin-left:12px;color:#52c41a;font-size:13px;"></span>' +
       '</div>';
     contentArea.parentNode.insertBefore(tnetzPanel, contentArea.nextSibling);
 
