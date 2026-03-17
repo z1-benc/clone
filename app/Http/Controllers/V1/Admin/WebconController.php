@@ -60,8 +60,10 @@ class WebconController extends Controller
             'custom_html',
             'path',
         ]);
-        $planIds = $request->input('plan_ids', []);
-        $data['plan_id'] = array_map('intval', (array)$planIds);
+        if ($request->has('plan_ids')) {
+            $planIds = $request->input('plan_ids', []);
+            $data['plan_id'] = array_map('intval', (array)$planIds);
+        }
 
         // Subscribe info config (which fields to show)
         $subscribeInfoConfig = $request->input('subscribe_info_config');
