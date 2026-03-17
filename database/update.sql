@@ -882,3 +882,7 @@ ALTER TABLE `v2_staff`
     ADD `subscribe_info_config` JSON NULL AFTER `plan_id`,
     ADD `path` varchar(255) NULL AFTER `subscribe_info_config`;
 
+-- v2b-zic custom: Plan SNI override
+ALTER TABLE `v2_plan`
+    ADD `plan_sni` varchar(255) NULL COMMENT 'SNI theo gói - để trống thì dùng SNI theo nút' AFTER `capacity_limit`;
+

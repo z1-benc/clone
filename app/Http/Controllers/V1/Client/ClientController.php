@@ -26,6 +26,13 @@ class ClientController extends Controller
         if ($custom_sni === null && isset($user['network_settings'])) {
             $custom_sni = $user['network_settings'] ?? null;
         }
+        // Plan SNI override — nếu gói có set SNI thì dùng SNI của gói
+        if (isset($user['plan_id']) && $user['plan_id']) {
+            $userPlan = Plan::find($user['plan_id']);
+            if ($userPlan && !empty($userPlan->plan_sni)) {
+                $custom_sni = $userPlan->plan_sni;
+            }
+        }
 
         $userService = new UserService();
         if ($userService->isAvailable($user)) {

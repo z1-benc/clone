@@ -217,6 +217,7 @@ CREATE TABLE `v2_plan` (
                            `reset_price` int(11) DEFAULT NULL,
                            `reset_traffic_method` tinyint(1) DEFAULT NULL,
                            `capacity_limit` int(11) DEFAULT NULL,
+                           `plan_sni` varchar(255) DEFAULT NULL COMMENT 'SNI theo gói - để trống thì dùng SNI theo nút',
                            `created_at` int(11) NOT NULL,
                            `updated_at` int(11) NOT NULL,
                            PRIMARY KEY (`id`)

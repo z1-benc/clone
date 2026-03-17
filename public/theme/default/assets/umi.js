@@ -17933,7 +17933,7 @@
                             className: "py-2"
                         }, a.a.createElement("p", {
                             className: "h1 mb-2"
-                        }, t.currency_symbol, " ", (n.price / 100).toFixed(2)), a.a.createElement("p", {
+                        }, Math.round(n.price / 100), " ", t.currency_symbol), a.a.createElement("p", {
                             className: "h6 text-muted"
                         }, n.tag))), a.a.createElement("div", {
                             className: "block-content py-3"
@@ -19061,13 +19061,13 @@
                     id: "\u5145\u503c\u5956\u52b1"
                 }), f.a.createElement("div", {
                     className: "text-right"
-                }, g.currency_symbol, (t.bounus / 100).toFixed(2)))), t.plan.id == 0 && f.a.createElement("div", null, f.a.createElement("div", {
+                }, Math.round(t.bounus / 100), " ", g.currency_symbol))), t.plan.id == 0 && f.a.createElement("div", null, f.a.createElement("div", {
                     className: "pt-3"
                 }, Object(b["formatMessage"])({
                     id: "\u5b9e\u9645\u5230\u8d26"
                 }),f.a.createElement("div", {
                     className: "text-right"
-                }, g.currency_symbol, (t.get_amount / 100).toFixed(2))), f.a.createElement("div", {
+                }, Math.round(t.get_amount / 100), " ", g.currency_symbol)), f.a.createElement("div", {
                     className: "row no-gutters py-3",
                     style: {
                         borderBottom: "1px solid #646669"
@@ -19081,7 +19081,7 @@
                     className: "col-8"
                 }, t.plan.name, " x ", h["a"].periodText[t.period] && h["a"].periodText[t.period]()), f.a.createElement("div", {
                     className: "col-4 text-right"
-                }, g.currency_symbol, (t.plan[t.period] / 100).toFixed(2))), t.discount_amount ? f.a.createElement("div", null, f.a.createElement("div", {
+                }, Math.round(t.plan[t.period] / 100), " ", g.currency_symbol)), t.discount_amount ? f.a.createElement("div", null, f.a.createElement("div", {
                     className: "pt-3",
                     style: {
                         color: "#646669"
@@ -19097,7 +19097,7 @@
                     className: "col-8"
                 }), f.a.createElement("div", {
                     className: "col-4 text-right"
-                }, g.currency_symbol, (t.discount_amount / 100).toFixed(2)))) : "", t.surplus_amount ? f.a.createElement("div", null, f.a.createElement("div", {
+                }, Math.round(t.discount_amount / 100), " ", g.currency_symbol))) : "", t.surplus_amount ? f.a.createElement("div", null, f.a.createElement("div", {
                     className: "pt-3",
                     style: {
                         color: "#646669"
@@ -19113,7 +19113,7 @@
                     className: "col-8"
                 }), f.a.createElement("div", {
                     className: "col-4 text-right"
-                }, g.currency_symbol, (t.surplus_amount / 100).toFixed(2)))) : "", t.refund_amount ? f.a.createElement("div", null, f.a.createElement("div", {
+                }, Math.round(t.surplus_amount / 100), " ", g.currency_symbol))) : "", t.refund_amount ? f.a.createElement("div", null, f.a.createElement("div", {
                     className: "pt-3",
                     style: {
                         color: "#646669"
@@ -19129,7 +19129,7 @@
                     className: "col-8"
                 }), f.a.createElement("div", {
                     className: "col-4 text-right"
-                }, "- ", g.currency_symbol, (t.refund_amount / 100).toFixed(2)))) : "", t.pre_handling_amount ? f.a.createElement("div", null, f.a.createElement("div", {
+                }, "- ", Math.round(t.refund_amount / 100), " ", g.currency_symbol))) : "", t.pre_handling_amount ? f.a.createElement("div", null, f.a.createElement("div", {
                     className: "pt-3",
                     style: {
                         color: "#646669"
@@ -19154,7 +19154,7 @@
                     id: "\u603b\u8ba1"
                 })), f.a.createElement("h1", {
                     className: "text-light mt-3 mb-3"
-                }, g.currency_symbol, " ", ((t.total_amount + (t.pre_handling_amount || 0)) / 100).toFixed(2), " ", g.currency), f.a.createElement("button", {
+                }, Math.round((t.total_amount + (t.pre_handling_amount || 0)) / 100), " ", g.currency_symbol), f.a.createElement("button", {
                     type: "button",
                     className: "btn btn-block btn-primary",
                     disabled: d || "StripeCredit" === E.payment && !w.token,
@@ -32927,7 +32927,7 @@
                         className: "col-8"
                     }, e.name), f.a.createElement("div", {
                         className: "col-4 text-right"
-                    }, "-", o.currency_symbol, (this.couponProcess(r[n], e.type, e.value) / 100).toFixed(2))))
+                    }, "-", Math.round(this.couponProcess(r[n], e.type, e.value) / 100), " ", o.currency_symbol)))
             }
             render() {
                 var e = this.props.plan
@@ -33031,7 +33031,7 @@
                             }
                         }, f.a.createElement("span", {
                             className: "price"
-                        }, d.currency_symbol, (t[e] / 100).toFixed(2)))) : void 0
+                        }, Math.round(t[e] / 100), " ", d.currency_symbol))) : void 0
                 }
                 )))), f.a.createElement("div", {
                     className: "col-md-4 col-sm-12"
@@ -33078,7 +33078,7 @@
                     className: "col-8"
                 }, t.name, " x ", h["a"].periodText[n] && h["a"].periodText[n]()), f.a.createElement("div", {
                     className: "col-4 text-right"
-                }, d.currency_symbol, (t[n] / 100).toFixed(2))), this.getCouponJSX(), f.a.createElement("div", {
+                }, Math.round(t[n] / 100), " ", d.currency_symbol)), this.getCouponJSX(), f.a.createElement("div", {
                     className: "pt-3",
                     style: {
                         color: "#646669"
@@ -50682,7 +50682,7 @@
                         flex: 1,
                         textAlign: "right"
                     }
-                }, void 0 !== t[2] ? "".concat(g.currency_symbol, " ").concat(t[2] / 100) : d.a.createElement(l["a"], {
+                }, void 0 !== t[2] ? "".concat(Math.round(t[2] / 100), " ", g.currency_symbol) : d.a.createElement(l["a"], {
                     type: "loading"
                 }))), d.a.createElement("div", {
                     style: {
@@ -50700,7 +50700,7 @@
                         flex: 1,
                         textAlign: "right"
                     }
-                }, void 0 !== t[1] ? "".concat(g.currency_symbol, " ").concat(t[1] / 100) : d.a.createElement(l["a"], {
+                }, void 0 !== t[1] ? "".concat(Math.round(t[1] / 100), " ", g.currency_symbol) : d.a.createElement(l["a"], {
                     type: "loading"
                 }))))))), d.a.createElement("div", {
                     className: "row mb-3 mb-md-0"
