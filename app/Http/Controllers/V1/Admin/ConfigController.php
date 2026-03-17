@@ -184,6 +184,7 @@ class ConfigController extends Controller
                 'singbox_dns_config' => config('v2board.singbox_dns_config', ''),
                 'singbox_outbound_config' => config('v2board.singbox_outbound_config', ''),
                 'subscribe_info_config' => config('v2board.subscribe_info_config', ''),
+                'subscribe_urls' => config('v2board.subscribe_urls', ''),
             ]
         ];
         if ($key && isset($data[$key])) {

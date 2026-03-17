@@ -142,6 +142,49 @@ class Helper
         }
     }
 
+    public static function getSubscribeUrls($token)
+    {
+        $result = [];
+        $path = config('v2board.subscribe_path', '/api/v1/client/subscribe');
+        if (empty($path)) {
+            $path = '/api/v1/client/subscribe';
+        }
+        $tokenPath = "{$path}?token={$token}";
+
+        // Add default subscribe_url first
+        $defaultUrl = config('v2board.subscribe_url');
+        if ($defaultUrl) {
+            $urls = explode(',', $defaultUrl);
+            $result[] = [
+                'name' => 'Mặc định',
+                'url' => trim($urls[0]) . $tokenPath
+            ];
+        } else {
+            $result[] = [
+                'name' => 'Mặc định',
+                'url' => url($tokenPath)
+            ];
+        }
+
+        // Add named region URLs
+        $subscribeUrls = config('v2board.subscribe_urls', '');
+        if ($subscribeUrls) {
+            $regions = is_array($subscribeUrls) ? $subscribeUrls : json_decode($subscribeUrls, true);
+            if (is_array($regions)) {
+                foreach ($regions as $region) {
+                    if (!empty($region['name']) && !empty($region['url'])) {
+                        $result[] = [
+                            'name' => $region['name'],
+                            'url' => rtrim($region['url'], '/') . $tokenPath
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
     public static function randomPort($range) {
         $portRange = explode('-', $range);
         return rand($portRange[0], $portRange[1]);

@@ -413,6 +413,7 @@ $telegramService->sendMessageWithAdmin($message);
         $user['alive_ip'] = $countalive;
 
         $user['subscribe_url'] = Helper::getSubscribeUrl($user['token']);
+        $user['subscribe_urls'] = Helper::getSubscribeUrls($user['token']);
 
         $userService = new UserService();
         $user['reset_day'] = $userService->getResetDay($user);

@@ -227,6 +227,17 @@
           '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_expiry" checked style="width:15px;height:15px;accent-color:#1890ff;"> Hạn</label>' +
         '</div>' +
       '</div>' +
+      // Row 3: Subscribe URLs
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 0;border-bottom:1px solid #f0f0f0;">' +
+        '<div style="flex:1;padding-right:40px;">' +
+          '<div style="font-weight:600;font-size:14px;color:rgba(0,0,0,0.85);">Đường dẫn đăng ký khu vực</div>' +
+          '<div style="font-size:13px;color:rgba(0,0,0,0.45);margin-top:4px;">Thêm URL đăng ký cho từng khu vực. Người dùng sẽ chọn khu vực khi xem link đăng ký.</div>' +
+        '</div>' +
+        '<div style="flex:0 0 500px;">' +
+          '<div id="tnetz-subscribe-urls-list"></div>' +
+          '<button id="tnetz-add-url" class="ant-btn" style="margin-top:8px;" type="button">+ Thêm khu vực</button>' +
+        '</div>' +
+      '</div>' +
       // Save button row
       '<div style="padding:24px 0;">' +
         '<button id="tnetz-sni-save" class="ant-btn ant-btn-primary">Lưu</button>' +
@@ -259,7 +270,26 @@
           if (cb && sic[k] !== undefined) cb.checked = sic[k] !== false;
         });
       }
+      // Load subscribe_urls
+      var su = (data.data.tnetz && data.data.tnetz.subscribe_urls) || data.data.subscribe_urls;
+      if (su) {
+        try { if (typeof su === 'string') su = JSON.parse(su); } catch(e) { su = []; }
+        if (Array.isArray(su)) su.forEach(function(item) { addUrlRow(item.name, item.url); });
+      }
     }).catch(() => {});
+
+    // Subscribe URLs dynamic rows
+    function addUrlRow(name, url) {
+      var list = document.getElementById('tnetz-subscribe-urls-list');
+      if (!list) return;
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;gap:8px;margin-bottom:8px;align-items:center;';
+      row.innerHTML = '<input type="text" class="ant-input tnetz-url-name" placeholder="Tên khu vực" value="' + (name||'').replace(/"/g,'&quot;') + '" style="width:160px;font-size:13px;">' +
+        '<input type="text" class="ant-input tnetz-url-value" placeholder="https://..." value="' + (url||'').replace(/"/g,'&quot;') + '" style="flex:1;font-size:13px;font-family:monospace;">' +
+        '<button class="ant-btn ant-btn-sm" type="button" style="color:#ff4d4f;border-color:#ff4d4f;" onclick="this.parentElement.remove()">✕</button>';
+      list.appendChild(row);
+    }
+    document.getElementById('tnetz-add-url').addEventListener('click', function() { addUrlRow('',''); });
 
     // Save button
     document.getElementById('tnetz-sni-save').addEventListener('click', () => {
@@ -280,7 +310,10 @@
             show_data: document.getElementById('tnetz-sys-show_data').checked,
             show_reset: document.getElementById('tnetz-sys-show_reset').checked,
             show_expiry: document.getElementById('tnetz-sys-show_expiry').checked
-          })
+          }),
+          subscribe_urls: JSON.stringify(Array.from(document.querySelectorAll('#tnetz-subscribe-urls-list > div')).map(function(row) {
+            return { name: row.querySelector('.tnetz-url-name').value.trim(), url: row.querySelector('.tnetz-url-value').value.trim() };
+          }).filter(function(item) { return item.name && item.url; }))
         })
       }).then(r => r.json()).then(d => {
         btn.textContent = 'Lưu';

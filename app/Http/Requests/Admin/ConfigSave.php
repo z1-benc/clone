@@ -116,6 +116,7 @@ class ConfigSave extends FormRequest
         'singbox_dns_config' => 'nullable|string',
         'singbox_outbound_config' => 'nullable|string',
         'subscribe_info_config' => 'nullable|string',
+        'subscribe_urls' => 'nullable|string',
     ];
     /**
      * Get the validation rules that apply to the request.
