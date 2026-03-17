@@ -56,6 +56,7 @@ proxy-groups:
 rules:
   # Block QUIC (UDP/443) — force TikTok/WhatsApp/Facebook to use TCP
   # QUIC qua proxy thường bị lỗi, buộc fallback TCP ổn định hơn
+  # Không block Zalo/WhatsApp STUN/TURN (UDP 3478-3481, 5004, 10000-60000)
   - AND,((NETWORK,UDP),(DST-PORT,443)),REJECT
 
   # 自定义规则
@@ -544,6 +545,36 @@ rules:
   - DOMAIN-SUFFIX,yoyo.org,$app_name
   - DOMAIN-SUFFIX,ytimg.com,$app_name
 
+  # ==========================================
+  # BLOCK DOUYIN / BYTEDANCE CHINA (chống detect SIM TQ)
+  # Phải đặt TRƯỚC rules TikTok để match trước
+  # ==========================================
+  - DOMAIN-SUFFIX,douyin.com,REJECT
+  - DOMAIN-SUFFIX,douyincdn.com,REJECT
+  - DOMAIN-SUFFIX,douyinpic.com,REJECT
+  - DOMAIN-SUFFIX,douyinstatic.com,REJECT
+  - DOMAIN-SUFFIX,douyinvod.com,REJECT
+  - DOMAIN-SUFFIX,amemv.com,REJECT
+  - DOMAIN-SUFFIX,zijieapi.com,REJECT
+  - DOMAIN-SUFFIX,zijieimg.com,REJECT
+  - DOMAIN-SUFFIX,zjbyte.com,REJECT
+  - DOMAIN-SUFFIX,zjcdn.com,REJECT
+  - DOMAIN-SUFFIX,byted.org,REJECT
+  - DOMAIN-SUFFIX,bytegecko.com,REJECT
+  - DOMAIN-SUFFIX,toutiao.com,REJECT
+  - DOMAIN-SUFFIX,toutiaoapi.com,REJECT
+  - DOMAIN-SUFFIX,toutiaocdn.com,REJECT
+  - DOMAIN-SUFFIX,toutiaocloud.com,REJECT
+  - DOMAIN-SUFFIX,toutiaoimg.com,REJECT
+  - DOMAIN-SUFFIX,ixigua.com,REJECT
+  - DOMAIN-SUFFIX,ixiguavideo.com,REJECT
+  - DOMAIN-SUFFIX,volccdn.com,REJECT
+  - DOMAIN-SUFFIX,volces.com,REJECT
+  - DOMAIN-SUFFIX,volcengine.com,REJECT
+  - DOMAIN-SUFFIX,bytednsdoc.com,REJECT
+  - DOMAIN-KEYWORD,douyin,REJECT
+  - DOMAIN-KEYWORD,arouter,REJECT
+
   # TikTok — Complete (domains + CDN + API + IP)
   - DOMAIN-SUFFIX,tiktok.com,$app_name
   - DOMAIN-SUFFIX,tiktokv.com,$app_name
@@ -589,6 +620,167 @@ rules:
   - IP-CIDR,31.13.24.0/21,$app_name,no-resolve
   - IP-CIDR,31.13.64.0/18,$app_name,no-resolve
   - IP-CIDR,179.60.192.0/22,$app_name,no-resolve
+  # WhatsApp STUN/TURN (voice/video call signaling)
+  - AND,((NETWORK,UDP),(DST-PORT,3478-3481)),$app_name
+  - AND,((NETWORK,UDP),(DST-PORT,5004)),$app_name
+
+  # Zalo — Proxy (khách ở nước ngoài cần VPN để kết nối server Zalo VN)
+  # Domains + CDN + API
+  - DOMAIN-SUFFIX,zalo.me,$app_name
+  - DOMAIN-SUFFIX,zalo.vn,$app_name
+  - DOMAIN-SUFFIX,zalopay.vn,$app_name
+  - DOMAIN-SUFFIX,zaloapp.com,$app_name
+  - DOMAIN-SUFFIX,zdn.vn,$app_name
+  - DOMAIN-SUFFIX,zimg.vn,$app_name
+  - DOMAIN-SUFFIX,zadn.vn,$app_name
+  - DOMAIN-SUFFIX,vcdn.com.vn,$app_name
+  - DOMAIN-KEYWORD,zalo,$app_name
+  - DOMAIN-KEYWORD,zadn,$app_name
+  # Zalo media server IP ranges (VNG infrastructure) — voice/video/group call
+  - IP-CIDR,103.56.156.0/22,$app_name,no-resolve
+  - IP-CIDR,103.56.160.0/22,$app_name,no-resolve
+  - IP-CIDR,103.200.20.0/22,$app_name,no-resolve
+  - IP-CIDR,103.31.180.0/22,$app_name,no-resolve
+  - IP-CIDR,113.20.108.0/22,$app_name,no-resolve
+  - IP-CIDR,113.161.68.0/22,$app_name,no-resolve
+  - IP-CIDR,123.30.178.0/24,$app_name,no-resolve
+  - IP-CIDR,125.212.192.0/18,$app_name,no-resolve
+  - IP-CIDR,14.225.0.0/16,$app_name,no-resolve
+  - IP-CIDR,171.244.0.0/14,$app_name,no-resolve
+
+  # ==========================================
+  # LIVESTREAMING PLATFORMS
+  # ==========================================
+
+  # Twitch
+  - DOMAIN-SUFFIX,twitch.tv,$app_name
+  - DOMAIN-SUFFIX,ttvnw.net,$app_name
+  - DOMAIN-SUFFIX,jtvnw.net,$app_name
+  - DOMAIN-SUFFIX,twitchcdn.net,$app_name
+  - DOMAIN-SUFFIX,twitchsvc.net,$app_name
+  - DOMAIN-KEYWORD,twitch,$app_name
+
+  # Bigo Live
+  - DOMAIN-SUFFIX,bigo.tv,$app_name
+  - DOMAIN-SUFFIX,bigolive.tv,$app_name
+  - DOMAIN-SUFFIX,bigovideo.tv,$app_name
+  - DOMAIN-SUFFIX,bigoimg.com,$app_name
+  - DOMAIN-KEYWORD,bigo,$app_name
+
+  # Shopee Live / Shopee Video
+  - DOMAIN-SUFFIX,shopee.vn,$app_name
+  - DOMAIN-SUFFIX,shopee.com,$app_name
+  - DOMAIN-SUFFIX,shopeemobile.com,$app_name
+  - DOMAIN-SUFFIX,shopeelivemedia.com,$app_name
+  - DOMAIN-KEYWORD,shopee,$app_name
+
+  # Nimo TV (game livestream phổ biến VN)
+  - DOMAIN-SUFFIX,nimo.tv,$app_name
+  - DOMAIN-SUFFIX,nimotv.com,$app_name
+  - DOMAIN-KEYWORD,nimo,$app_name
+
+  # Kick
+  - DOMAIN-SUFFIX,kick.com,$app_name
+  - DOMAIN-SUFFIX,kickcdn.com,$app_name
+
+  # General streaming CDNs
+  - DOMAIN-SUFFIX,akamaihd.net,$app_name
+  - DOMAIN-SUFFIX,livecdn.net,$app_name
+
+  # ==========================================
+  # GAMING PLATFORMS & GAMES
+  # ==========================================
+
+  # Steam
+  - DOMAIN-SUFFIX,steampowered.com,$app_name
+  - DOMAIN-SUFFIX,steamcommunity.com,$app_name
+  - DOMAIN-SUFFIX,steamstatic.com,$app_name
+  - DOMAIN-SUFFIX,steamusercontent.com,$app_name
+  - DOMAIN-SUFFIX,steamcontent.com,$app_name
+  - DOMAIN-SUFFIX,steamcdn-a.akamaihd.net,$app_name
+  - DOMAIN-KEYWORD,steam,$app_name
+  # Steam game traffic ports
+  - AND,((NETWORK,UDP),(DST-PORT,27000-27100)),$app_name
+
+  # Riot Games (LoL, Valorant, TFT, Wild Rift)
+  - DOMAIN-SUFFIX,riotgames.com,$app_name
+  - DOMAIN-SUFFIX,riotcdn.net,$app_name
+  - DOMAIN-SUFFIX,leagueoflegends.com,$app_name
+  - DOMAIN-SUFFIX,lol.garena.com,$app_name
+  - DOMAIN-SUFFIX,valorant.com,$app_name
+  - DOMAIN-SUFFIX,playvalorant.com,$app_name
+  - DOMAIN-KEYWORD,riotgames,$app_name
+  # Riot/Valorant game server ports
+  - AND,((NETWORK,UDP),(DST-PORT,7000-8500)),$app_name
+
+  # Garena (Liên Quân, Free Fire, LoL VN)
+  - DOMAIN-SUFFIX,garena.com,$app_name
+  - DOMAIN-SUFFIX,garena.vn,$app_name
+  - DOMAIN-SUFFIX,garenacdn.com,$app_name
+  - DOMAIN-SUFFIX,garenanow.com,$app_name
+  - DOMAIN-KEYWORD,garena,$app_name
+
+  # PUBG Mobile
+  - DOMAIN-SUFFIX,pubg.com,$app_name
+  - DOMAIN-SUFFIX,pubgmobile.com,$app_name
+  - DOMAIN-SUFFIX,tencentgames.com,$app_name
+  - DOMAIN-SUFFIX,proximabeta.com,$app_name
+  - DOMAIN-KEYWORD,pubg,$app_name
+  # PUBG game server ports
+  - AND,((NETWORK,UDP),(DST-PORT,7086-7995)),$app_name
+  - AND,((NETWORK,UDP),(DST-PORT,10012)),$app_name
+  - AND,((NETWORK,UDP),(DST-PORT,17500)),$app_name
+
+  # Free Fire (Garena)
+  - DOMAIN-SUFFIX,freefire.com,$app_name
+  - DOMAIN-SUFFIX,ff.garena.com,$app_name
+  - DOMAIN-KEYWORD,freefire,$app_name
+
+  # Mobile Legends: Bang Bang (MLBB)
+  - DOMAIN-SUFFIX,mobilelegends.com,$app_name
+  - DOMAIN-SUFFIX,moonton.com,$app_name
+  - DOMAIN-KEYWORD,mobilelegends,$app_name
+  - DOMAIN-KEYWORD,moonton,$app_name
+  # MLBB game ports
+  - AND,((NETWORK,UDP),(DST-PORT,5000-5221)),$app_name
+  - AND,((NETWORK,TCP),(DST-PORT,5000-5221)),$app_name
+
+  # Genshin Impact / Honkai (miHoYo/HoYoverse)
+  - DOMAIN-SUFFIX,mihoyo.com,$app_name
+  - DOMAIN-SUFFIX,hoyoverse.com,$app_name
+  - DOMAIN-SUFFIX,hoyolab.com,$app_name
+  - DOMAIN-SUFFIX,yuanshen.com,$app_name
+  - DOMAIN-KEYWORD,mihoyo,$app_name
+  - DOMAIN-KEYWORD,hoyoverse,$app_name
+
+  # Roblox
+  - DOMAIN-SUFFIX,roblox.com,$app_name
+  - DOMAIN-SUFFIX,rbxcdn.com,$app_name
+  - DOMAIN-SUFFIX,robloxlabs.com,$app_name
+  - DOMAIN-KEYWORD,roblox,$app_name
+  # Roblox game ports
+  - AND,((NETWORK,UDP),(DST-PORT,49152-65535),(DOMAIN-KEYWORD,roblox)),$app_name
+
+  # Epic Games / Fortnite
+  - DOMAIN-SUFFIX,epicgames.com,$app_name
+  - DOMAIN-SUFFIX,unrealengine.com,$app_name
+  - DOMAIN-SUFFIX,fortnite.com,$app_name
+  - DOMAIN-KEYWORD,epicgames,$app_name
+
+  # Discord (voice chat khi chơi game)
+  - DOMAIN-SUFFIX,discord.com,$app_name
+  - DOMAIN-SUFFIX,discordapp.com,$app_name
+  - DOMAIN-SUFFIX,discord.gg,$app_name
+  - DOMAIN-SUFFIX,discord.media,$app_name
+  - DOMAIN-SUFFIX,discordapp.net,$app_name
+  - DOMAIN-KEYWORD,discord,$app_name
+  # Discord voice UDP
+  - AND,((NETWORK,UDP),(DST-PORT,50000-65535),(DOMAIN-KEYWORD,discord)),$app_name
+
+  # Minecraft
+  - DOMAIN-SUFFIX,minecraft.net,$app_name
+  - DOMAIN-SUFFIX,mojang.com,$app_name
+  - DOMAIN-KEYWORD,minecraft,$app_name
 
   # Facebook + Instagram — Complete (CDN + media + API)
   - DOMAIN-SUFFIX,facebook.com,$app_name
