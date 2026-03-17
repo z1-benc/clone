@@ -251,7 +251,7 @@
       var val = (data.data.tnetz && data.data.tnetz.sni_list) || data.data.sni_list || '';
       ta.value = val;
       // Load subscribe_info_config toggles
-      var sic = data.data.subscribe_info_config;
+      var sic = (data.data.tnetz && data.data.tnetz.subscribe_info_config) || data.data.subscribe_info_config;
       if (sic) {
         try { if (typeof sic === 'string') sic = JSON.parse(sic); } catch(e) {}
         ['show_user_id','show_plan','show_data','show_reset','show_expiry'].forEach(k => {
