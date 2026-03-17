@@ -179,16 +179,11 @@ class ClientController extends Controller
         $host = request()->getHost();
         $staff = Staff::where('domain', $host)->where('status', 1)->first();
 
-        // 2. If no domain match, try match by user's plan_id
-        if (!$staff && $user && isset($user['plan_id']) && $user['plan_id']) {
-            $allStaff = Staff::where('status', 1)->get();
-            foreach ($allStaff as $s) {
-                $planIds = is_array($s->plan_id) ? $s->plan_id : json_decode($s->plan_id, true);
-                if ($planIds && in_array($user['plan_id'], $planIds)) {
-                    $staff = $s;
-                    break;
-                }
-            }
+        // 2. If no domain match, try match by user's invite_user_id (người mời)
+        if (!$staff && $user && isset($user['invite_user_id']) && $user['invite_user_id']) {
+            $staff = Staff::where('user_id', $user['invite_user_id'])
+                ->where('status', 1)
+                ->first();
         }
 
         if ($staff && $staff->subscribe_info_config) {
