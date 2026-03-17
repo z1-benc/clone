@@ -117,7 +117,7 @@ class ClientController extends Controller
             return;
 
         // Check per-staff subscribe info config
-        $infoConfig = $this->getStaffSubscribeInfoConfig();
+        $infoConfig = $this->getStaffSubscribeInfoConfig($user);
 
         $useTraffic = $user['u'] + $user['d'];
         $totalTraffic = $user['transfer_enable'];
@@ -163,7 +163,7 @@ class ClientController extends Controller
         }
     }
 
-    private function getStaffSubscribeInfoConfig()
+    private function getStaffSubscribeInfoConfig($user = null)
     {
         $defaults = [
             'show_user_id' => true,
@@ -173,8 +173,24 @@ class ClientController extends Controller
             'show_expiry' => true,
         ];
 
+        $staff = null;
+
+        // 1. Try match by domain
         $host = request()->getHost();
         $staff = Staff::where('domain', $host)->where('status', 1)->first();
+
+        // 2. If no domain match, try match by user's plan_id
+        if (!$staff && $user && isset($user['plan_id']) && $user['plan_id']) {
+            $allStaff = Staff::where('status', 1)->get();
+            foreach ($allStaff as $s) {
+                $planIds = is_array($s->plan_id) ? $s->plan_id : json_decode($s->plan_id, true);
+                if ($planIds && in_array($user['plan_id'], $planIds)) {
+                    $staff = $s;
+                    break;
+                }
+            }
+        }
+
         if ($staff && $staff->subscribe_info_config) {
             // Web con: use staff config
             $config = is_array($staff->subscribe_info_config)
