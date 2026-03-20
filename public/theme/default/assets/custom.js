@@ -1,6 +1,7 @@
 /**
  * TNETZ Premium Customer Portal — Custom JS
  * Multi-Region Subscribe URL Selector + Dashboard UI Enhancements
+ * v2.0 — Fixed auth, widget placement, and API call flood
  */
 (function() {
   'use strict';
@@ -103,7 +104,7 @@
     /* Region Widget on Dashboard */
     .tnetz-region-widget {
       background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 50%, #8b5cf6 100%);
-      border-radius: 16px; padding: 20px 24px; margin-bottom: 16px;
+      border-radius: 16px; padding: 20px 24px; margin: 16px 0;
       cursor: pointer; transition: all 0.25s ease; position: relative;
       overflow: hidden; box-shadow: 0 4px 20px rgba(99,102,241,0.2);
     }
@@ -138,57 +139,7 @@
     }
     .tnetz-region-widget:hover .tnetz-region-widget-arrow { transform: translateX(3px); }
 
-    /* Dashboard Welcome Banner Enhancement */
-    .tnetz-welcome-banner {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
-      border-radius: 20px; padding: 28px 32px; margin-bottom: 20px;
-      color: #fff; position: relative; overflow: hidden;
-      box-shadow: 0 8px 32px rgba(99,102,241,0.2);
-    }
-    .tnetz-welcome-banner::after {
-      content: ''; position: absolute; top: -40%; right: -10%; width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-    .tnetz-welcome-banner h2 {
-      font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 700;
-      margin: 0; letter-spacing: -0.02em; position: relative; z-index: 1;
-    }
-    .tnetz-welcome-banner p {
-      font-size: 13.5px; opacity: 0.85; margin: 6px 0 0;
-      position: relative; z-index: 1;
-    }
-
-    /* Quick stats row */
-    .tnetz-quick-stats {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px; margin-bottom: 20px;
-    }
-    .tnetz-stat-card {
-      background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
-      padding: 18px 20px; transition: all 0.2s ease;
-    }
-    .tnetz-stat-card:hover {
-      box-shadow: 0 4px 16px rgba(0,0,0,0.05); transform: translateY(-1px);
-    }
-    .tnetz-stat-label {
-      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
-      color: #94a3b8; text-transform: uppercase; letter-spacing: 0.04em;
-    }
-    .tnetz-stat-value {
-      font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800;
-      color: #0f172a; margin-top: 4px; letter-spacing: -0.02em;
-    }
-    .tnetz-stat-icon {
-      float: right; font-size: 28px; opacity: 0.15; margin-top: -4px;
-    }
-
     @media (max-width: 768px) {
-      .tnetz-welcome-banner { padding: 20px 22px; border-radius: 16px; }
-      .tnetz-welcome-banner h2 { font-size: 18px; }
-      .tnetz-quick-stats { grid-template-columns: 1fr 1fr; gap: 8px; }
-      .tnetz-stat-card { padding: 14px 16px; }
-      .tnetz-stat-value { font-size: 18px; }
       .tnetz-region-modal { padding: 20px 18px 18px; }
       .tnetz-region-widget { padding: 16px 20px; }
     }
@@ -217,9 +168,15 @@
   var overlayEl = null;
   var toastEl = null;
   var cachedUrls = null;
+  var widgetInjected = false;
 
   function getAuth() {
-    return localStorage.getItem('auth_data') || sessionStorage.getItem('auth_data') || '';
+    // umi.js stores auth in 'authorization' key
+    return localStorage.getItem('authorization') || sessionStorage.getItem('authorization') || '';
+  }
+
+  function isLoggedIn() {
+    return !!getAuth();
   }
 
   function showToast(msg) {
@@ -250,30 +207,45 @@
     }
   }
 
-  // ============ FETCH SUBSCRIBE URLS ============
+  // ============ FETCH SUBSCRIBE URLs ============
   function fetchAndShowRegion() {
+    if (!isLoggedIn()) {
+      showToast('⚠️ Vui lòng đăng nhập trước');
+      return;
+    }
     if (cachedUrls) {
-      showRegionSelector(cachedUrls);
+      handleUrls(cachedUrls);
       return;
     }
     fetch('/api/v1/user/getSubscribe', {
-      headers: { 'Authorization': getAuth() }
-    }).then(function(r) { return r.json(); })
-    .then(function(data) {
-      var urls = data.data && data.data.subscribe_urls;
-      if (urls && urls.length > 1) {
+      headers: { 'authorization': getAuth() }
+    }).then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function(data) {
+      if (data && data.data) {
+        var urls = data.data.subscribe_urls;
         cachedUrls = urls;
-        showRegionSelector(urls);
-      } else if (urls && urls.length === 1) {
-        copyText(urls[0].url);
+        handleUrls(urls, data.data.subscribe_url);
       } else {
-        var defaultUrl = data.data && data.data.subscribe_url;
-        if (defaultUrl) copyText(defaultUrl);
-        else showToast('⚠️ Chưa cấu hình URL đăng ký');
+        showToast('⚠️ Không lấy được thông tin đăng ký');
       }
-    }).catch(function() {
+    }).catch(function(err) {
+      console.error('TNETZ Region: ', err);
       showToast('❌ Lỗi tải danh sách khu vực');
     });
+  }
+
+  function handleUrls(urls, fallbackUrl) {
+    if (urls && urls.length > 1) {
+      showRegionSelector(urls);
+    } else if (urls && urls.length === 1) {
+      copyText(urls[0].url);
+    } else if (fallbackUrl) {
+      copyText(fallbackUrl);
+    } else {
+      showToast('⚠️ Chưa cấu hình URL đăng ký khu vực');
+    }
   }
 
   // ============ REGION SELECTOR MODAL ============
@@ -305,10 +277,9 @@
     urls.forEach(function(item, idx) {
       var card = document.createElement('div');
       card.className = 'tnetz-region-card' + (idx === 0 ? ' active' : '');
-      card.dataset.url = item.url;
       var icon = item.icon || getIcon(item.name);
       var domain = '';
-      try { domain = new URL(item.url.split('?')[0]).hostname; } catch(e) { domain = item.url.split('?')[0]; }
+      try { domain = new URL(item.url.split('?')[0]).hostname; } catch(e) { domain = item.url; }
       card.innerHTML =
         '<div class="tnetz-region-icon">' + icon + '</div>' +
         '<div class="tnetz-region-info">' +
@@ -341,56 +312,62 @@
 
   // ============ SUBSCRIBE BUTTON HOOK ============
   function hookSubscribeButtons() {
-    // Hook any subscribe link/copy buttons
-    var selectors = [
-      '.subsrcibe-for-link',
-      '[class*="subscribe"][class*="link"]',
-      '[class*="subscribe"][class*="copy"]',
-      'button[class*="copy"]'
-    ];
-    selectors.forEach(function(sel) {
-      try {
-        var items = document.querySelectorAll(sel);
-        items.forEach(function(item) {
-          if (item.dataset.tnetzHooked) return;
-          item.dataset.tnetzHooked = '1';
-          item.addEventListener('click', function(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            fetchAndShowRegion();
-          }, true);
-        });
-      } catch(ex) {}
+    if (!isLoggedIn()) return;
+
+    // Only hook the exact subscribe-for-link class (theme uses this)
+    var items = document.querySelectorAll('.subsrcibe-for-link');
+    items.forEach(function(item) {
+      if (item.dataset.tnetzHooked) return;
+      item.dataset.tnetzHooked = '1';
+      item.addEventListener('click', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        fetchAndShowRegion();
+      }, true);
     });
   }
 
   // ============ REGION WIDGET ON DASHBOARD ============
   function injectRegionWidget() {
-    if (document.getElementById('tnetz-region-widget')) return;
+    if (widgetInjected) return;
+    if (document.getElementById('tnetz-region-widget')) { widgetInjected = true; return; }
+    if (!isLoggedIn()) return;
 
-    // Find the subscribe URL display area or main content
-    var targets = [
-      '.block-content',
-      '.content.content-full',
-      '#root > div > div > div:last-child',
-      '.ant-layout-content',
-      'main',
-      '#root'
-    ];
-    var container = null;
-    for (var i = 0; i < targets.length; i++) {
-      container = document.querySelector(targets[i]);
-      if (container) break;
+    // Look for the subscribe URL area on the page
+    // The theme shows subscribe URL in an input or in a specific block
+    var subscribeInput = document.querySelector('input[readonly][value*="/api/v1/client/subscribe"]');
+    if (!subscribeInput) {
+      // Also try data-clipboard inputs
+      subscribeInput = document.querySelector('[data-clipboard-text*="/api/v1/client/subscribe"]');
     }
-    if (!container) return;
+    if (!subscribeInput) {
+      // Try finding by looking for text content containing "subscribe"
+      var allInputs = document.querySelectorAll('input[readonly]');
+      for (var i = 0; i < allInputs.length; i++) {
+        if (allInputs[i].value && allInputs[i].value.indexOf('subscribe') !== -1) {
+          subscribeInput = allInputs[i];
+          break;
+        }
+      }
+    }
 
-    // Check if there's already a subscribe URL shown on page
-    var subUrlElements = document.querySelectorAll('input[value*="/api/v1/client/subscribe"], [class*="subscribe_url"], [class*="subscribeUrl"]');
-    var insertTarget = null;
-    if (subUrlElements.length > 0) {
-      // Insert near the subscribe URL display
-      insertTarget = subUrlElements[0].closest('.ant-card, .block, .card, div[class*="card"]') || subUrlElements[0].parentElement;
+    // Find the parent block/card
+    var parentBlock = null;
+    if (subscribeInput) {
+      parentBlock = subscribeInput.closest('.block, .block-content, .card, .ant-card');
+      if (!parentBlock) parentBlock = subscribeInput.parentElement && subscribeInput.parentElement.parentElement;
     }
+
+    // If no subscribe area found, look for common content containers
+    if (!parentBlock) {
+      parentBlock = document.querySelector('.content.content-full') || 
+                    document.querySelector('.ant-layout-content') ||
+                    document.querySelector('#root > div');
+    }
+
+    if (!parentBlock) return;
+
+    widgetInjected = true;
 
     var widget = document.createElement('div');
     widget.id = 'tnetz-region-widget';
@@ -400,7 +377,7 @@
         '<div class="tnetz-region-widget-icon">🌍</div>' +
         '<div class="tnetz-region-widget-text">' +
           '<h3>Chọn khu vực đăng ký</h3>' +
-          '<p>Nhiều server khu vực khác nhau — chọn gần bạn nhất</p>' +
+          '<p>Nhiều server khu vực — bấm để chọn link phù hợp</p>' +
         '</div>' +
         '<div class="tnetz-region-widget-arrow">→</div>' +
       '</div>';
@@ -409,69 +386,40 @@
       fetchAndShowRegion();
     });
 
-    if (insertTarget) {
-      insertTarget.parentNode.insertBefore(widget, insertTarget.nextSibling);
+    // Insert after the subscribe block or at the top
+    if (subscribeInput && subscribeInput.closest('.block, .card, .ant-card')) {
+      var block = subscribeInput.closest('.block, .card, .ant-card');
+      block.parentNode.insertBefore(widget, block.nextSibling);
     } else {
-      // Insert at the top of first content area
-      var firstChild = container.firstElementChild;
+      var firstChild = parentBlock.firstElementChild;
       if (firstChild) {
-        container.insertBefore(widget, firstChild);
+        parentBlock.insertBefore(widget, firstChild.nextSibling || null);
       } else {
-        container.appendChild(widget);
+        parentBlock.appendChild(widget);
       }
     }
   }
 
-  // ============ DASHBOARD ENHANCEMENTS ============
-  function enhanceDashboard() {
-    // Only on dashboard page
-    if (window.location.pathname !== '/' && window.location.pathname !== '' && 
-        !window.location.hash.match(/#\/?$/)) return;
-
-    var content = document.querySelector('.content.content-full');
-    if (!content || content.dataset.tnetzEnhanced) return;
-    content.dataset.tnetzEnhanced = '1';
-
-    // Add welcome banner
-    var banner = document.createElement('div');
-    banner.className = 'tnetz-welcome-banner';
-    var title = window.settings && window.settings.title ? window.settings.title : 'VPN';
-    banner.innerHTML =
-      '<h2>👋 Chào mừng đến với ' + title + '</h2>' +
-      '<p>Quản lý tài khoản, đăng ký và theo dõi sử dụng tại đây</p>';
-
-    // Insert before first child
-    var firstEl = content.firstElementChild;
-    if (firstEl) {
-      // Skip alerts, insert after alerts
-      var alerts = content.querySelectorAll('.alert');
-      if (alerts.length > 0) {
-        var lastAlert = alerts[alerts.length - 1];
-        lastAlert.parentNode.insertBefore(banner, lastAlert.nextSibling);
-      } else {
-        content.insertBefore(banner, firstEl);
-      }
-    }
-  }
-
-  // ============ OBSERVER ============
+  // ============ DEBOUNCED OBSERVER ============
+  var observerTimer = null;
   var observer = new MutationObserver(function() {
-    hookSubscribeButtons();
-    enhanceDashboard();
-    injectRegionWidget();
+    if (observerTimer) return;
+    observerTimer = setTimeout(function() {
+      observerTimer = null;
+      hookSubscribeButtons();
+      if (!widgetInjected) injectRegionWidget();
+    }, 500);
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
 
-  // Initial run with delay to let React render
+  // Initial run with delays
   setTimeout(function() {
     hookSubscribeButtons();
-    enhanceDashboard();
     injectRegionWidget();
   }, 2000);
 
   setTimeout(function() {
-    injectRegionWidget();
-  }, 4000);
+    if (!widgetInjected) injectRegionWidget();
+  }, 5000);
 })();
-
