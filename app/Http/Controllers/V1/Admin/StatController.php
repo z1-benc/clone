@@ -292,4 +292,84 @@ class StatController extends Controller
         ];
     }
 
+    // Feature 5: Revenue Chart API
+    public function getRevenueChart(Request $request)
+    {
+        $period = $request->input('period', 'month'); // week, month, year
+        $days = match($period) {
+            'week' => 7,
+            'month' => 30,
+            'year' => 365,
+            default => 30,
+        };
+
+        $startTime = strtotime("-{$days} days");
+        $data = [];
+
+        for ($i = 0; $i < $days; $i++) {
+            $dayStart = strtotime("+{$i} days", $startTime);
+            $dayEnd = $dayStart + 86400;
+            $date = date('Y-m-d', $dayStart);
+
+            $revenue = Order::where('created_at', '>=', $dayStart)
+                ->where('created_at', '<', $dayEnd)
+                ->whereNotIn('status', [0, 2])
+                ->sum('total_amount');
+
+            $orders = Order::where('created_at', '>=', $dayStart)
+                ->where('created_at', '<', $dayEnd)
+                ->whereNotIn('status', [0, 2])
+                ->count();
+
+            $registrations = User::where('created_at', '>=', $dayStart)
+                ->where('created_at', '<', $dayEnd)
+                ->count();
+
+            $data[] = [
+                'date' => $date,
+                'revenue' => $revenue,
+                'orders' => $orders,
+                'registrations' => $registrations,
+            ];
+        }
+
+        return response(['data' => $data]);
+    }
+
+    // Feature 16: Revenue Export CSV
+    public function exportRevenue(Request $request)
+    {
+        $month = $request->input('month', date('Y-m'));
+        $startTime = strtotime($month . '-01');
+        $endTime = strtotime('+1 month', $startTime);
+
+        $orders = Order::where('created_at', '>=', $startTime)
+            ->where('created_at', '<', $endTime)
+            ->whereNotIn('status', [0, 2])
+            ->orderBy('created_at', 'ASC')
+            ->get();
+
+        $csv = "Mã đơn,User ID,Gói,Loại,Tổng tiền,Giảm giá,Thanh toán,Ngày tạo\r\n";
+        $totalRevenue = 0;
+        foreach ($orders as $order) {
+            $totalRevenue += $order->total_amount;
+            $csv .= implode(',', [
+                $order->trade_no,
+                $order->user_id,
+                $order->plan_id,
+                $order->type,
+                $order->total_amount / 100,
+                ($order->discount_amount ?? 0) / 100,
+                $order->total_amount / 100,
+                date('Y-m-d H:i:s', $order->created_at),
+            ]) . "\r\n";
+        }
+        $csv .= "\r\nTổng doanh thu,,,,,," . ($totalRevenue / 100) . "\r\n";
+
+        return response($csv, 200, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="revenue_' . $month . '.csv"',
+        ]);
+    }
+
 }

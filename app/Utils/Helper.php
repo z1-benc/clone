@@ -157,25 +157,35 @@ class Helper
             $urls = explode(',', $defaultUrl);
             $result[] = [
                 'name' => 'Mặc định',
-                'url' => trim($urls[0]) . $tokenPath
+                'url' => trim($urls[0]) . $tokenPath,
+                'code' => 'default',
+                'icon' => '🌐'
             ];
         } else {
             $result[] = [
                 'name' => 'Mặc định',
-                'url' => url($tokenPath)
+                'url' => url($tokenPath),
+                'code' => 'default',
+                'icon' => '🌐'
             ];
         }
 
-        // Add named region URLs
+        // Add region URLs from config (JSON)
         $subscribeUrls = config('v2board.subscribe_urls', '');
         if ($subscribeUrls) {
             $regions = is_array($subscribeUrls) ? $subscribeUrls : json_decode($subscribeUrls, true);
             if (is_array($regions)) {
                 foreach ($regions as $region) {
                     if (!empty($region['name']) && !empty($region['url'])) {
+                        $regionUrl = rtrim($region['url'], '/');
+                        if (strpos($regionUrl, 'http') !== 0) {
+                            $regionUrl = 'https://' . $regionUrl;
+                        }
                         $result[] = [
                             'name' => $region['name'],
-                            'url' => rtrim($region['url'], '/') . $tokenPath
+                            'url' => $regionUrl . $tokenPath,
+                            'code' => $region['code'] ?? '',
+                            'icon' => $region['icon'] ?? '🌍'
                         ];
                     }
                 }

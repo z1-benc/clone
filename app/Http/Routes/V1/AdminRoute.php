@@ -98,6 +98,11 @@ class AdminRoute
                 $router->post('update', 'V1\\Admin\\Server\\V2nodeController@update');
                 $router->post('copy', 'V1\\Admin\\Server\\V2nodeController@copy');
             });
+            // Region (Multi-region subscribe)
+            $router->get ('/region/fetch', 'V1\\Admin\\RegionController@fetch');
+            $router->post('/region/save', 'V1\\Admin\\RegionController@save');
+            $router->post('/region/drop', 'V1\\Admin\\RegionController@drop');
+            $router->post('/region/sort', 'V1\\Admin\\RegionController@sort');
             // Order
             $router->get ('/order/fetch', 'V1\\Admin\\OrderController@fetch');
             $router->post('/order/update', 'V1\\Admin\\OrderController@update');
@@ -105,6 +110,7 @@ class AdminRoute
             $router->post('/order/paid', 'V1\\Admin\\OrderController@paid');
             $router->post('/order/cancel', 'V1\\Admin\\OrderController@cancel');
             $router->post('/order/detail', 'V1\\Admin\\OrderController@detail');
+            $router->post('/order/refund', 'V1\\Admin\\OrderController@refund');
             // User
             $router->get ('/user/fetch', 'V1\\Admin\\UserController@fetch');
             $router->post('/user/update', 'V1\\Admin\\UserController@update');
@@ -118,6 +124,7 @@ class AdminRoute
             $router->post('/user/allDel', 'V1\\Admin\\UserController@allDel');
             $router->post('/user/setInviteUser', 'V1\\Admin\\UserController@setInviteUser');
             $router->post('/user/setSni', 'V1\\Admin\\UserController@setSni');
+            $router->post('/user/batchUpdate', 'V1\\Admin\\UserController@batchUpdate');
             // Stat
             $router->get ('/stat/getStat', 'V1\\Admin\\StatController@getStat');
             $router->get ('/stat/getOverride', 'V1\\Admin\\StatController@getOverride');
@@ -129,6 +136,10 @@ class AdminRoute
             $router->get ('/stat/getStatUser', 'V1\\Admin\\StatController@getStatUser');
             $router->get ('/stat/getRanking', 'V1\\Admin\\StatController@getRanking');
             $router->get ('/stat/getStatRecord', 'V1\\Admin\\StatController@getStatRecord');
+            $router->get ('/stat/getRevenueChart', 'V1\\Admin\\StatController@getRevenueChart');
+            $router->get ('/stat/exportRevenue', 'V1\\Admin\\StatController@exportRevenue');
+            // Health
+            $router->get ('/health/check', 'V1\\Admin\\HealthController@check');
             // Notice
             $router->get ('/notice/fetch', 'V1\\Admin\\NoticeController@fetch');
             $router->post('/notice/save', 'V1\\Admin\\NoticeController@save');
@@ -153,6 +164,7 @@ class AdminRoute
             $router->post('/coupon/generate', 'V1\\Admin\\CouponController@generate');
             $router->post('/coupon/drop', 'V1\\Admin\\CouponController@drop');
             $router->post('/coupon/show', 'V1\\Admin\\CouponController@show');
+            $router->get ('/coupon/stats', 'V1\\Admin\\CouponController@stats');
             // Giftcard
             $router->get ('/giftcard/fetch', 'V1\\Admin\\GiftcardController@fetch');
             $router->post('/giftcard/generate', 'V1\\Admin\\GiftcardController@generate');

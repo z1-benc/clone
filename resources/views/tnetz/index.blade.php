@@ -37,12 +37,26 @@
         .toast.show { transform: translateX(0); }
         .toast.success { background: var(--success); }
         .toast.error { background: var(--danger); }
-        .tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 20px; }
+        .tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 20px; flex-wrap: wrap; }
         .tab { padding: 10px 20px; font-size: 14px; font-weight: 500; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
         .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
         .tab:hover { color: var(--primary-dark); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        .region-icon { background: #fef3e2; color: #38b2ac; }
+        .region-row { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; padding: 14px; background: #f8fafc; border-radius: 10px; border: 1px solid var(--border); position: relative; transition: all 0.2s; }
+        .region-row:hover { border-color: var(--primary); box-shadow: 0 2px 8px rgba(102,126,234,0.1); }
+        .region-row .region-field { flex: 1; }
+        .region-row .region-field.name-field { flex: 0.8; }
+        .region-row .region-field.icon-field { flex: 0.4; }
+        .region-row input { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; }
+        .region-row input:focus { outline: none; border-color: var(--primary); }
+        .btn-remove { width: 32px; height: 32px; border-radius: 50%; border: none; background: #fed7d7; color: #e53e3e; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+        .btn-remove:hover { background: #e53e3e; color: #fff; }
+        .btn-add { display: flex; align-items: center; gap: 8px; padding: 10px 20px; border: 2px dashed var(--border); border-radius: 10px; background: transparent; color: var(--primary); cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; width: 100%; justify-content: center; }
+        .btn-add:hover { border-color: var(--primary); background: #eef2ff; }
+        .region-label { font-size: 11px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .region-default-badge { display: inline-block; padding: 2px 8px; background: #c6f6d5; color: #276749; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 8px; }
     </style>
 </head>
 <body>
@@ -52,12 +66,34 @@
     </div>
     <div class="container">
         <div class="tabs">
-            <div class="tab active" data-tab="clash">🔥 Clash</div>
+            <div class="tab active" data-tab="region">🌐 Khu vực</div>
+            <div class="tab" data-tab="clash">🔥 Clash</div>
             <div class="tab" data-tab="singbox">📦 Singbox</div>
             <div class="tab" data-tab="sni">🔒 SNI</div>
         </div>
 
-        <div id="tab-clash" class="tab-content active">
+        <div id="tab-region" class="tab-content active">
+            <div class="card">
+                <div class="card-header"><div class="icon region-icon">🌐</div><h2>URL Đăng Ký Theo Khu Vực</h2></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>URL Mặc Định <span class="region-default-badge">Mặc định</span></label>
+                        <div class="hint">URL đăng ký chính, được dùng khi khách hàng không chọn khu vực. Cấu hình trong mục Hệ Thống → URL Đăng Ký.</div>
+                        <input type="text" id="default_subscribe_url" disabled placeholder="Được lấy từ cài đặt hệ thống">
+                    </div>
+                    <div class="form-group">
+                        <label>Khu Vực Đăng Ký Thêm</label>
+                        <div class="hint">Ấn dấu ➕ để thêm URL khu vực mới. Mỗi khu vực có tên, URL riêng và icon.</div>
+                        <div id="regions-container"></div>
+                        <button class="btn-add" onclick="addRegionRow()">
+                            ➕ Thêm khu vực mới
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-clash" class="tab-content">
             <div class="card">
                 <div class="card-header"><div class="icon clash-icon">⚡</div><h2>Clash DNS Config</h2></div>
                 <div class="card-body">
@@ -149,6 +185,7 @@
         const API_BASE = window.location.pathname.replace(/\/tnetz.*/, '');
         const SECURE_PATH = '{{$secure_path}}';
 
+        // Tab switching
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -158,8 +195,47 @@
             });
         });
 
+        // ===== Region Management =====
+        function addRegionRow(name = '', url = '', icon = '🌍') {
+            const container = document.getElementById('regions-container');
+            const row = document.createElement('div');
+            row.className = 'region-row';
+            row.innerHTML = `
+                <div class="region-field icon-field">
+                    <div class="region-label">Icon</div>
+                    <input type="text" class="region-icon-input" value="${icon}" placeholder="🇨🇳">
+                </div>
+                <div class="region-field name-field">
+                    <div class="region-label">Tên khu vực</div>
+                    <input type="text" class="region-name" value="${name}" placeholder="VD: China, Russia, Japan...">
+                </div>
+                <div class="region-field">
+                    <div class="region-label">URL đăng ký</div>
+                    <input type="text" class="region-url" value="${url}" placeholder="https://cn.example.com">
+                </div>
+                <button class="btn-remove" onclick="this.parentElement.remove()" title="Xóa khu vực">×</button>
+            `;
+            container.appendChild(row);
+        }
+
+        function getRegionsJSON() {
+            const rows = document.querySelectorAll('.region-row');
+            const regions = [];
+            rows.forEach(row => {
+                const name = row.querySelector('.region-name').value.trim();
+                const url = row.querySelector('.region-url').value.trim();
+                const icon = row.querySelector('.region-icon-input').value.trim() || '🌍';
+                if (name && url) {
+                    regions.push({ name, url, icon, code: name.toLowerCase().replace(/[^a-z0-9]/g, '_') });
+                }
+            });
+            return JSON.stringify(regions);
+        }
+
+        // ===== Config Load/Save =====
         async function loadConfig() {
             try {
+                // Load tnetz config
                 const res = await fetch('/api/v1/' + SECURE_PATH + '/config/fetch?key=tnetz', {
                     headers: { 'Authorization': getToken() }
                 });
@@ -169,6 +245,23 @@
                         const el = document.getElementById(f);
                         if (el && data.data.tnetz[f]) el.value = data.data.tnetz[f];
                     });
+                    // Load regions
+                    if (data.data.tnetz.subscribe_urls) {
+                        try {
+                            const regions = JSON.parse(data.data.tnetz.subscribe_urls);
+                            if (Array.isArray(regions)) {
+                                regions.forEach(r => addRegionRow(r.name || '', r.url || '', r.icon || '🌍'));
+                            }
+                        } catch(e) { /* ignore parse error */ }
+                    }
+                }
+                // Load default subscribe_url from site config
+                const siteRes = await fetch('/api/v1/' + SECURE_PATH + '/config/fetch?key=site', {
+                    headers: { 'Authorization': getToken() }
+                });
+                const siteData = await siteRes.json();
+                if (siteData.data && siteData.data.site && siteData.data.site.subscribe_url) {
+                    document.getElementById('default_subscribe_url').value = siteData.data.site.subscribe_url;
                 }
             } catch(e) { showToast('Lỗi tải config: ' + e.message, 'error'); }
         }
@@ -177,6 +270,8 @@
             try {
                 const body = {};
                 FIELDS.forEach(f => { body[f] = document.getElementById(f).value; });
+                // Save regions as JSON
+                body.subscribe_urls = getRegionsJSON();
                 const res = await fetch('/api/v1/' + SECURE_PATH + '/config/save', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': getToken() },

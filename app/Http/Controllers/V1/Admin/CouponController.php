@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CouponGenerate;
 use App\Http\Requests\Admin\CouponSave;
 use App\Models\Coupon;
+use App\Models\Order;
 use App\Utils\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -131,5 +132,36 @@ class CouponController extends Controller
         return response([
             'data' => true
         ]);
+    }
+
+    // Feature 15: Coupon Statistics
+    public function stats(Request $request)
+    {
+        $coupons = Coupon::orderBy('id', 'DESC')->get();
+        $stats = [];
+
+        foreach ($coupons as $coupon) {
+            $usedCount = Order::where('coupon_id', $coupon->id)
+                ->whereNotIn('status', [0, 2])
+                ->count();
+            $totalDiscount = Order::where('coupon_id', $coupon->id)
+                ->whereNotIn('status', [0, 2])
+                ->sum('discount_amount');
+
+            $stats[] = [
+                'id' => $coupon->id,
+                'code' => $coupon->code,
+                'name' => $coupon->name,
+                'type' => $coupon->type,
+                'value' => $coupon->value,
+                'limit_use' => $coupon->limit_use,
+                'used_count' => $usedCount,
+                'total_discount' => $totalDiscount,
+                'started_at' => $coupon->started_at,
+                'ended_at' => $coupon->ended_at,
+            ];
+        }
+
+        return response(['data' => $stats]);
     }
 }

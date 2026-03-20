@@ -62,6 +62,10 @@ class UserRoute
             $router->get ('/knowledge/getCategory', 'V1\\User\\KnowledgeController@getCategory');
             // Stat
             $router->get ('/stat/getTrafficLog', 'V1\\User\\StatController@getTrafficLog');
+            $router->get ('/stat/getLoginLog', 'V1\\User\\StatController@getLoginLog');
+            $router->post('/stat/markNoticeRead', 'V1\\User\\StatController@markNoticeRead');
+            $router->get ('/stat/getNoticeReadStatus', 'V1\\User\\StatController@getNoticeReadStatus');
+            $router->post('/stat/toggleSubscription', 'V1\\User\\StatController@toggleSubscription');
             // changesni
             $router->get ('/sni/fetch', 'V1\\User\\SniController@fetchSni');
             $router->Post('/changeSNI', 'V1\\User\\SniController@changeSNI');

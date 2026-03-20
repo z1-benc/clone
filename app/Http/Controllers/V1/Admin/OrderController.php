@@ -198,4 +198,40 @@ class OrderController extends Controller
             'data' => $order->trade_no
         ]);
     }
+
+    // Feature 6: Order Refund
+    public function refund(Request $request)
+    {
+        $request->validate([
+            'trade_no' => 'required|string',
+            'refund_amount' => 'nullable|integer'
+        ]);
+
+        $order = Order::where('trade_no', $request->input('trade_no'))->first();
+        if (!$order) abort(500, 'Đơn hàng không tồn tại');
+        if (!in_array($order->status, [1, 3])) abort(500, 'Đơn hàng chưa thanh toán');
+
+        $refundAmount = $request->input('refund_amount', $order->total_amount);
+        if ($refundAmount > $order->total_amount) abort(500, 'Số tiền hoàn lớn hơn giá trị đơn');
+
+        $user = User::find($order->user_id);
+        if (!$user) abort(500, 'User không tồn tại');
+
+        DB::beginTransaction();
+        try {
+            $user->balance += $refundAmount;
+            $user->save();
+
+            $order->status = 4; // refunded
+            $order->refund_amount = $refundAmount;
+            $order->save();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            abort(500, 'Hoàn tiền thất bại: ' . $e->getMessage());
+        }
+
+        return response(['data' => true]);
+    }
 }

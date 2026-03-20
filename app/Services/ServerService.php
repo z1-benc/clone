@@ -230,6 +230,33 @@ class ServerService
         );
         $tmp = array_column($servers, 'sort');
         array_multisort($tmp, SORT_ASC, $servers);
+        return $this->applyOnlineStatus($servers);
+    }
+
+    public function getAvailableServersByRegion(User $user, $regionId)
+    {
+        $servers = $this->getAvailableServers($user);
+        
+        // Filter servers by region_id
+        $filtered = array_filter($servers, function ($server) use ($regionId) {
+            if (!isset($server['region_id']) || empty($server['region_id'])) {
+                return false;
+            }
+            $serverRegions = is_array($server['region_id']) 
+                ? $server['region_id'] 
+                : json_decode($server['region_id'], true);
+            if (is_array($serverRegions)) {
+                return in_array($regionId, $serverRegions);
+            }
+            // Fallback: direct comparison (single value)
+            return $server['region_id'] == $regionId;
+        });
+
+        return array_values($filtered);
+    }
+
+    private function applyOnlineStatus($servers)
+    {
         return array_map(function ($server) {
             if (strpos($server['port'], '-')) {
                 $server['mport'] = (string)$server['port'];

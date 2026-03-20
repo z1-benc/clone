@@ -404,4 +404,50 @@ class UserController extends Controller
             'data' => true
         ]);
     }
+
+    // Feature 8: Bulk User Operations
+    public function batchUpdate(Request $request)
+    {
+        $request->validate([
+            'user_ids' => 'required|array',
+            'action' => 'required|in:ban,unban,assign_plan,set_expiry,add_balance'
+        ]);
+
+        $userIds = $request->input('user_ids');
+        $action = $request->input('action');
+        $updated = 0;
+
+        foreach ($userIds as $userId) {
+            $user = User::find($userId);
+            if (!$user) continue;
+
+            switch ($action) {
+                case 'ban':
+                    $user->banned = 1;
+                    break;
+                case 'unban':
+                    $user->banned = 0;
+                    break;
+                case 'assign_plan':
+                    $planId = $request->input('plan_id');
+                    if ($planId) {
+                        $user->plan_id = $planId;
+                        $user->group_id = Plan::find($planId)->group_id ?? $user->group_id;
+                    }
+                    break;
+                case 'set_expiry':
+                    $expiredAt = $request->input('expired_at');
+                    if ($expiredAt) $user->expired_at = $expiredAt;
+                    break;
+                case 'add_balance':
+                    $balance = $request->input('balance', 0);
+                    $user->balance += $balance;
+                    break;
+            }
+
+            if ($user->save()) $updated++;
+        }
+
+        return response(['data' => $updated]);
+    }
 }

@@ -10,6 +10,7 @@ use App\Services\ServerService;
 use App\Services\UserService;
 use App\Models\Plan;
 use App\Models\Staff;
+use App\Models\SubscribeRegion;
 use App\Utils\Helper;
 use Illuminate\Http\Request;
 
@@ -34,10 +35,35 @@ class ClientController extends Controller
             }
         }
 
+        // Region detection — detect region by domain
+        $regionId = null;
+        $region = null;
+        $host = $request->getHost();
+        try {
+            $region = SubscribeRegion::where('domain', $host)
+                ->where('status', 1)
+                ->first();
+            if ($region) {
+                $regionId = $region->id;
+                // Region SNI override — khu vực có SNI riêng
+                if (!empty($region->default_sni) && $custom_sni === null) {
+                    $custom_sni = $region->default_sni;
+                }
+            }
+        } catch (\Exception $e) {
+            // Table doesn't exist yet, ignore
+        }
+
         $userService = new UserService();
         if ($userService->isAvailable($user)) {
             $serverService = new ServerService();
-            $servers = $serverService->getAvailableServers($user);
+            
+            // Region-based server filtering
+            if ($regionId) {
+                $servers = $serverService->getAvailableServersByRegion($user, $regionId);
+            } else {
+                $servers = $serverService->getAvailableServers($user);
+            }
 
             if ($flag) {
                 if (!strpos($flag, 'sing')) {

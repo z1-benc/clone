@@ -886,3 +886,56 @@ ALTER TABLE `v2_staff`
 ALTER TABLE `v2_plan`
     ADD `plan_sni` varchar(255) NULL COMMENT 'SNI theo gói - để trống thì dùng SNI theo nút' AFTER `capacity_limit`;
 
+-- v2b-zic custom: Multi-region subscription system
+CREATE TABLE IF NOT EXISTS `v2_subscribe_region` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(64) NOT NULL COMMENT 'Tên khu vực (VD: 🇨🇳 China)',
+    `code` varchar(10) NOT NULL COMMENT 'Mã khu vực (VD: cn)',
+    `domain` varchar(255) NOT NULL COMMENT 'Domain riêng cho khu vực',
+    `default_sni` varchar(255) DEFAULT NULL COMMENT 'SNI mặc định cho khu vực',
+    `icon` varchar(64) DEFAULT NULL COMMENT 'Icon emoji hoặc URL',
+    `sort` int(11) DEFAULT '0',
+    `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0=disabled 1=enabled',
+    `created_at` int(11) NOT NULL,
+    `updated_at` int(11) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `code` (`code`),
+    UNIQUE KEY `domain` (`domain`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Khu vực đăng ký đa miền';
+
+-- Thêm region_id vào các bảng server
+ALTER TABLE `v2_server_vmess`
+    ADD `region_id` varchar(255) DEFAULT NULL COMMENT 'ID khu vực (multi-region)' AFTER `route_id`;
+ALTER TABLE `v2_server_vless`
+    ADD `region_id` varchar(255) DEFAULT NULL COMMENT 'ID khu vực (multi-region)' AFTER `route_id`;
+ALTER TABLE `v2_server_trojan`
+    ADD `region_id` varchar(255) DEFAULT NULL COMMENT 'ID khu vực (multi-region)' AFTER `route_id`;
+ALTER TABLE `v2_server_shadowsocks`
+    ADD `region_id` varchar(255) DEFAULT NULL COMMENT 'ID khu vực (multi-region)' AFTER `route_id`;
+ALTER TABLE `v2_server_hysteria`
+    ADD `region_id` varchar(255) DEFAULT NULL COMMENT 'ID khu vực (multi-region)' AFTER `route_id`;
+ALTER TABLE `v2_server_tuic`
+    ADD `region_id` varchar(255) DEFAULT NULL COMMENT 'ID khu vực (multi-region)' AFTER `route_id`;
+ALTER TABLE `v2_server_anytls`
+    ADD `region_id` varchar(255) DEFAULT NULL COMMENT 'ID khu vực (multi-region)' AFTER `route_id`;
+ALTER TABLE `v2_server_v2node`
+    ADD `region_id` varchar(255) DEFAULT NULL COMMENT 'ID khu vực (multi-region)' AFTER `route_id`;
+
+-- v2b-zic custom: Login log table
+CREATE TABLE IF NOT EXISTS `v2_login_log` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `ip` varchar(128) DEFAULT NULL,
+    `user_agent` varchar(512) DEFAULT NULL,
+    `login_at` int(11) NOT NULL,
+    `created_at` int(11) NOT NULL,
+    `updated_at` int(11) NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `user_id` (`user_id`),
+    KEY `login_at` (`login_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Lịch sử đăng nhập';
+
+-- v2b-zic custom: Plan trial period
+ALTER TABLE `v2_plan`
+    ADD `trial_days` int(11) NULL DEFAULT '0' COMMENT 'Số ngày dùng thử (0=không)' AFTER `capacity_limit`;
+
