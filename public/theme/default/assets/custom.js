@@ -62,6 +62,10 @@
     // Confirmed: live site uses 'auth_data' in localStorage
     return localStorage.getItem('auth_data')||'';
   }
+  function onLogin(){
+    var h=window.location.hash||'';
+    return h.indexOf('login')!==-1||h.indexOf('register')!==-1||h.indexOf('forgot')!==-1;
+  }
   function logged(){return !!token();}
 
   function msg(t){
@@ -194,7 +198,7 @@
 
   /* ══════════ HOOKS ══════════ */
   function hook(){
-    if(!logged())return;
+    if(!logged()||onLogin())return;
     document.querySelectorAll('.subsrcibe-for-link').forEach(function(el){
       if(el.dataset.tz)return;el.dataset.tz='1';
       el.addEventListener('click',function(e){e.stopPropagation();e.preventDefault();go();},true);
@@ -204,7 +208,7 @@
   /* ══════════ WIDGET ══════════ */
   function widget(){
     if(done||document.getElementById('tz-widget'))return;
-    if(!logged())return;
+    if(!logged()||onLogin())return;
 
     // Find subscribe input on page
     var inp=null;
