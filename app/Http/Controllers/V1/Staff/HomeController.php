@@ -204,5 +204,83 @@ class HomeController extends Controller
         ]);
     }
 
+    // Feature 20: Staff Commission Report
+    public function commissionReport(Request $request)
+    {
+        $userId = $request->input('user.id');
+        if (!$userId) {
+            return response()->json(['message' => 'ID not provided'], 400);
+        }
+
+        $user = User::find($userId);
+        if (!$user || !$user->is_staff) {
+            return response()->json(['message' => 'Không có quyền truy cập'], 403);
+        }
+
+        $period = $request->input('period', 'month'); // day, month
+        $page = $request->input('current', 1);
+        $pageSize = $request->input('pageSize', 20);
+
+        // Get all orders with commission for this staff/invite user
+        $query = Order::where('invite_user_id', $userId)
+            ->where('commission_balance', '>', 0)
+            ->whereNotIn('status', [0, 2])
+            ->orderBy('created_at', 'DESC');
+
+        $total = $query->count();
+        $totalCommission = $query->sum('commission_balance');
+
+        // Grouped summary
+        $summary = [];
+        if ($period === 'day') {
+            $groupFormat = '%Y-%m-%d';
+        } else {
+            $groupFormat = '%Y-%m';
+        }
+
+        $grouped = Order::where('invite_user_id', $userId)
+            ->where('commission_balance', '>', 0)
+            ->whereNotIn('status', [0, 2])
+            ->selectRaw("DATE_FORMAT(FROM_UNIXTIME(created_at), '{$groupFormat}') as period_key, SUM(commission_balance) as total_commission, COUNT(*) as order_count")
+            ->groupBy('period_key')
+            ->orderBy('period_key', 'DESC')
+            ->get();
+
+        foreach ($grouped as $g) {
+            $summary[] = [
+                'period' => $g->period_key,
+                'total_commission' => $g->total_commission,
+                'order_count' => $g->order_count,
+            ];
+        }
+
+        // Detail list (paged)
+        $orders = $query->skip(($page - 1) * $pageSize)->take($pageSize)->get();
+        $details = [];
+        foreach ($orders as $order) {
+            $buyer = User::find($order->user_id);
+            $plan = Plan::find($order->plan_id);
+            $details[] = [
+                'trade_no' => $order->trade_no,
+                'buyer_email' => $buyer ? $buyer->email : 'N/A',
+                'plan_name' => $plan ? $plan->name : 'N/A',
+                'total_amount' => $order->total_amount,
+                'commission' => $order->commission_balance,
+                'status' => $order->status,
+                'created_at' => $order->created_at,
+            ];
+        }
+
+        return response()->json([
+            'data' => [
+                'total_commission' => $totalCommission,
+                'commission_balance' => $user->commission_balance,
+                'summary' => $summary,
+                'details' => $details,
+            ],
+            'total' => $total,
+            'success' => true,
+        ]);
+    }
 
 }

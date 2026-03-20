@@ -939,3 +939,7 @@ CREATE TABLE IF NOT EXISTS `v2_login_log` (
 ALTER TABLE `v2_plan`
     ADD `trial_days` int(11) NULL DEFAULT '0' COMMENT 'Số ngày dùng thử (0=không)' AFTER `capacity_limit`;
 
+-- v2b-zic custom: User trial tracking
+ALTER TABLE `v2_user`
+    ADD `trial_used` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Đã dùng thử chưa (0=chưa, 1=rồi)' AFTER `banned`;
+

@@ -314,6 +314,77 @@ class OrderController extends Controller
         ]);
     }
 
+    // Feature 13: Plan Trial Period - User creates trial order
+    public function createTrial(Request $request)
+    {
+        $planId = $request->input('plan_id');
+        if (!$planId) {
+            abort(500, __('Invalid parameter'));
+        }
+
+        $user = User::find($request->user['id']);
+        if (!$user) {
+            abort(500, __('The user does not exist'));
+        }
+
+        // Check if user already used trial
+        if ($user->trial_used) {
+            abort(500, 'Bạn đã sử dụng quyền dùng thử rồi');
+        }
+
+        // Check if user already has an active plan
+        $userService = new UserService();
+        if ($userService->isAvailable($user)) {
+            abort(500, 'Bạn đang có gói đang hoạt động, không thể dùng thử');
+        }
+
+        $plan = Plan::find($planId);
+        if (!$plan) {
+            abort(500, __('Subscription plan does not exist'));
+        }
+
+        // Check if plan supports trial
+        $trialDays = $plan->trial_days ?? 0;
+        if ($trialDays <= 0) {
+            abort(500, 'Gói này không hỗ trợ dùng thử');
+        }
+
+        if ($userService->isNotCompleteOrderByUserId($request->user['id'])) {
+            abort(500, __('You have an unpaid or pending order, please try again later or cancel it'));
+        }
+
+        DB::beginTransaction();
+        $order = new Order();
+        $orderService = new OrderService($order);
+        $order->user_id = $request->user['id'];
+        $order->plan_id = $plan->id;
+        $order->period = 'trial';
+        $order->trade_no = Helper::generateOrderNo();
+        $order->total_amount = 0;
+        $order->type = 1; // new purchase
+
+        if (!$order->save()) {
+            DB::rollback();
+            abort(500, __('Failed to create order'));
+        }
+
+        // Auto-complete the trial order (free)
+        if (!$orderService->paid($order->trade_no)) {
+            DB::rollback();
+            abort(500, 'Kích hoạt dùng thử thất bại');
+        }
+
+        // Mark user as trial used, set expiry
+        $user->trial_used = 1;
+        $user->save();
+
+        DB::commit();
+
+        return response([
+            'data' => $order->trade_no
+        ]);
+    }
+
     private function getbounus($total_amount) {
         $deposit_bounus = config('v2board.deposit_bounus', []);
         if (empty($deposit_bounus) || $deposit_bounus[0] === null) {
