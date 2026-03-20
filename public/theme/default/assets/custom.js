@@ -196,7 +196,8 @@
   var overlayEl = null, toastEl = null, cachedUrls = null, widgetDone = false;
 
   function getAuth() {
-    return localStorage.getItem('authorization') || sessionStorage.getItem('authorization') || '';
+    // Different theme versions use different keys
+    return localStorage.getItem('auth_data') || localStorage.getItem('authorization') || sessionStorage.getItem('auth_data') || sessionStorage.getItem('authorization') || '';
   }
   function isLoggedIn() { return !!getAuth(); }
 
