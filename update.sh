@@ -11,7 +11,14 @@ if ! command -v git &> /dev/null; then
 fi
 
 git config --global --add safe.directory $(pwd)
-git fetch --all && git reset --hard origin/master && git pull origin master
+
+# Auto-add myrepo remote if not exists
+if ! git remote | grep -q myrepo; then
+  echo "Adding myrepo remote..."
+  git remote add myrepo https://github.com/z1-benc/clone.git
+fi
+
+git fetch --all && git reset --hard myrepo/master && git pull myrepo master
 rm -rf composer.lock composer.phar
 wget https://github.com/composer/composer/releases/latest/download/composer.phar -O composer.phar
 php composer.phar update -vvv
