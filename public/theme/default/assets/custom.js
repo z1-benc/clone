@@ -100,6 +100,44 @@
     }
     .tnetz-copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    /* Region Widget on Dashboard */
+    .tnetz-region-widget {
+      background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 50%, #8b5cf6 100%);
+      border-radius: 16px; padding: 20px 24px; margin-bottom: 16px;
+      cursor: pointer; transition: all 0.25s ease; position: relative;
+      overflow: hidden; box-shadow: 0 4px 20px rgba(99,102,241,0.2);
+    }
+    .tnetz-region-widget:hover {
+      transform: translateY(-2px); box-shadow: 0 8px 32px rgba(99,102,241,0.3);
+    }
+    .tnetz-region-widget::after {
+      content: ''; position: absolute; top: -30%; right: -5%; width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 65%);
+      border-radius: 50%; pointer-events: none;
+    }
+    .tnetz-region-widget-inner {
+      display: flex; align-items: center; gap: 14px; position: relative; z-index: 1;
+    }
+    .tnetz-region-widget-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: rgba(255,255,255,0.2); display: flex; align-items: center;
+      justify-content: center; font-size: 24px; flex-shrink: 0;
+      backdrop-filter: blur(8px);
+    }
+    .tnetz-region-widget-text h3 {
+      font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700;
+      color: #fff; margin: 0; letter-spacing: -0.01em;
+    }
+    .tnetz-region-widget-text p {
+      font-family: 'Inter', sans-serif; font-size: 12.5px; color: rgba(255,255,255,0.8);
+      margin: 3px 0 0;
+    }
+    .tnetz-region-widget-arrow {
+      margin-left: auto; font-size: 20px; color: rgba(255,255,255,0.7);
+      transition: transform 0.2s ease;
+    }
+    .tnetz-region-widget:hover .tnetz-region-widget-arrow { transform: translateX(3px); }
+
     /* Dashboard Welcome Banner Enhancement */
     .tnetz-welcome-banner {
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
@@ -152,6 +190,7 @@
       .tnetz-stat-card { padding: 14px 16px; }
       .tnetz-stat-value { font-size: 18px; }
       .tnetz-region-modal { padding: 20px 18px 18px; }
+      .tnetz-region-widget { padding: 16px 20px; }
     }
   `;
   document.head.appendChild(style);
@@ -177,6 +216,11 @@
   var selectedUrl = '';
   var overlayEl = null;
   var toastEl = null;
+  var cachedUrls = null;
+
+  function getAuth() {
+    return localStorage.getItem('auth_data') || sessionStorage.getItem('auth_data') || '';
+  }
 
   function showToast(msg) {
     if (!toastEl) {
@@ -206,6 +250,32 @@
     }
   }
 
+  // ============ FETCH SUBSCRIBE URLS ============
+  function fetchAndShowRegion() {
+    if (cachedUrls) {
+      showRegionSelector(cachedUrls);
+      return;
+    }
+    fetch('/api/v1/user/getSubscribe', {
+      headers: { 'Authorization': getAuth() }
+    }).then(function(r) { return r.json(); })
+    .then(function(data) {
+      var urls = data.data && data.data.subscribe_urls;
+      if (urls && urls.length > 1) {
+        cachedUrls = urls;
+        showRegionSelector(urls);
+      } else if (urls && urls.length === 1) {
+        copyText(urls[0].url);
+      } else {
+        var defaultUrl = data.data && data.data.subscribe_url;
+        if (defaultUrl) copyText(defaultUrl);
+        else showToast('⚠️ Chưa cấu hình URL đăng ký');
+      }
+    }).catch(function() {
+      showToast('❌ Lỗi tải danh sách khu vực');
+    });
+  }
+
   // ============ REGION SELECTOR MODAL ============
   function showRegionSelector(urls) {
     if (overlayEl) overlayEl.remove();
@@ -218,14 +288,14 @@
         '<div class="tnetz-region-header">' +
           '<div class="tnetz-region-header-icon">🌍</div>' +
           '<div>' +
-            '<div class="tnetz-region-title">Chọn khu vực</div>' +
-            '<div class="tnetz-region-subtitle">Chọn server khu vực gần bạn nhất</div>' +
+            '<div class="tnetz-region-title">Chọn khu vực đăng ký</div>' +
+            '<div class="tnetz-region-subtitle">Chọn server khu vực gần bạn nhất để lấy link đồng bộ</div>' +
           '</div>' +
         '</div>' +
         '<div id="tnetz-region-list"></div>' +
         '<div class="tnetz-region-actions">' +
           '<button class="tnetz-region-btn tnetz-region-btn-close" id="tnetz-region-close">Đóng</button>' +
-          '<button class="tnetz-region-btn tnetz-region-btn-copy" id="tnetz-region-copy">📋 Sao chép</button>' +
+          '<button class="tnetz-region-btn tnetz-region-btn-copy" id="tnetz-region-copy">📋 Sao chép link</button>' +
         '</div>' +
       '</div>';
 
@@ -236,10 +306,11 @@
       var card = document.createElement('div');
       card.className = 'tnetz-region-card' + (idx === 0 ? ' active' : '');
       card.dataset.url = item.url;
+      var icon = item.icon || getIcon(item.name);
       var domain = '';
       try { domain = new URL(item.url.split('?')[0]).hostname; } catch(e) { domain = item.url.split('?')[0]; }
       card.innerHTML =
-        '<div class="tnetz-region-icon">' + getIcon(item.name) + '</div>' +
+        '<div class="tnetz-region-icon">' + icon + '</div>' +
         '<div class="tnetz-region-info">' +
           '<div class="tnetz-region-name">' + item.name + '</div>' +
           '<div class="tnetz-region-url">' + domain + '</div>' +
@@ -270,37 +341,85 @@
 
   // ============ SUBSCRIBE BUTTON HOOK ============
   function hookSubscribeButtons() {
-    var items = document.querySelectorAll('.subsrcibe-for-link');
-    if (items.length === 0) return;
-
-    items.forEach(function(item) {
-      if (item.dataset.tnetzHooked) return;
-      item.dataset.tnetzHooked = '1';
-
-      var authData = localStorage.getItem('auth_data') || sessionStorage.getItem('auth_data') || '';
-
-      item.addEventListener('click', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-
-        fetch('/api/v1/user/getSubscribe', {
-          headers: { 'Authorization': authData }
-        }).then(function(r) { return r.json(); })
-        .then(function(data) {
-          var urls = data.data && data.data.subscribe_urls;
-          if (urls && urls.length > 1) {
-            showRegionSelector(urls);
-          } else if (urls && urls.length === 1) {
-            copyText(urls[0].url);
-          } else {
-            var defaultUrl = data.data && data.data.subscribe_url;
-            if (defaultUrl) copyText(defaultUrl);
-          }
-        }).catch(function() {
-          showToast('❌ Lỗi tải danh sách khu vực');
+    // Hook any subscribe link/copy buttons
+    var selectors = [
+      '.subsrcibe-for-link',
+      '[class*="subscribe"][class*="link"]',
+      '[class*="subscribe"][class*="copy"]',
+      'button[class*="copy"]'
+    ];
+    selectors.forEach(function(sel) {
+      try {
+        var items = document.querySelectorAll(sel);
+        items.forEach(function(item) {
+          if (item.dataset.tnetzHooked) return;
+          item.dataset.tnetzHooked = '1';
+          item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            fetchAndShowRegion();
+          }, true);
         });
-      }, true);
+      } catch(ex) {}
     });
+  }
+
+  // ============ REGION WIDGET ON DASHBOARD ============
+  function injectRegionWidget() {
+    if (document.getElementById('tnetz-region-widget')) return;
+
+    // Find the subscribe URL display area or main content
+    var targets = [
+      '.block-content',
+      '.content.content-full',
+      '#root > div > div > div:last-child',
+      '.ant-layout-content',
+      'main',
+      '#root'
+    ];
+    var container = null;
+    for (var i = 0; i < targets.length; i++) {
+      container = document.querySelector(targets[i]);
+      if (container) break;
+    }
+    if (!container) return;
+
+    // Check if there's already a subscribe URL shown on page
+    var subUrlElements = document.querySelectorAll('input[value*="/api/v1/client/subscribe"], [class*="subscribe_url"], [class*="subscribeUrl"]');
+    var insertTarget = null;
+    if (subUrlElements.length > 0) {
+      // Insert near the subscribe URL display
+      insertTarget = subUrlElements[0].closest('.ant-card, .block, .card, div[class*="card"]') || subUrlElements[0].parentElement;
+    }
+
+    var widget = document.createElement('div');
+    widget.id = 'tnetz-region-widget';
+    widget.className = 'tnetz-region-widget';
+    widget.innerHTML =
+      '<div class="tnetz-region-widget-inner">' +
+        '<div class="tnetz-region-widget-icon">🌍</div>' +
+        '<div class="tnetz-region-widget-text">' +
+          '<h3>Chọn khu vực đăng ký</h3>' +
+          '<p>Nhiều server khu vực khác nhau — chọn gần bạn nhất</p>' +
+        '</div>' +
+        '<div class="tnetz-region-widget-arrow">→</div>' +
+      '</div>';
+
+    widget.addEventListener('click', function() {
+      fetchAndShowRegion();
+    });
+
+    if (insertTarget) {
+      insertTarget.parentNode.insertBefore(widget, insertTarget.nextSibling);
+    } else {
+      // Insert at the top of first content area
+      var firstChild = container.firstElementChild;
+      if (firstChild) {
+        container.insertBefore(widget, firstChild);
+      } else {
+        container.appendChild(widget);
+      }
+    }
   }
 
   // ============ DASHBOARD ENHANCEMENTS ============
@@ -339,12 +458,20 @@
   var observer = new MutationObserver(function() {
     hookSubscribeButtons();
     enhanceDashboard();
+    injectRegionWidget();
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
 
+  // Initial run with delay to let React render
   setTimeout(function() {
     hookSubscribeButtons();
     enhanceDashboard();
+    injectRegionWidget();
   }, 2000);
+
+  setTimeout(function() {
+    injectRegionWidget();
+  }, 4000);
 })();
+
