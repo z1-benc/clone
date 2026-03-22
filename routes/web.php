@@ -72,6 +72,13 @@ Route::get('/' . config('v2board.secure_path', config('v2board.frontend_admin_pa
     ]);
 });
 
+// Node monitoring stats page
+Route::get('/' . config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key')))) . '/node-stats', function () {
+    return view('admin.stats', [
+        'secure_path' => config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key'))))
+    ]);
+});
+
 // Staff routes
 $staffPath = config('v2board.staff_path', 'staff');
 
