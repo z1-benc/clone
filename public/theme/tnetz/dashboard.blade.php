@@ -21,6 +21,7 @@
 <body>
     <div id="app"></div>
     {!! $theme_config['custom_html'] ?? '' !!}
+    <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
     <script src="/theme/tnetz/assets/custom.js?v={{$version}}&t={{time()}}"></script>
 </body>
 </html>

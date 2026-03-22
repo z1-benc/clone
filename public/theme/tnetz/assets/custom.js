@@ -33,6 +33,8 @@ function clip(t){if(navigator.clipboard)navigator.clipboard.writeText(t).then(fu
 function daysLeft(ts){if(!ts)return 0;return Math.max(0,Math.ceil((ts*1000-Date.now())/86400000));}
 var FL={'china':'🇨🇳','trung':'🇨🇳','nga':'🇷🇺','việt':'🇻🇳','nhật':'🇯🇵','hàn':'🇰🇷','mỹ':'🇺🇸','us':'🇺🇸','singapore':'🇸🇬','hong kong':'🇭🇰','taiwan':'🇹🇼','đài':'🇹🇼','europe':'🇪🇺'};
 function flag(n){var l=(n||'').toLowerCase();for(var k in FL)if(l.indexOf(k)!==-1)return FL[k];return '🌍';}
+function L(n,s){s=s||18;return '<i data-lucide="'+n+'" style="width:'+s+'px;height:'+s+'px"></i>';}
+function LI(){try{if(window.lucide)lucide.createIcons();}catch(x){}}
 
 /* ══════════ THEME ══════════ */
 var theme=localStorage.getItem('tz-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
@@ -49,39 +51,40 @@ window.addEventListener('hashchange',route);
 /* ══════════ SHELL ══════════ */
 function shell(title,content){
   var app=$('app'),em=user?user.email:'';
-  app.innerHTML='<div class="shell"><nav class="nav" id="nav"><div class="nav-brand"><div class="dot">⚡</div><h1>'+e(SITE.title||'TNETZ')+'</h1></div>'+
+  app.innerHTML='<div class="shell"><nav class="nav" id="nav"><div class="nav-brand"><div class="dot">'+L('zap',16)+'</div><h1>'+e(SITE.title||'TNETZ')+'</h1></div>'+
   (em?'<div class="nav-user"><div class="nav-user-name">'+e(em.split('@')[0])+'</div><div class="nav-user-email">'+e(em)+'</div></div>':'')+
   '<div class="nav-links">'+
     '<div class="nav-section">Tổng quan</div>'+
-    nl('dash','📊','Dashboard')+nl('notice','📢','Thông báo')+
+    nl('dash',L('layout-dashboard'),'Dashboard')+nl('notice',L('bell'),'Thông báo')+
     '<div class="nav-section">Dịch vụ</div>'+
-    nl('subscribe','🔗','Đăng ký')+nl('server','🖥️','Máy chủ')+nl('plan','📦','Gói dịch vụ')+nl('order','🧾','Đơn hàng')+
+    nl('subscribe',L('link'),'Đăng ký')+nl('server',L('server'),'Máy chủ')+nl('plan',L('gem'),'Gói dịch vụ')+nl('order',L('file-text'),'Đơn hàng')+
     '<div class="nav-section">Khác</div>'+
-    nl('invite','🎁','Giới thiệu')+nl('ticket','💬','Hỗ trợ')+nl('knowledge','📚','Hướng dẫn')+nl('profile','👤','Tài khoản')+
-  '</div><div class="nav-footer"><button class="nav-link" id="logoutBtn"><span class="ico">🚪</span>Đăng xuất</button></div></nav>'+
+    nl('invite',L('gift'),'Giới thiệu')+nl('ticket',L('message-circle'),'Hỗ trợ')+nl('knowledge',L('book-open'),'Hướng dẫn')+nl('profile',L('user'),'Tài khoản')+
+  '</div><div class="nav-footer"><button class="nav-link" id="logoutBtn"><span class="ico">'+L('log-out')+'</span>Đăng xuất</button></div></nav>'+
   '<div class="main"><div class="topbar"><button class="menu-btn" id="menuBtn">☰</button><div class="topbar-title">'+e(title)+'</div>'+
   '<div class="topbar-user"><span class="topbar-email">'+e(em)+'</span><div class="topbar-avatar">'+((em)?em[0].toUpperCase():'U')+'</div></div></div>'+
   '<div class="page fade-in" id="pc">'+content+'</div></div></div><button id="themeBtn">'+(theme==='dark'?'☀️':'🌙')+'</button>';
   $('themeBtn').onclick=toggleTheme;$('menuBtn').onclick=function(){$('nav').classList.toggle('open');};$('logoutBtn').onclick=logout;
   app.querySelectorAll('.nav-link[data-p]').forEach(function(l){l.onclick=function(){$('nav').classList.remove('open');go(this.dataset.p);};});
+  LI();
 }
 function nl(p,i,t){return '<button class="nav-link'+(cur===p?' on':'')+'" data-p="'+p+'"><span class="ico">'+i+'</span>'+t+'</button>';}
 function ld(){return '<div class="page-loading"><span class="spin"></span></div>';}
 
 /* ══════════ LOGIN ══════════ */
 function pgLogin(){
-  $('app').innerHTML='<div class="login-wrap fade-in"><div class="login-box"><div class="login-header"><div class="login-logo">⚡</div><h1>'+e(SITE.title||'TNETZ')+'</h1><p>'+e(SITE.description||'Đăng nhập để tiếp tục')+'</p></div>'+
+  $('app').innerHTML='<div class="login-wrap fade-in"><div class="login-box"><div class="login-header"><div class="login-logo">'+L('zap',24)+'</div><h1>'+e(SITE.title||'TNETZ')+'</h1><p>'+e(SITE.description||'Đăng nhập để tiếp tục')+'</p></div>'+
   '<div class="login-card"><div class="inp-group"><label class="inp-lbl">Email</label><input class="inp" id="le" type="email" placeholder="email@example.com" autofocus></div>'+
   '<div class="inp-group"><label class="inp-lbl">Mật khẩu</label><input class="inp" id="lp" type="password" placeholder="••••••••"></div>'+
   '<button class="btn btn-grad btn-block" id="lb">Đăng nhập</button></div>'+
   '<div class="login-switch">Chưa có tài khoản? <a href="#/register">Đăng ký ngay</a></div></div></div><button id="themeBtn">'+(theme==='dark'?'☀️':'🌙')+'</button>';
-  $('themeBtn').onclick=toggleTheme;$('lb').onclick=doLogin;$('lp').onkeydown=function(ev){if(ev.key==='Enter')doLogin();};
+  $('themeBtn').onclick=toggleTheme;$('lb').onclick=doLogin;$('lp').onkeydown=function(ev){if(ev.key==='Enter')doLogin();};LI();
 }
 function doLogin(){var em=$('le').value.trim(),pw=$('lp').value;if(!em||!pw){toast('Nhập đầy đủ','err');return;}$('lb').innerHTML='<span class="spin"></span>';fetch(API+'/passport/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pw})}).then(function(r){return r.json();}).then(function(j){if(j.data&&j.data.auth_data){localStorage.setItem('auth_data',j.data.auth_data);user=null;subData=null;go('dash');}else{toast(j.message||'Thất bại','err');$('lb').textContent='Đăng nhập';}}).catch(function(x){toast(x.message,'err');$('lb').textContent='Đăng nhập';});}
 
 /* ══════════ REGISTER ══════════ */
 function pgRegister(){
-  $('app').innerHTML='<div class="login-wrap fade-in"><div class="login-box"><div class="login-header"><div class="login-logo">⚡</div><h1>Tạo tài khoản</h1><p>Đăng ký miễn phí</p></div>'+
+  $('app').innerHTML='<div class="login-wrap fade-in"><div class="login-box"><div class="login-header"><div class="login-logo">'+L('zap',24)+'</div><h1>Tạo tài khoản</h1><p>Đăng ký miễn phí</p></div>'+
   '<div class="login-card"><div class="inp-group"><label class="inp-lbl">Email</label><input class="inp" id="re" type="email" placeholder="email@example.com"></div>'+
   '<div class="inp-group"><label class="inp-lbl">Mật khẩu</label><input class="inp" id="rp" type="password" placeholder="Ít nhất 8 ký tự"></div>'+
   '<div class="inp-group"><label class="inp-lbl">Mã mời</label><input class="inp" id="ri" placeholder="Tuỳ chọn"></div>'+
@@ -98,10 +101,10 @@ function pgDash(){
     var p=user.plan,used=(user.u||0)+(user.d||0),total=user.transfer_enable||1,pct=Math.min(100,Math.round(used/total*100)),dl=daysLeft(user.expired_at);
     $('pc').innerHTML='<div id="noticeBanner"></div>'+
     '<div class="stats">'+
-      '<div class="stat-card"><div class="s-ico">📦</div><div class="s-val">'+e(p?p.name:'—')+'</div><div class="s-lbl">Gói hiện tại</div></div>'+
-      '<div class="stat-card"><div class="s-ico">⏱️</div><div class="s-val">'+dl+' ngày</div><div class="s-lbl">Còn lại</div></div>'+
-      '<div class="stat-card"><div class="s-ico">📊</div><div class="s-val">'+fB(used)+'</div><div class="s-lbl">Đã sử dụng / '+fB(total)+'</div></div>'+
-      '<div class="stat-card"><div class="s-ico">📱</div><div class="s-val">'+(user.alive_ip||0)+' / '+(user.device_limit||'∞')+'</div><div class="s-lbl">Thiết bị online</div></div>'+
+      '<div class="stat-card"><div class="s-ico">'+L('gem',22)+'</div><div class="s-val">'+e(p?p.name:'—')+'</div><div class="s-lbl">Gói hiện tại</div></div>'+
+      '<div class="stat-card"><div class="s-ico">'+L('clock',22)+'</div><div class="s-val">'+dl+' ngày</div><div class="s-lbl">Còn lại</div></div>'+
+      '<div class="stat-card"><div class="s-ico">'+L('bar-chart-3',22)+'</div><div class="s-val">'+fB(used)+'</div><div class="s-lbl">Đã sử dụng / '+fB(total)+'</div></div>'+
+      '<div class="stat-card"><div class="s-ico">'+L('smartphone',22)+'</div><div class="s-val">'+(user.alive_ip||0)+' / '+(user.device_limit||'∞')+'</div><div class="s-lbl">Thiết bị online</div></div>'+
     '</div>'+
     '<div class="card" style="margin-bottom:20px"><div class="card-b">'+
       '<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:13px;font-weight:600">Dung lượng sử dụng</span><span style="font-size:13px;font-weight:700;color:var(--pr)">'+pct+'%</span></div>'+
@@ -109,16 +112,16 @@ function pgDash(){
       '<div class="progress-info"><span>↑ Upload: '+fB(user.u||0)+'</span><span>↓ Download: '+fB(user.d||0)+'</span></div></div>'+
     '</div></div>'+
     '<div class="g g3" style="margin-bottom:20px">'+
-      qcard('subscribe','🔗','c1','Đăng ký & Khu vực','Lấy link, đồng bộ app')+
-      qcard('plan','📦','c2','Mua gói / Gia hạn','Xem gói dịch vụ có sẵn')+
-      qcard('server','🖥️','c4','Danh sách máy chủ','Xem trạng thái server')+
+      qcard('subscribe',L('link',22),'c1','Đăng ký & Khu vực','Lấy link, đồng bộ app')+
+      qcard('plan',L('gem',22),'c2','Mua gói / Gia hạn','Xem gói dịch vụ có sẵn')+
+      qcard('server',L('server',22),'c4','Danh sách máy chủ','Xem trạng thái server')+
     '</div>'+
     '<div class="g g3">'+
-      qcard('invite','🎁','c3','Giới thiệu bạn bè','Kiếm hoa hồng')+
-      qcard('ticket','💬','c1','Hỗ trợ kỹ thuật','Gửi ticket')+
-      qcard('profile','👤','c4','Tài khoản','Đổi mật khẩu, cài đặt')+
+      qcard('invite',L('gift',22),'c3','Giới thiệu bạn bè','Kiếm hoa hồng')+
+      qcard('ticket',L('message-circle',22),'c1','Hỗ trợ kỹ thuật','Gửi ticket')+
+      qcard('profile',L('user',22),'c4','Tài khoản','Đổi mật khẩu, cài đặt')+
     '</div>';
-    $('pc').classList.add('fade-in');
+    $('pc').classList.add('fade-in');LI();
     api('/user/notice/fetch').then(function(j){var ns=j.data||[];if(!ns.length)return;var nb=$('noticeBanner');if(!nb)return;nb.innerHTML='<div class="notice"><div class="notice-ico">📢</div><div><div class="notice-t">'+e(ns[0].title)+'</div><div class="notice-s">'+(ns[0].content||'').substring(0,150)+'</div></div></div>';}).catch(function(){});
   });
 }
