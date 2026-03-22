@@ -560,6 +560,43 @@
     });
   }
 
+  // ========== NODE MONITOR BUTTON IN SIDEBAR ==========
+  var monitorBtnInjected = false;
+  function injectNodeMonitorButton() {
+    if (monitorBtnInjected) return;
+    // Find the sidebar menu
+    var sidebar = document.querySelector('.ant-layout-sider-children .ant-menu, .ant-menu-root');
+    if (!sidebar) return;
+    // Check if already injected
+    if (document.getElementById('tnetz-monitor-btn')) { monitorBtnInjected = true; return; }
+    // Find the "server" submenu or last menu item
+    var serverMenu = null;
+    sidebar.querySelectorAll('.ant-menu-submenu, .ant-menu-item').forEach(function(item) {
+      var text = item.textContent || '';
+      if (text.includes('节点') || text.includes('Server') || text.includes('Máy chủ') || text.includes('服务器')) {
+        serverMenu = item;
+      }
+    });
+    // Create monitoring menu item
+    var monitorItem = document.createElement('li');
+    monitorItem.id = 'tnetz-monitor-btn';
+    monitorItem.className = 'ant-menu-item';
+    monitorItem.setAttribute('role', 'menuitem');
+    monitorItem.style.cssText = 'cursor:pointer;';
+    monitorItem.innerHTML = '<span><i aria-label="icon: dashboard" class="anticon" style="margin-right:8px;">📡</i><span>Node Monitor</span></span>';
+    monitorItem.addEventListener('click', function() {
+      var p = window.location.pathname.split('/')[1] || '';
+      window.open('/' + p + '/node-stats', '_blank');
+    });
+    // Insert after server submenu or at end
+    if (serverMenu && serverMenu.nextSibling) {
+      sidebar.insertBefore(monitorItem, serverMenu.nextSibling);
+    } else {
+      sidebar.appendChild(monitorItem);
+    }
+    monitorBtnInjected = true;
+  }
+
   // ========== INIT ==========
   window.addEventListener('load', () => { translatePage(); translatePlaceholders(); });
 
@@ -572,6 +609,7 @@
     injectTnetzTab();
     injectWebconInfoToggles();
     injectOrderCouponColumn();
+    injectNodeMonitorButton();
   });
   observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['placeholder'] });
 
