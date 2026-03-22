@@ -597,6 +597,329 @@
     monitorBtnInjected = true;
   }
 
+  // ========== ADMIN DASHBOARD ENHANCEMENT ==========
+  var dashInjected = false;
+  var AP = function(){ return '/api/v1/' + (window.location.pathname.split('/')[1] || ''); };
+  var AH = function(){ return { 'Authorization': localStorage.getItem('authorization') || '', 'Content-Type': 'application/json' }; };
+  var fmtMoney = function(v){ return ((v||0)/100).toLocaleString('vi-VN') + 'đ'; };
+  var fmtBytes = function(b){if(!b)return '0 B';var u=['B','KB','MB','GB','TB'];var i=Math.floor(Math.log(b)/Math.log(1024));return (b/Math.pow(1024,i)).toFixed(1)+' '+u[i];};
+
+  function injectDashboardEnhancement() {
+    if (dashInjected) return;
+    if (!window.location.hash.includes('/dashboard') && window.location.hash !== '' && window.location.hash !== '#/' && window.location.hash !== '#/dashboard') return;
+    var container = document.querySelector('.ant-layout-content');
+    if (!container) return;
+    if (document.getElementById('tnetz-dash-enhanced')) { dashInjected = true; return; }
+
+    var wrap = document.createElement('div');
+    wrap.id = 'tnetz-dash-enhanced';
+    wrap.innerHTML = '<style>' +
+      '.tz-dash{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:0 0 24px}' +
+      '.tz-row{display:grid;gap:16px;margin-bottom:16px}' +
+      '.tz-r4{grid-template-columns:repeat(4,1fr)}' +
+      '.tz-r2{grid-template-columns:repeat(2,1fr)}' +
+      '.tz-r3{grid-template-columns:repeat(3,1fr)}' +
+      '.tz-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid #f0f0f0;transition:all .2s}' +
+      '.tz-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.1);transform:translateY(-2px)}' +
+      '.tz-stat{display:flex;align-items:center;gap:16px}' +
+      '.tz-stat-ico{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}' +
+      '.tz-stat-val{font-size:22px;font-weight:800;color:rgba(0,0,0,.85);line-height:1.2}' +
+      '.tz-stat-lbl{font-size:12px;color:rgba(0,0,0,.45);margin-top:2px}' +
+      '.tz-stat-sub{font-size:11px;color:rgba(0,0,0,.35);margin-top:2px}' +
+      '.tz-title{font-size:15px;font-weight:700;color:rgba(0,0,0,.85);margin-bottom:14px;display:flex;align-items:center;gap:8px}' +
+      '.tz-title-badge{font-size:11px;background:#f0f5ff;color:#1d39c4;padding:2px 8px;border-radius:10px;font-weight:500}' +
+      '.tz-tbl{width:100%;border-collapse:collapse;font-size:13px}' +
+      '.tz-tbl th{text-align:left;padding:8px 10px;border-bottom:2px solid #f0f0f0;color:rgba(0,0,0,.45);font-weight:600;font-size:11px;text-transform:uppercase}' +
+      '.tz-tbl td{padding:8px 10px;border-bottom:1px solid #f5f5f5}' +
+      '.tz-tbl tr:hover td{background:#fafafa}' +
+      '.tz-health-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}' +
+      '.tz-online{background:#52c41a;box-shadow:0 0 6px rgba(82,196,26,.4)}' +
+      '.tz-offline{background:#ff4d4f;box-shadow:0 0 6px rgba(255,77,79,.4)}' +
+      '.tz-sys-ok{color:#52c41a;font-weight:600}.tz-sys-err{color:#ff4d4f;font-weight:600}' +
+      '.tz-chart-wrap{position:relative;height:200px;overflow:hidden}' +
+      '.tz-quick-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:1px solid #d9d9d9;background:#fff;cursor:pointer;font-size:13px;transition:all .15s;color:rgba(0,0,0,.65)}' +
+      '.tz-quick-btn:hover{border-color:#1890ff;color:#1890ff;background:#f0f5ff}' +
+      '@media(max-width:768px){.tz-r4{grid-template-columns:repeat(2,1fr)}.tz-r2,.tz-r3{grid-template-columns:1fr}}' +
+    '</style>' +
+    '<div class="tz-dash">' +
+      // Stats row
+      '<div class="tz-row tz-r4" id="tz-stats-row">' +
+        '<div class="tz-card"><div class="tz-stat"><div class="tz-stat-ico" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff">💰</div><div><div class="tz-stat-val" id="tz-day-income">—</div><div class="tz-stat-lbl">Doanh thu hôm nay</div><div class="tz-stat-sub" id="tz-month-income"></div></div></div></div>' +
+        '<div class="tz-card"><div class="tz-stat"><div class="tz-stat-ico" style="background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff">👥</div><div><div class="tz-stat-val" id="tz-online-users">—</div><div class="tz-stat-lbl">Online hiện tại</div><div class="tz-stat-sub" id="tz-day-reg"></div></div></div></div>' +
+        '<div class="tz-card"><div class="tz-stat"><div class="tz-stat-ico" style="background:linear-gradient(135deg,#4facfe,#00f2fe);color:#fff">🎫</div><div><div class="tz-stat-val" id="tz-tickets">—</div><div class="tz-stat-lbl">Ticket chờ</div><div class="tz-stat-sub" id="tz-commission"></div></div></div></div>' +
+        '<div class="tz-card"><div class="tz-stat"><div class="tz-stat-ico" style="background:linear-gradient(135deg,#43e97b,#38f9d7);color:#fff">📊</div><div><div class="tz-stat-val" id="tz-sys-status">—</div><div class="tz-stat-lbl">Hệ thống</div><div class="tz-stat-sub" id="tz-queue-info"></div></div></div></div>' +
+      '</div>' +
+      // Revenue chart + Server health
+      '<div class="tz-row tz-r2">' +
+        '<div class="tz-card"><div class="tz-title">📈 Doanh thu 30 ngày <span class="tz-title-badge" id="tz-chart-total"></span></div><div class="tz-chart-wrap"><canvas id="tz-revenue-chart" width="600" height="200"></canvas></div></div>' +
+        '<div class="tz-card"><div class="tz-title">🏥 Server Health <span class="tz-title-badge" id="tz-health-count"></span></div><div id="tz-health-list" style="max-height:200px;overflow-y:auto"><div style="color:#bbb;text-align:center;padding:20px">Đang tải...</div></div></div>' +
+      '</div>' +
+      // Rankings
+      '<div class="tz-row tz-r3">' +
+        '<div class="tz-card"><div class="tz-title">🏆 Top User hôm nay</div><div id="tz-user-rank" style="max-height:250px;overflow-y:auto"><div style="color:#bbb;text-align:center;padding:20px">Đang tải...</div></div></div>' +
+        '<div class="tz-card"><div class="tz-title">🖥️ Top Server hôm nay</div><div id="tz-server-rank" style="max-height:250px;overflow-y:auto"><div style="color:#bbb;text-align:center;padding:20px">Đang tải...</div></div></div>' +
+        '<div class="tz-card"><div class="tz-title">⚡ Hành động nhanh</div><div style="display:flex;flex-wrap:wrap;gap:8px">' +
+          '<button class="tz-quick-btn" onclick="window.location.hash=\'#/user\'">👥 Quản lý User</button>' +
+          '<button class="tz-quick-btn" onclick="window.location.hash=\'#/order\'">📦 Đơn hàng</button>' +
+          '<button class="tz-quick-btn" onclick="window.location.hash=\'#/coupon\'">🏷️ Mã giảm giá</button>' +
+          '<button class="tz-quick-btn" onclick="window.location.hash=\'#/ticket\'">💬 Ticket</button>' +
+          '<button class="tz-quick-btn" onclick="window.location.hash=\'#/plan\'">📋 Gói dịch vụ</button>' +
+          '<button class="tz-quick-btn" onclick="window.location.hash=\'#/notice\'">📢 Thông báo</button>' +
+          '<button class="tz-quick-btn" onclick="window.location.hash=\'#/config/system\'">⚙️ Cấu hình</button>' +
+          '<button class="tz-quick-btn" onclick="window.location.hash=\'#/knowledge\'">📚 Hướng dẫn</button>' +
+          '<button class="tz-quick-btn" onclick="window._tz_genGift()">🎁 Tạo Gift Card</button>' +
+          '<button class="tz-quick-btn" onclick="window._tz_exportRev()">📥 Xuất doanh thu</button>' +
+        '</div></div>' +
+      '</div>' +
+    '</div>';
+
+    // Insert at the top of content
+    var firstChild = container.firstChild;
+    if (firstChild) container.insertBefore(wrap, firstChild);
+    else container.appendChild(wrap);
+
+    // Load data
+    loadDashStats();
+    loadRevenueChart();
+    loadServerHealth();
+    loadUserRank();
+    loadServerRank();
+
+    dashInjected = true;
+  }
+
+  function loadDashStats() {
+    Promise.all([
+      fetch(AP() + '/stat/getOverride', { headers: AH() }).then(r => r.json()),
+      fetch(AP() + '/system/getSystemStatus', { headers: AH() }).then(r => r.json()).catch(() => ({ data: {} })),
+      fetch(AP() + '/system/getQueueStats', { headers: AH() }).then(r => r.json()).catch(() => ({ data: {} }))
+    ]).then(function(res) {
+      var s = res[0].data || {};
+      var sys = res[1].data || {};
+      var q = res[2].data || {};
+
+      var di = document.getElementById('tz-day-income');
+      if (di) di.textContent = fmtMoney(s.day_income);
+      var mi = document.getElementById('tz-month-income');
+      if (mi) mi.textContent = 'Tháng: ' + fmtMoney(s.month_income) + ' | Tháng trước: ' + fmtMoney(s.last_month_income);
+
+      var ou = document.getElementById('tz-online-users');
+      if (ou) ou.textContent = (s.online_user || 0).toLocaleString();
+      var dr = document.getElementById('tz-day-reg');
+      if (dr) dr.textContent = 'Hôm nay: +' + (s.day_register_total || 0) + ' | Tháng: +' + (s.month_register_total || 0);
+
+      var tk = document.getElementById('tz-tickets');
+      if (tk) tk.textContent = s.ticket_pending_total || 0;
+      var cm = document.getElementById('tz-commission');
+      if (cm) cm.textContent = 'HH chờ: ' + (s.commission_pending_total || 0) + ' đơn';
+
+      var ss = document.getElementById('tz-sys-status');
+      if (ss) {
+        var ok = sys.schedule && sys.horizon;
+        ss.innerHTML = ok ? '<span class="tz-sys-ok">✅ OK</span>' : '<span class="tz-sys-err">⚠️ Lỗi</span>';
+      }
+      var qi = document.getElementById('tz-queue-info');
+      if (qi) qi.textContent = 'Jobs: ' + (q.recentJobs || 0) + ' | ' + (q.jobsPerMinute || 0) + '/min | Fail: ' + (q.failedJobs || 0);
+    }).catch(function() {});
+  }
+
+  function loadRevenueChart() {
+    fetch(AP() + '/stat/getRevenueChart?period=month', { headers: AH() })
+    .then(r => r.json()).then(function(j) {
+      var data = j.data || [];
+      if (!data.length) return;
+      var canvas = document.getElementById('tz-revenue-chart');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var W = canvas.parentElement.offsetWidth || 600;
+      var H = 200;
+      canvas.width = W * 2; canvas.height = H * 2;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.scale(2, 2);
+
+      var vals = data.map(function(d) { return d.revenue / 100; });
+      var maxV = Math.max.apply(null, vals) || 1;
+      var total = vals.reduce(function(a, b) { return a + b; }, 0);
+      var ct = document.getElementById('tz-chart-total');
+      if (ct) ct.textContent = 'Tổng: ' + total.toLocaleString('vi-VN') + 'đ';
+
+      var pad = { t: 20, r: 20, b: 30, l: 60 };
+      var cw = W - pad.l - pad.r;
+      var ch = H - pad.t - pad.b;
+      var step = cw / (vals.length - 1 || 1);
+
+      // Grid lines
+      ctx.strokeStyle = '#f0f0f0'; ctx.lineWidth = 0.5;
+      for (var g = 0; g <= 4; g++) {
+        var gy = pad.t + ch - (ch / 4) * g;
+        ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(W - pad.r, gy); ctx.stroke();
+        ctx.fillStyle = '#bbb'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+        ctx.fillText(Math.round(maxV / 4 * g).toLocaleString(), pad.l - 6, gy + 3);
+      }
+
+      // Gradient fill
+      var grad = ctx.createLinearGradient(0, pad.t, 0, H - pad.b);
+      grad.addColorStop(0, 'rgba(102,126,234,0.3)');
+      grad.addColorStop(1, 'rgba(102,126,234,0.02)');
+      ctx.beginPath();
+      ctx.moveTo(pad.l, pad.t + ch);
+      vals.forEach(function(v, i) {
+        var x = pad.l + i * step;
+        var y = pad.t + ch - (v / maxV) * ch;
+        if (i === 0) ctx.lineTo(x, y);
+        else {
+          var px = pad.l + (i-1) * step;
+          var py = pad.t + ch - (vals[i-1] / maxV) * ch;
+          var cpx = (px + x) / 2;
+          ctx.bezierCurveTo(cpx, py, cpx, y, x, y);
+        }
+      });
+      ctx.lineTo(pad.l + (vals.length-1) * step, pad.t + ch);
+      ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+
+      // Line
+      ctx.beginPath(); ctx.strokeStyle = '#667eea'; ctx.lineWidth = 2.5; ctx.lineJoin = 'round';
+      vals.forEach(function(v, i) {
+        var x = pad.l + i * step;
+        var y = pad.t + ch - (v / maxV) * ch;
+        if (i === 0) ctx.moveTo(x, y);
+        else {
+          var px = pad.l + (i-1) * step;
+          var py = pad.t + ch - (vals[i-1] / maxV) * ch;
+          var cpx = (px + x) / 2;
+          ctx.bezierCurveTo(cpx, py, cpx, y, x, y);
+        }
+      });
+      ctx.stroke();
+
+      // Dots
+      vals.forEach(function(v, i) {
+        var x = pad.l + i * step;
+        var y = pad.t + ch - (v / maxV) * ch;
+        ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff'; ctx.fill();
+        ctx.strokeStyle = '#667eea'; ctx.lineWidth = 2; ctx.stroke();
+      });
+
+      // Labels
+      ctx.fillStyle = '#999'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+      data.forEach(function(d, i) {
+        if (i % 5 === 0 || i === data.length - 1) {
+          var x = pad.l + i * step;
+          ctx.fillText(d.date.substring(5), x, H - pad.b + 14);
+        }
+      });
+    }).catch(function() {});
+  }
+
+  function loadServerHealth() {
+    fetch(AP() + '/health/check', { headers: AH() })
+    .then(r => r.json()).then(function(j) {
+      var servers = j.data || [];
+      var el = document.getElementById('tz-health-list');
+      var cnt = document.getElementById('tz-health-count');
+      if (!el) return;
+      var on = servers.filter(function(s) { return s.status === 'online'; }).length;
+      if (cnt) cnt.textContent = on + '/' + servers.length + ' online';
+      if (!servers.length) { el.innerHTML = '<div style="color:#bbb;text-align:center;padding:20px">Không có server</div>'; return; }
+      var h = '<table class="tz-tbl"><thead><tr><th>Server</th><th>Loại</th><th>Trạng thái</th><th>Online</th></tr></thead><tbody>';
+      servers.forEach(function(s) {
+        h += '<tr><td style="font-weight:500">' + (s.name || '—') + '</td><td><span style="background:#f5f5f5;padding:2px 6px;border-radius:4px;font-size:11px">' + (s.type || '—') + '</span></td><td><span class="tz-health-dot ' + (s.status==='online'?'tz-online':'tz-offline') + '"></span>' + (s.status==='online'?'Online':'Offline') + '</td><td>' + (s.online_users||0) + '</td></tr>';
+      });
+      h += '</tbody></table>';
+      el.innerHTML = h;
+    }).catch(function() {
+      var el = document.getElementById('tz-health-list');
+      if (el) el.innerHTML = '<div style="color:#bbb;text-align:center;padding:20px">Không thể tải</div>';
+    });
+  }
+
+  function loadUserRank() {
+    fetch(AP() + '/stat/getUserTodayRank', { headers: AH() })
+    .then(r => r.json()).then(function(j) {
+      var users = j.data || [];
+      var el = document.getElementById('tz-user-rank');
+      if (!el) return;
+      if (!users.length) { el.innerHTML = '<div style="color:#bbb;text-align:center;padding:20px">Chưa có dữ liệu</div>'; return; }
+      var h = '<table class="tz-tbl"><thead><tr><th>#</th><th>Email</th><th>Traffic</th></tr></thead><tbody>';
+      users.forEach(function(u, i) {
+        var medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+        h += '<tr><td>' + medal + '</td><td style="font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (u.email || 'ID:' + u.user_id) + '</td><td style="font-weight:600">' + (u.total || 0) + ' GB</td></tr>';
+      });
+      h += '</tbody></table>';
+      el.innerHTML = h;
+    }).catch(function() {});
+  }
+
+  function loadServerRank() {
+    fetch(AP() + '/stat/getServerTodayRank', { headers: AH() })
+    .then(r => r.json()).then(function(j) {
+      var servers = j.data || [];
+      var el = document.getElementById('tz-server-rank');
+      if (!el) return;
+      if (!servers.length) { el.innerHTML = '<div style="color:#bbb;text-align:center;padding:20px">Chưa có dữ liệu</div>'; return; }
+      var h = '<table class="tz-tbl"><thead><tr><th>#</th><th>Server</th><th>Loại</th><th>Traffic</th></tr></thead><tbody>';
+      servers.forEach(function(s, i) {
+        var medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+        h += '<tr><td>' + medal + '</td><td style="font-weight:500">' + (s.server_name || 'ID:' + s.server_id) + '</td><td><span style="background:#f5f5f5;padding:2px 6px;border-radius:4px;font-size:11px">' + (s.server_type || '') + '</span></td><td style="font-weight:600">' + (s.total || 0) + ' GB</td></tr>';
+      });
+      h += '</tbody></table>';
+      el.innerHTML = h;
+    }).catch(function() {});
+  }
+
+  // Quick actions
+  window._tz_genGift = function() {
+    var existing = document.getElementById('tz-gift-modal');
+    if (existing) existing.remove();
+    var ov = document.createElement('div');
+    ov.id = 'tz-gift-modal';
+    ov.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.45);z-index:99999;display:flex;justify-content:center;align-items:center;';
+    var m = document.createElement('div');
+    m.style.cssText = 'background:#fff;border-radius:12px;padding:24px;width:400px;max-width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3);';
+    m.innerHTML = '<h3 style="margin:0 0 16px;font-size:16px">🎁 Tạo Gift Card nhanh</h3>' +
+      '<div style="margin-bottom:12px"><label style="font-size:13px;color:#666;display:block;margin-bottom:4px">Số tiền (x100, VD: 10000 = 100đ)</label><input id="tz-gc-amt" type="number" class="ant-input" placeholder="10000" style="width:100%"></div>' +
+      '<div style="margin-bottom:12px"><label style="font-size:13px;color:#666;display:block;margin-bottom:4px">Số lượng</label><input id="tz-gc-qty" type="number" class="ant-input" value="1" style="width:100%"></div>' +
+      '<div style="display:flex;gap:8px;justify-content:flex-end">' +
+        '<button id="tz-gc-cancel" class="ant-btn" style="padding:6px 20px">Hủy</button>' +
+        '<button id="tz-gc-submit" class="ant-btn ant-btn-primary" style="padding:6px 20px">Tạo</button>' +
+      '</div>' +
+      '<div id="tz-gc-result" style="margin-top:12px;font-size:13px"></div>';
+    ov.appendChild(m);
+    document.body.appendChild(ov);
+    ov.onclick = function(e) { if (e.target === ov) ov.remove(); };
+    document.getElementById('tz-gc-cancel').onclick = function() { ov.remove(); };
+    document.getElementById('tz-gc-submit').onclick = function() {
+      var amt = parseInt(document.getElementById('tz-gc-amt').value);
+      var qty = parseInt(document.getElementById('tz-gc-qty').value) || 1;
+      if (!amt || amt <= 0) { alert('Nhập số tiền hợp lệ'); return; }
+      var btn = document.getElementById('tz-gc-submit');
+      btn.textContent = 'Đang tạo...'; btn.disabled = true;
+      fetch(AP() + '/giftcard/generate', {
+        method: 'POST', headers: AH(),
+        body: JSON.stringify({ amount: amt, count: qty })
+      }).then(r => r.json()).then(function(d) {
+        btn.textContent = 'Tạo'; btn.disabled = false;
+        var res = document.getElementById('tz-gc-result');
+        if (d.data && Array.isArray(d.data)) {
+          res.innerHTML = '<div style="color:#52c41a;margin-bottom:8px">✅ Đã tạo ' + d.data.length + ' mã:</div>' +
+            '<textarea class="ant-input" rows="3" style="font-family:monospace;font-size:12px" readonly>' + d.data.map(g => g.code).join('\n') + '</textarea>';
+        } else {
+          res.innerHTML = '<span style="color:#52c41a">✅ ' + (d.message || 'Đã tạo') + '</span>';
+        }
+      }).catch(function(e) {
+        btn.textContent = 'Tạo'; btn.disabled = false;
+        document.getElementById('tz-gc-result').innerHTML = '<span style="color:#ff4d4f">❌ ' + e.message + '</span>';
+      });
+    };
+  };
+
+  window._tz_exportRev = function() {
+    var month = prompt('Xuất doanh thu tháng nào? (VD: 2026-03)', new Date().toISOString().substring(0, 7));
+    if (!month) return;
+    window.open(AP() + '/stat/exportRevenue?month=' + month + '&authorization=' + encodeURIComponent(localStorage.getItem('authorization') || ''), '_blank');
+  };
+
   // ========== INIT ==========
   window.addEventListener('load', () => { translatePage(); translatePlaceholders(); });
 
@@ -610,11 +933,12 @@
     injectWebconInfoToggles();
     injectOrderCouponColumn();
     injectNodeMonitorButton();
+    injectDashboardEnhancement();
   });
   observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['placeholder'] });
 
   // Reset tab injection on hash change
-  window.addEventListener('hashchange', () => { tnetzTabInjected = false; webconTogglesInjected = false; orderCouponCache = {}; });
+  window.addEventListener('hashchange', () => { tnetzTabInjected = false; webconTogglesInjected = false; orderCouponCache = {}; dashInjected = false; });
 
   setInterval(() => { translatePlaceholders(); translateSelectOptions(); translateMessages(); }, 800);
 })();
