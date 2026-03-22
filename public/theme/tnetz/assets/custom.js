@@ -188,23 +188,48 @@ function pgNotice(){
 function pgPlan(){
   shell('Gói dịch vụ',ld());
   loadPlans(function(){
-    if(!plans||!plans.length){$('pc').innerHTML='<div class="empty"><div class="empty-ico">📦</div><div class="empty-txt">Chưa có gói nào</div></div>';return;}
-    var h='<div class="g g3">';
-    plans.forEach(function(p,i){var pr=gP(p),lo=pr.length?pr[0]:null;
-      h+='<div class="plan'+(i===0?' hot':'')+'"><div class="plan-badge">🔥 PHỔ BIẾN</div><div class="plan-name">'+e(p.name)+'</div>'+
-      '<div class="plan-price">'+(lo?fM(lo.v):'—')+'<small>'+(lo?' / '+lo.l:'')+'</small></div>'+
-      (p.content?'<div class="plan-desc">'+e(p.content).replace(/\n/g,'<br>')+'</div>':'')+
-      '<ul class="plan-feat"><li>Data: '+fB(p.transfer_enable)+'</li>'+(p.device_limit?'<li>Thiết bị: '+p.device_limit+'</li>':'')+(p.speed_limit?'<li>Tốc độ: '+p.speed_limit+' Mbps</li>':'')+'</ul>'+
-      '<button class="btn btn-grad btn-block" onclick="window._buy('+p.id+')">Mua ngay →</button></div>';
-    });h+='</div>';$('pc').innerHTML=h;$('pc').classList.add('fade-in');
+    if(!plans||!plans.length){$('pc').innerHTML='<div class="empty"><div class="empty-ico">'+L('package',48)+'</div><div class="empty-txt">Chưa có gói nào</div></div>';LI();return;}
+    var h='<div style="text-align:center;margin-bottom:28px"><div style="font-size:24px;font-weight:800;letter-spacing:-.03em">Chọn gói phù hợp</div><div style="font-size:13px;color:var(--tx2);margin-top:6px">Nâng cấp để trải nghiệm tốc độ không giới hạn</div></div>';
+    h+='<div class="g g3">';
+    plans.forEach(function(p,i){
+      var pr=gP(p),lo=pr.length?pr[0]:null;
+      var isHot=i===0||(plans.length>2&&i===1);
+      h+='<div class="plan'+(isHot?' hot':'')+'" style="display:flex;flex-direction:column">';
+      if(isHot)h+='<div class="plan-badge">'+L('zap',12)+' Đề xuất</div>';
+      h+='<div class="plan-name">'+e(p.name)+'</div>';
+      h+='<div class="plan-price">'+(lo?fM(lo.v):'—')+'<small>'+(lo?' / '+lo.l:'')+'</small></div>';
+      if(p.content)h+='<div class="plan-desc">'+e(p.content).replace(/\\n/g,'<br>')+'</div>';
+      // Specs grid
+      h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 20px">';
+      h+='<div style="background:var(--bg3);padding:10px 12px;border-radius:10px;text-align:center"><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Data</div><div style="font-size:14px;font-weight:800;color:var(--tx)">'+fB(p.transfer_enable)+'</div></div>';
+      h+='<div style="background:var(--bg3);padding:10px 12px;border-radius:10px;text-align:center"><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Thiết bị</div><div style="font-size:14px;font-weight:800;color:var(--tx)">'+(p.device_limit||'∞')+'</div></div>';
+      if(p.speed_limit){
+        h+='<div style="background:var(--bg3);padding:10px 12px;border-radius:10px;text-align:center;grid-column:span 2"><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Tốc độ tối đa</div><div style="font-size:14px;font-weight:800;color:var(--tx)">'+p.speed_limit+' Mbps</div></div>';
+      }
+      h+='</div>';
+      // All periods list
+      if(pr.length>1){
+        h+='<div style="margin-bottom:16px;font-size:12px">';
+        pr.forEach(function(x){
+          h+='<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bdr2)"><span style="color:var(--tx2)">'+x.l+'</span><span style="font-weight:700">'+fM(x.v)+'</span></div>';
+        });
+        h+='</div>';
+      }
+      h+='<div style="flex:1"></div>';
+      h+='<button class="btn btn-'+(isHot?'grad':'p')+' btn-block" onclick="window._buy('+p.id+')">'+L('shopping-cart',16)+' Mua ngay</button>';
+      h+='</div>';
+    });
+    h+='</div>';
+    $('pc').innerHTML=h;$('pc').classList.add('fade-in');LI();
   });
 }
 function gP(p){var r=[];if(p.month_price!=null)r.push({l:'1 Tháng',v:p.month_price,k:'month_price'});if(p.quarter_price!=null)r.push({l:'3 Tháng',v:p.quarter_price,k:'quarter_price'});if(p.half_year_price!=null)r.push({l:'6 Tháng',v:p.half_year_price,k:'half_year_price'});if(p.year_price!=null)r.push({l:'1 Năm',v:p.year_price,k:'year_price'});if(p.two_year_price!=null)r.push({l:'2 Năm',v:p.two_year_price,k:'two_year_price'});if(p.three_year_price!=null)r.push({l:'3 Năm',v:p.three_year_price,k:'three_year_price'});if(p.onetime_price!=null)r.push({l:'Trọn đời',v:p.onetime_price,k:'onetime_price'});return r;}
 window._buy=function(id){var p=plans.find(function(x){return x.id===id;});if(!p)return;var pr=gP(p);if(!pr.length){toast('Chưa có giá','err');return;}
-  openModal('📦 '+e(p.name),function(box){
+  openModal(L('gem',20)+' '+e(p.name),function(box){
     box.innerHTML+='<div class="inp-group" style="margin-bottom:16px"><label class="inp-lbl">Mã giảm giá</label><div style="display:flex;gap:8px"><input class="inp" id="cpnI" placeholder="Nhập mã"><button class="btn btn-sm" id="cpnB">Áp dụng</button></div><div id="cpnM" style="font-size:12px;margin-top:4px"></div></div>';
-    var cpn=null;pr.forEach(function(x){var el=C('div');el.className='region';el.innerHTML='<div class="region-ico" style="background:var(--prBg)">💰</div><div><div class="region-name">'+x.l+'</div><div style="font-size:15px;font-weight:800;color:var(--pr);margin-top:2px">'+fM(x.v)+'</div></div>';el.onclick=function(){el.innerHTML='<span class="spin"></span>';var body={plan_id:id,period:x.k};if(cpn)body.coupon_code=cpn;api('/user/order/save',{method:'POST',body:body}).then(function(j){if(j.data){toast('✅ Tạo đơn thành công');closeModal();go('order');}else toast(j.message||'Lỗi','err');}).catch(function(x){toast(x.message,'err');});};box.appendChild(el);});
+    var cpn=null;pr.forEach(function(x){var el=C('div');el.className='region';el.innerHTML='<div class="region-ico" style="background:var(--prBg)">'+L('credit-card',18)+'</div><div style="flex:1"><div class="region-name">'+x.l+'</div></div><div style="font-size:16px;font-weight:800;color:var(--pr)">'+fM(x.v)+'</div>';el.onclick=function(){el.innerHTML='<span class="spin"></span>';var body={plan_id:id,period:x.k};if(cpn)body.coupon_code=cpn;api('/user/order/save',{method:'POST',body:body}).then(function(j){if(j.data){toast('✅ Tạo đơn thành công');closeModal();go('order');}else toast(j.message||'Lỗi','err');}).catch(function(x){toast(x.message,'err');});};box.appendChild(el);});
     setTimeout(function(){var cb=$('cpnB');if(cb)cb.onclick=function(){var code=$('cpnI').value.trim();if(!code)return;api('/user/coupon/check',{method:'POST',body:{code:code,plan_id:id}}).then(function(j){if(j.data){cpn=code;$('cpnM').innerHTML='<span style="color:var(--ok)">✅ Giảm '+fM(j.data.value)+'</span>';}else $('cpnM').innerHTML='<span style="color:var(--err)">❌ '+(j.message||'Không hợp lệ')+'</span>';}).catch(function(x){$('cpnM').innerHTML='<span style="color:var(--err)">'+x.message+'</span>';});};},50);
+    LI();
   });
 };
 
