@@ -26,6 +26,9 @@ class NodeStatsController extends Controller
             'mem_percent'  => round((float) $request->input('mem_percent', 0), 1),
             'net_in_speed' => (int) $request->input('net_in_speed', 0),
             'net_out_speed'=> (int) $request->input('net_out_speed', 0),
+            'uptime'       => (int) $request->input('uptime', 0),
+            'cpu_cores'    => (int) $request->input('cpu_cores', 0),
+            'hostname'     => (string) $request->input('hostname', ''),
             'updated_at'   => time(),
         ];
 
