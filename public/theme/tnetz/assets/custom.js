@@ -99,30 +99,31 @@ function pgDash(){
   shell('Dashboard',ld());
   loadUser(function(){
     var p=user.plan,used=(user.u||0)+(user.d||0),total=user.transfer_enable||1,pct=Math.min(100,Math.round(used/total*100)),dl=daysLeft(user.expired_at);
+    var hr=new Date().getHours(),greet=hr<12?'Chào buổi sáng':hr<18?'Chào buổi chiều':'Chào buổi tối';
+    var em=user.email||'';
     $('pc').innerHTML='<div id="noticeBanner"></div>'+
-    '<div class="stats">'+
-      '<div class="stat-card"><div class="s-ico">'+L('gem',22)+'</div><div class="s-val">'+e(p?p.name:'—')+'</div><div class="s-lbl">Gói hiện tại</div></div>'+
-      '<div class="stat-card"><div class="s-ico">'+L('clock',22)+'</div><div class="s-val">'+dl+' ngày</div><div class="s-lbl">Còn lại</div></div>'+
-      '<div class="stat-card"><div class="s-ico">'+L('bar-chart-3',22)+'</div><div class="s-val">'+fB(used)+'</div><div class="s-lbl">Đã sử dụng / '+fB(total)+'</div></div>'+
-      '<div class="stat-card"><div class="s-ico">'+L('smartphone',22)+'</div><div class="s-val">'+(user.alive_ip||0)+' / '+(user.device_limit||'∞')+'</div><div class="s-lbl">Thiết bị online</div></div>'+
-    '</div>'+
+    '<div class="hero"><div class="hero-greeting">'+greet+' 👋</div><div class="hero-name">'+e(em.split('@')[0])+'</div>'+
+    '<div class="hero-plan">'+L('gem',14)+' '+(p?e(p.name):'Chưa có gói')+'</div>'+
+    '<div class="hero-stats"><div><div class="hero-stat-val">'+dl+'</div><div class="hero-stat-lbl">Ngày còn lại</div></div>'+
+    '<div><div class="hero-stat-val">'+fB(used)+'</div><div class="hero-stat-lbl">Đã sử dụng</div></div>'+
+    '<div><div class="hero-stat-val">'+(user.alive_ip||0)+' / '+(user.device_limit||'∞')+'</div><div class="hero-stat-lbl">Thiết bị</div></div></div></div>'+
     '<div class="card" style="margin-bottom:20px"><div class="card-b">'+
-      '<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:13px;font-weight:600">Dung lượng sử dụng</span><span style="font-size:13px;font-weight:700;color:var(--pr)">'+pct+'%</span></div>'+
+      '<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:13px;font-weight:700">Dung lượng sử dụng</span><span style="font-size:14px;font-weight:800;color:var(--pr)">'+pct+'%</span></div>'+
       '<div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:'+pct+'%"></div></div>'+
-      '<div class="progress-info"><span>↑ Upload: '+fB(user.u||0)+'</span><span>↓ Download: '+fB(user.d||0)+'</span></div></div>'+
+      '<div class="progress-info"><span>'+L('arrow-up',14)+' '+fB(user.u||0)+'</span><span>'+L('arrow-down',14)+' '+fB(user.d||0)+'</span></div></div>'+
     '</div></div>'+
-    '<div class="g g3" style="margin-bottom:20px">'+
-      qcard('subscribe',L('link',22),'c1','Đăng ký & Khu vực','Lấy link, đồng bộ app')+
-      qcard('plan',L('gem',22),'c2','Mua gói / Gia hạn','Xem gói dịch vụ có sẵn')+
-      qcard('server',L('server',22),'c4','Danh sách máy chủ','Xem trạng thái server')+
+    '<div class="g g3" style="margin-bottom:14px">'+
+      qcard('subscribe',L('link',20),'c1','Đăng ký & Khu vực','Lấy link, đồng bộ app')+
+      qcard('plan',L('gem',20),'c2','Mua gói / Gia hạn','Xem gói dịch vụ có sẵn')+
+      qcard('server',L('server',20),'c4','Danh sách máy chủ','Xem trạng thái server')+
     '</div>'+
     '<div class="g g3">'+
-      qcard('invite',L('gift',22),'c3','Giới thiệu bạn bè','Kiếm hoa hồng')+
-      qcard('ticket',L('message-circle',22),'c1','Hỗ trợ kỹ thuật','Gửi ticket')+
-      qcard('profile',L('user',22),'c4','Tài khoản','Đổi mật khẩu, cài đặt')+
+      qcard('invite',L('gift',20),'c3','Giới thiệu bạn bè','Kiếm hoa hồng')+
+      qcard('ticket',L('message-circle',20),'c1','Hỗ trợ kỹ thuật','Gửi ticket')+
+      qcard('profile',L('user',20),'c4','Tài khoản','Đổi mật khẩu, cài đặt')+
     '</div>';
     $('pc').classList.add('fade-in');LI();
-    api('/user/notice/fetch').then(function(j){var ns=j.data||[];if(!ns.length)return;var nb=$('noticeBanner');if(!nb)return;nb.innerHTML='<div class="notice"><div class="notice-ico">📢</div><div><div class="notice-t">'+e(ns[0].title)+'</div><div class="notice-s">'+(ns[0].content||'').substring(0,150)+'</div></div></div>';}).catch(function(){});
+    api('/user/notice/fetch').then(function(j){var ns=j.data||[];if(!ns.length)return;var nb=$('noticeBanner');if(!nb)return;nb.innerHTML='<div class="notice"><div class="notice-ico">'+L('bell',16)+'</div><div><div class="notice-t">'+e(ns[0].title)+'</div><div class="notice-s">'+(ns[0].content||'').substring(0,150)+'</div></div></div>';LI();}).catch(function(){});
   });
 }
 function qcard(p,i,c,t,s){return '<div class="qcard" onclick="location.hash=\'#/'+p+'\'"><div class="qcard-ico '+c+'">'+i+'</div><div><div class="qcard-t">'+t+'</div><div class="qcard-s">'+s+'</div></div></div>';}
