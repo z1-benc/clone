@@ -164,204 +164,313 @@
     });
   }
 
-  // ========== TNETZ TAB IN SYSTEM CONFIG ==========
+  // ========== TNETZ MANAGEMENT PAGE (Webcon-style) ==========
+  var tnetzPageInjected = false;
   var tnetzTabInjected = false;
+  var tnetzData = null;
+  var tnetzMenuInjected = false;
 
-  function injectTnetzTab() {
-    if (tnetzTabInjected) return;
-    if (!window.location.hash.includes('/config/system')) return;
-    if (document.getElementById('tnetz-tab')) return;
-    
-    // Ant Design v3: .ant-tabs-nav.ant-tabs-nav-animated > div (no class) holds tabs
-    var navAnimated = document.querySelector('.ant-tabs-nav.ant-tabs-nav-animated');
-    if (!navAnimated) return;
-    var tabContainer = navAnimated.querySelector(':scope > div:first-child');
-    if (!tabContainer) return;
-    var inkBar = navAnimated.querySelector('.ant-tabs-ink-bar');
-    
-    var existingTab = tabContainer.querySelector('.ant-tabs-tab');
-    if (!existingTab) return;
+  function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-    // Create new tab matching Ant Design v3 style
-    var newTab = document.createElement('div');
-    newTab.id = 'tnetz-tab';
-    newTab.setAttribute('role', 'tab');
-    newTab.setAttribute('aria-disabled', 'false');
-    newTab.setAttribute('aria-selected', 'false');
-    newTab.className = 'ant-tabs-tab';
-    newTab.textContent = 'TNETZ';
-    newTab.style.cursor = 'pointer';
-    tabContainer.appendChild(newTab);
+  // Inject TNETZ sidebar menu item
+  function injectTnetzMenu() {
+    if (tnetzMenuInjected) return;
+    var sidebar = document.querySelector('.ant-layout-sider-children .ant-menu, .ant-menu-root');
+    if (!sidebar) return;
+    if (document.getElementById('tnetz-menu-item')) { tnetzMenuInjected = true; return; }
 
-    // Create content panel — matching native ant-form-item style like Telegram tab
-    var contentArea = document.querySelector('.ant-tabs-content');
-    if (!contentArea) contentArea = document.querySelector('.ant-tabs');
+    // Find the config/system menu item to insert after
+    var configMenu = null;
+    sidebar.querySelectorAll('.ant-menu-submenu, .ant-menu-item').forEach(function(item) {
+      var text = item.textContent || '';
+      if (text.includes('系统') || text.includes('Cấu hình') || text.includes('Config') || text.includes('设置')) {
+        configMenu = item;
+      }
+    });
 
-    var adminPrefix = window.location.pathname.split('/')[1];
+    var menuItem = document.createElement('li');
+    menuItem.id = 'tnetz-menu-item';
+    menuItem.className = 'ant-menu-item';
+    menuItem.setAttribute('role', 'menuitem');
+    menuItem.style.cssText = 'cursor:pointer;';
+    menuItem.innerHTML = '<span><i class="anticon" style="margin-right:8px;">⚡</i><span>TNETZ</span></span>';
+    menuItem.addEventListener('click', function() {
+      // Remove active from all items
+      sidebar.querySelectorAll('.ant-menu-item-selected').forEach(function(el) { el.classList.remove('ant-menu-item-selected'); });
+      menuItem.classList.add('ant-menu-item-selected');
+      window.location.hash = '#/tnetz';
+    });
 
-    var tnetzPanel = document.createElement('div');
-    tnetzPanel.id = 'tnetz-config-panel';
-    tnetzPanel.style.cssText = 'display:none;';
-    tnetzPanel.innerHTML =
-      // Row 1: SNI List — native config style
-      '<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 0;border-bottom:1px solid #f0f0f0;">' +
-        '<div style="flex:1;padding-right:40px;">' +
-          '<div style="font-weight:600;font-size:14px;color:rgba(0,0,0,0.85);">Danh sách SNI</div>' +
-          '<div style="font-size:13px;color:rgba(0,0,0,0.45);margin-top:4px;">Mỗi dòng là 1 SNI. Định dạng: Tên|Giá trị. Dùng để set SNI cho user trong trang quản lý.</div>' +
-        '</div>' +
-        '<div style="flex:0 0 400px;">' +
-          '<textarea id="tnetz-sni-textarea" rows="4" class="ant-input" style="font-family:monospace;font-size:13px;resize:vertical;" placeholder="Viettel|dl.viettel.vn&#10;MobiFone|gg.gg.vn&#10;VinaPhone|zalo.vn"></textarea>' +
-        '</div>' +
-      '</div>' +
-      // Row 2: Subscribe info toggles — native config style
-      '<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 0;border-bottom:1px solid #f0f0f0;">' +
-        '<div style="flex:1;padding-right:40px;">' +
-          '<div style="font-weight:600;font-size:14px;color:rgba(0,0,0,0.85);">Hiển thị trên link đăng ký</div>' +
-          '<div style="font-size:13px;color:rgba(0,0,0,0.45);margin-top:4px;">Bật/tắt thông tin hiện trên link subscribe (web mẹ). Web con có config riêng.</div>' +
-        '</div>' +
-        '<div style="flex:0 0 400px;display:flex;flex-wrap:wrap;gap:8px 20px;padding-top:4px;">' +
-          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_user_id" checked style="width:15px;height:15px;accent-color:#1890ff;"> ID</label>' +
-          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_plan" checked style="width:15px;height:15px;accent-color:#1890ff;"> Gói</label>' +
-          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_data" checked style="width:15px;height:15px;accent-color:#1890ff;"> Còn (data)</label>' +
-          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_reset" checked style="width:15px;height:15px;accent-color:#1890ff;"> Làm mới</label>' +
-          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="tnetz-sys-show_expiry" checked style="width:15px;height:15px;accent-color:#1890ff;"> Hạn</label>' +
-        '</div>' +
-      '</div>' +
-      // Row 3: Subscribe URLs
-      '<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 0;border-bottom:1px solid #f0f0f0;">' +
-        '<div style="flex:1;padding-right:40px;">' +
-          '<div style="font-weight:600;font-size:14px;color:rgba(0,0,0,0.85);">Đường dẫn đăng ký khu vực</div>' +
-          '<div style="font-size:13px;color:rgba(0,0,0,0.45);margin-top:4px;">Thêm URL đăng ký cho từng khu vực. Người dùng sẽ chọn khu vực khi xem link đăng ký.</div>' +
-        '</div>' +
-        '<div style="flex:0 0 500px;">' +
-          '<div id="tnetz-subscribe-urls-list"></div>' +
-          '<button id="tnetz-add-url" class="ant-btn" style="margin-top:8px;" type="button">+ Thêm khu vực</button>' +
-        '</div>' +
-      '</div>' +
-      // Save button row
-      '<div style="padding:24px 0;">' +
-        '<button id="tnetz-sni-save" class="ant-btn ant-btn-primary">Lưu</button>' +
-        '<span id="tnetz-sni-status" style="margin-left:12px;color:#52c41a;font-size:13px;"></span>' +
-      '</div>';
-    contentArea.parentNode.insertBefore(tnetzPanel, contentArea.nextSibling);
-
-    // Add hover effect to textarea
-    var ta = document.getElementById('tnetz-sni-textarea');
-    if (ta) {
-      ta.addEventListener('focus', () => { ta.style.borderColor = '#40a9ff'; ta.style.boxShadow = '0 0 0 2px rgba(24,144,255,0.2)'; });
-      ta.addEventListener('blur', () => { ta.style.borderColor = '#d9d9d9'; ta.style.boxShadow = 'none'; });
+    if (configMenu && configMenu.nextSibling) {
+      sidebar.insertBefore(menuItem, configMenu.nextSibling);
+    } else {
+      sidebar.appendChild(menuItem);
     }
+    tnetzMenuInjected = true;
+  }
 
-    // Load current SNI data
+  // Inject the full TNETZ page
+  function injectTnetzTab() {
+    injectTnetzMenu();
+    if (tnetzPageInjected) return;
+    if (!window.location.hash.includes('/tnetz')) return;
+    var container = document.querySelector('.ant-layout-content');
+    if (!container) return;
+    if (document.getElementById('tnetz-mgmt-page')) { tnetzPageInjected = true; return; }
+
+    var wrap = document.createElement('div');
+    wrap.id = 'tnetz-mgmt-page';
+    wrap.innerHTML = '<style>' +
+      '.tz-page{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}' +
+      '.tz-page-hdr{padding:16px 0;margin-bottom:0}' +
+      '.tz-page-title{font-size:20px;font-weight:600;color:rgba(0,0,0,.85)}' +
+      '.tz-page-desc{font-size:13px;color:rgba(0,0,0,.45);margin-top:4px}' +
+      '.tz-block{background:#fff;border-radius:4px;margin-bottom:16px}' +
+      '.tz-block-hdr{padding:12px 16px;border-bottom:1px solid #e8e8e8;display:flex;align-items:center;justify-content:space-between}' +
+      '.tz-block-title{font-size:14px;font-weight:600;color:rgba(0,0,0,.85);display:flex;align-items:center;gap:8px}' +
+      '.tz-block-body{padding:0}' +
+      /* Table — mimic Ant Design Table */
+      '.tz-table{width:100%;border-collapse:collapse;font-size:14px}' +
+      '.tz-table th{background:#fafafa;padding:12px 16px;text-align:left;font-weight:500;color:rgba(0,0,0,.85);border-bottom:1px solid #e8e8e8;font-size:13px;white-space:nowrap}' +
+      '.tz-table td{padding:12px 16px;border-bottom:1px solid #e8e8e8;color:rgba(0,0,0,.65);vertical-align:top}' +
+      '.tz-table tr:hover td{background:#e6f7ff}' +
+      '.tz-table .tz-mono{font-family:SFMono-Regular,Consolas,monospace;font-size:12px;color:#333}' +
+      /* Switch — mimic Ant Design Switch */
+      '.tz-switch{position:relative;display:inline-block;width:36px;height:20px;cursor:pointer}' +
+      '.tz-switch input{opacity:0;width:0;height:0}' +
+      '.tz-switch-slider{position:absolute;top:0;left:0;right:0;bottom:0;background:#00000040;border-radius:20px;transition:.2s}' +
+      '.tz-switch-slider:before{content:"";position:absolute;height:16px;width:16px;left:2px;top:2px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 2px 4px rgba(0,0,0,.2)}' +
+      '.tz-switch input:checked+.tz-switch-slider{background:#1890ff}' +
+      '.tz-switch input:checked+.tz-switch-slider:before{transform:translateX(16px)}' +
+      /* Actions */
+      '.tz-act{color:#1890ff;cursor:pointer;font-size:13px;background:none;border:none;padding:0}.tz-act:hover{color:#40a9ff}' +
+      '.tz-divider{display:inline-block;width:1px;height:14px;background:#e8e8e8;margin:0 8px;vertical-align:middle}' +
+      '.tz-tag{display:inline-block;padding:1px 8px;border-radius:4px;font-size:12px;line-height:20px}' +
+      '.tz-tag-blue{background:#e6f7ff;color:#1890ff;border:1px solid #91d5ff}' +
+      '.tz-tag-green{background:#f6ffed;color:#52c41a;border:1px solid #b7eb8f}' +
+      '.tz-tag-gold{background:#fffbe6;color:#faad14;border:1px solid #ffe58f}' +
+      /* Modal — mimic Ant Design Modal */
+      '.tz-modal-ov{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.45);z-index:1000;display:flex;justify-content:center;align-items:center}' +
+      '.tz-modal{background:#fff;border-radius:4px;width:620px;max-width:90vw;max-height:85vh;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,.15)}' +
+      '.tz-modal-hdr{padding:16px 24px;border-bottom:1px solid #e8e8e8;display:flex;align-items:center;justify-content:space-between}' +
+      '.tz-modal-title{font-size:16px;font-weight:600;color:rgba(0,0,0,.85)}' +
+      '.tz-modal-close{background:none;border:none;font-size:18px;cursor:pointer;color:rgba(0,0,0,.45);padding:0 4px;line-height:1}.tz-modal-close:hover{color:rgba(0,0,0,.75)}' +
+      '.tz-modal-body{padding:24px}' +
+      '.tz-modal-footer{padding:10px 16px;border-top:1px solid #e8e8e8;text-align:right;display:flex;gap:8px;justify-content:flex-end}' +
+      '.tz-form-group{margin-bottom:16px}' +
+      '.tz-form-label{display:block;font-size:13px;font-weight:500;color:rgba(0,0,0,.85);margin-bottom:6px}' +
+      '.tz-form-help{font-size:12px;color:rgba(0,0,0,.45);margin-top:4px}' +
+      '.tz-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}' +
+      '.tz-btn{padding:5px 16px;border-radius:4px;font-size:14px;cursor:pointer;border:1px solid #d9d9d9;background:#fff;color:rgba(0,0,0,.65);transition:.2s;line-height:1.5}.tz-btn:hover{color:#40a9ff;border-color:#40a9ff}' +
+      '.tz-btn-primary{background:#1890ff;color:#fff;border-color:#1890ff}.tz-btn-primary:hover{background:#40a9ff;border-color:#40a9ff}' +
+      '.tz-btn-danger{color:#ff4d4f;border-color:#ff4d4f}.tz-btn-danger:hover{background:#fff1f0}' +
+      '.tz-btn-sm{padding:2px 8px;font-size:12px}' +
+      '.tz-empty{text-align:center;padding:32px;color:rgba(0,0,0,.25);font-size:14px}' +
+      '.tz-url-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}' +
+    '</style>' +
+    '<div class="tz-page">' +
+      '<div class="tz-page-hdr"><div class="tz-page-title">⚡ Quản Lý TNETZ</div><div class="tz-page-desc">Cấu hình SNI, subscribe info, đường dẫn khu vực — quản lý tập trung</div></div>' +
+      /* Block 1: SNI List */
+      '<div class="tz-block">' +
+        '<div class="tz-block-hdr"><div class="tz-block-title">🔒 Danh sách SNI</div><button class="tz-btn tz-btn-sm" onclick="window._tzAddSni()"><i class="anticon anticon-plus" style="margin-right:4px">+</i> Thêm SNI</button></div>' +
+        '<div class="tz-block-body"><table class="tz-table"><thead><tr><th>#</th><th>Tên</th><th>Giá trị SNI</th><th style="text-align:right">Thao tác</th></tr></thead><tbody id="tz-sni-tbody"></tbody></table></div>' +
+      '</div>' +
+      /* Block 2: Subscribe Info Config */
+      '<div class="tz-block">' +
+        '<div class="tz-block-hdr"><div class="tz-block-title">📋 Hiển thị trên link đăng ký (Web mẹ)</div></div>' +
+        '<div class="tz-block-body"><table class="tz-table"><thead><tr><th>Thông tin</th><th>Kích Hoạt</th><th>Mô tả</th></tr></thead><tbody id="tz-sub-info-tbody"></tbody></table></div>' +
+      '</div>' +
+      /* Block 3: Subscribe URLs */
+      '<div class="tz-block">' +
+        '<div class="tz-block-hdr"><div class="tz-block-title">🌐 Đường dẫn đăng ký khu vực</div><button class="tz-btn tz-btn-sm" onclick="window._tzAddUrl()"><i class="anticon anticon-plus" style="margin-right:4px">+</i> Thêm khu vực</button></div>' +
+        '<div class="tz-block-body"><table class="tz-table"><thead><tr><th>#</th><th>Kích Hoạt</th><th>Tên khu vực</th><th>URL đăng ký</th><th style="text-align:right">Thao tác</th></tr></thead><tbody id="tz-url-tbody"></tbody></table></div>' +
+      '</div>' +
+      /* Save bar */
+      '<div style="padding:16px 0;display:flex;gap:12px;align-items:center">' +
+        '<button class="tz-btn tz-btn-primary" id="tz-save-all" onclick="window._tzSaveAll()">💾 Lưu tất cả</button>' +
+        '<span id="tz-save-status" style="font-size:13px;color:#52c41a"></span>' +
+      '</div>' +
+    '</div>';
+
+    // Hide existing content and show our page
+    container.querySelectorAll(':scope > *:not(#tnetz-mgmt-page)').forEach(function(el) { el.style.display = 'none'; });
+    container.appendChild(wrap);
+
+    // Load data and render
+    loadTnetzData();
+    tnetzPageInjected = true;
+  }
+
+  // ---- Data ----
+  var tnetzSnis = [];
+  var tnetzSubInfo = {};
+  var tnetzUrls = [];
+
+  function loadTnetzData() {
+    var adminPrefix = window.location.pathname.split('/')[1];
     fetch('/api/v1/' + adminPrefix + '/config/fetch?key=tnetz', {
       headers: { 'Authorization': localStorage.getItem('authorization') || '' }
-    }).then(r => r.json()).then(data => {
-      var ta = document.getElementById('tnetz-sni-textarea');
-      if (!ta || !data.data) return;
-      // Try nested (tnetz.sni_list) or flat (sni_list)
-      var val = (data.data.tnetz && data.data.tnetz.sni_list) || data.data.sni_list || '';
-      ta.value = val;
-      // Load subscribe_info_config toggles
-      var sic = (data.data.tnetz && data.data.tnetz.subscribe_info_config) || data.data.subscribe_info_config;
-      if (sic) {
-        try { if (typeof sic === 'string') sic = JSON.parse(sic); } catch(e) {}
-        ['show_user_id','show_plan','show_data','show_reset','show_expiry'].forEach(k => {
-          var cb = document.getElementById('tnetz-sys-' + k);
-          if (cb && sic[k] !== undefined) cb.checked = sic[k] !== false;
-        });
-      }
-      // Load subscribe_urls
-      var su = (data.data.tnetz && data.data.tnetz.subscribe_urls) || data.data.subscribe_urls;
-      if (su) {
-        try { if (typeof su === 'string') su = JSON.parse(su); } catch(e) { su = []; }
-        if (Array.isArray(su)) su.forEach(function(item) { addUrlRow(item.name, item.url); });
-      }
-    }).catch(() => {});
-
-    // Subscribe URLs dynamic rows
-    function addUrlRow(name, url) {
-      var list = document.getElementById('tnetz-subscribe-urls-list');
-      if (!list) return;
-      var row = document.createElement('div');
-      row.style.cssText = 'display:flex;gap:8px;margin-bottom:8px;align-items:center;';
-      row.innerHTML = '<input type="text" class="ant-input tnetz-url-name" placeholder="Tên khu vực" value="' + (name||'').replace(/"/g,'&quot;') + '" style="width:160px;font-size:13px;">' +
-        '<input type="text" class="ant-input tnetz-url-value" placeholder="https://..." value="' + (url||'').replace(/"/g,'&quot;') + '" style="flex:1;font-size:13px;font-family:monospace;">' +
-        '<button class="ant-btn ant-btn-sm" type="button" style="color:#ff4d4f;border-color:#ff4d4f;" onclick="this.parentElement.remove()">✕</button>';
-      list.appendChild(row);
-    }
-    document.getElementById('tnetz-add-url').addEventListener('click', function() { addUrlRow('',''); });
-
-    // Save button
-    document.getElementById('tnetz-sni-save').addEventListener('click', () => {
-      var ta = document.getElementById('tnetz-sni-textarea');
-      var status = document.getElementById('tnetz-sni-status');
-      var btn = document.getElementById('tnetz-sni-save');
-      btn.textContent = 'Đang lưu...';
-      btn.disabled = true;
-
-      fetch('/api/v1/' + adminPrefix + '/config/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('authorization') || '' },
-        body: JSON.stringify({
-          sni_list: ta.value,
-          subscribe_info_config: JSON.stringify({
-            show_user_id: document.getElementById('tnetz-sys-show_user_id').checked,
-            show_plan: document.getElementById('tnetz-sys-show_plan').checked,
-            show_data: document.getElementById('tnetz-sys-show_data').checked,
-            show_reset: document.getElementById('tnetz-sys-show_reset').checked,
-            show_expiry: document.getElementById('tnetz-sys-show_expiry').checked
-          }),
-          subscribe_urls: JSON.stringify(Array.from(document.querySelectorAll('#tnetz-subscribe-urls-list > div')).map(function(row) {
-            return { name: row.querySelector('.tnetz-url-name').value.trim(), url: row.querySelector('.tnetz-url-value').value.trim() };
-          }).filter(function(item) { return item.name && item.url; }))
-        })
-      }).then(r => r.json()).then(d => {
-        btn.textContent = 'Lưu';
-        btn.disabled = false;
-        status.textContent = '✅ Đã lưu thành công!';
-        sniCache = null;
-        setTimeout(() => { status.textContent = ''; }, 3000);
-      }).catch(e => {
-        btn.textContent = 'Lưu';
-        btn.disabled = false;
-        status.textContent = '❌ Lỗi: ' + e.message;
+    }).then(function(r){ return r.json(); }).then(function(data) {
+      if (!data.data) return;
+      var d = data.data.tnetz || data.data;
+      // Parse SNI list
+      var raw = d.sni_list || '';
+      tnetzSnis = [];
+      raw.split('\n').forEach(function(line, i) {
+        line = line.trim();
+        if (!line) return;
+        var parts = line.split('|');
+        tnetzSnis.push({ id: i + 1, name: parts[0].trim(), value: (parts[1] || parts[0]).trim(), enabled: true });
       });
-    });
-
-    // Move ink-bar to TNETZ tab
-    function moveInkBar(targetTab) {
-      if (!inkBar) return;
-      var left = targetTab.offsetLeft;
-      var width = targetTab.offsetWidth;
-      inkBar.style.transform = 'translate3d(' + left + 'px, 0px, 0px)';
-      inkBar.style.width = width + 'px';
-    }
-
-    // Tab click: show TNETZ panel, hide main content, move ink-bar
-    newTab.addEventListener('click', () => {
-      tabContainer.querySelectorAll('.ant-tabs-tab').forEach(t => t.classList.remove('ant-tabs-tab-active'));
-      newTab.classList.add('ant-tabs-tab-active');
-      contentArea.style.display = 'none';
-      tnetzPanel.style.display = 'block';
-      moveInkBar(newTab);
-    });
-
-    // Other tabs: hide TNETZ panel, restore content, move ink-bar back
-    tabContainer.querySelectorAll('.ant-tabs-tab:not(#tnetz-tab)').forEach(tab => {
-      tab.addEventListener('click', () => {
-        tnetzPanel.style.display = 'none';
-        newTab.classList.remove('ant-tabs-tab-active');
-        contentArea.style.display = '';
-        // Let Ant Design handle ink-bar by removing our forced style
-        if (inkBar) {
-          inkBar.style.transform = '';
-          inkBar.style.width = '';
-        }
+      // Parse subscribe info
+      var sic = d.subscribe_info_config;
+      if (sic) { try { if (typeof sic === 'string') sic = JSON.parse(sic); } catch(e) { sic = {}; } }
+      tnetzSubInfo = sic || {};
+      // Parse subscribe urls
+      var su = d.subscribe_urls;
+      if (su) { try { if (typeof su === 'string') su = JSON.parse(su); } catch(e) { su = []; } }
+      tnetzUrls = (Array.isArray(su) ? su : []).map(function(item, i) {
+        return { id: i + 1, name: item.name || '', url: item.url || '', enabled: item.enabled !== false };
       });
-    });
-
-    tnetzTabInjected = true;
+      renderTnetzSni();
+      renderTnetzSubInfo();
+      renderTnetzUrls();
+    }).catch(function(){});
   }
+
+  function renderTnetzSni() {
+    var tbody = document.getElementById('tz-sni-tbody');
+    if (!tbody) return;
+    if (!tnetzSnis.length) { tbody.innerHTML = '<tr><td colspan="4" class="tz-empty">Chưa có SNI nào. Nhấn "Thêm SNI" để bắt đầu.</td></tr>'; return; }
+    var h = '';
+    tnetzSnis.forEach(function(s, i) {
+      h += '<tr>' +
+        '<td style="width:50px;color:rgba(0,0,0,.45)">' + (i + 1) + '</td>' +
+        '<td style="font-weight:500">' + esc(s.name) + '</td>' +
+        '<td><span class="tz-mono">' + esc(s.value) + '</span></td>' +
+        '<td style="text-align:right;white-space:nowrap">' +
+          '<button class="tz-act" onclick="window._tzEditSni(' + i + ')">Sửa</button>' +
+          '<span class="tz-divider"></span>' +
+          '<button class="tz-act" style="color:#ff4d4f" onclick="window._tzDelSni(' + i + ')">Xóa</button>' +
+        '</td></tr>';
+    });
+    tbody.innerHTML = h;
+  }
+
+  function renderTnetzSubInfo() {
+    var tbody = document.getElementById('tz-sub-info-tbody');
+    if (!tbody) return;
+    var items = [
+      { key: 'show_user_id', label: 'User ID', desc: 'Hiển thị mã ID người dùng trên link subscribe' },
+      { key: 'show_plan', label: 'Gói dịch vụ', desc: 'Hiển thị tên gói đang sử dụng' },
+      { key: 'show_data', label: 'Dung lượng còn lại', desc: 'Hiển thị data đã dùng / tổng data' },
+      { key: 'show_reset', label: 'Ngày làm mới', desc: 'Hiển thị ngày reset data tiếp theo' },
+      { key: 'show_expiry', label: 'Ngày hết hạn', desc: 'Hiển thị ngày hết hạn gói dịch vụ' }
+    ];
+    var h = '';
+    items.forEach(function(item) {
+      var checked = tnetzSubInfo[item.key] !== false;
+      h += '<tr>' +
+        '<td style="font-weight:500">' + esc(item.label) + '</td>' +
+        '<td><label class="tz-switch"><input type="checkbox" ' + (checked ? 'checked' : '') + ' onchange="window._tzToggleSubInfo(\'' + item.key + '\',this.checked)"><span class="tz-switch-slider"></span></label></td>' +
+        '<td style="color:rgba(0,0,0,.45);font-size:13px">' + esc(item.desc) + '</td>' +
+      '</tr>';
+    });
+    tbody.innerHTML = h;
+  }
+
+  function renderTnetzUrls() {
+    var tbody = document.getElementById('tz-url-tbody');
+    if (!tbody) return;
+    if (!tnetzUrls.length) { tbody.innerHTML = '<tr><td colspan="5" class="tz-empty">Chưa có URL nào. Nhấn "Thêm khu vực" để bắt đầu.</td></tr>'; return; }
+    var h = '';
+    tnetzUrls.forEach(function(u, i) {
+      h += '<tr>' +
+        '<td style="width:50px;color:rgba(0,0,0,.45)">' + (i + 1) + '</td>' +
+        '<td><label class="tz-switch"><input type="checkbox" ' + (u.enabled ? 'checked' : '') + ' onchange="window._tzToggleUrl(' + i + ',this.checked)"><span class="tz-switch-slider"></span></label></td>' +
+        '<td style="font-weight:500">' + esc(u.name) + '</td>' +
+        '<td><span class="tz-mono">' + esc(u.url) + '</span></td>' +
+        '<td style="text-align:right;white-space:nowrap">' +
+          '<button class="tz-act" onclick="window._tzEditUrl(' + i + ')">Sửa</button>' +
+          '<span class="tz-divider"></span>' +
+          '<button class="tz-act" style="color:#ff4d4f" onclick="window._tzDelUrl(' + i + ')">Xóa</button>' +
+        '</td></tr>';
+    });
+    tbody.innerHTML = h;
+  }
+
+  // ---- SNI CRUD ----
+  window._tzAddSni = function() { showTzModal('Thêm SNI', {name:'',value:''}, function(d) { tnetzSnis.push({id:tnetzSnis.length+1,name:d.name,value:d.value,enabled:true}); renderTnetzSni(); }, 'sni'); };
+  window._tzEditSni = function(i) { showTzModal('Sửa SNI', tnetzSnis[i], function(d) { tnetzSnis[i].name=d.name; tnetzSnis[i].value=d.value; renderTnetzSni(); }, 'sni'); };
+  window._tzDelSni = function(i) { if (!confirm('Xóa SNI "' + tnetzSnis[i].name + '"?')) return; tnetzSnis.splice(i,1); renderTnetzSni(); };
+
+  // ---- URL CRUD ----
+  window._tzAddUrl = function() { showTzModal('Thêm khu vực', {name:'',url:'',enabled:true}, function(d) { tnetzUrls.push({id:tnetzUrls.length+1,name:d.name,url:d.url,enabled:true}); renderTnetzUrls(); }, 'url'); };
+  window._tzEditUrl = function(i) { showTzModal('Sửa khu vực', tnetzUrls[i], function(d) { tnetzUrls[i].name=d.name; tnetzUrls[i].url=d.url; renderTnetzUrls(); }, 'url'); };
+  window._tzDelUrl = function(i) { if (!confirm('Xóa khu vực "' + tnetzUrls[i].name + '"?')) return; tnetzUrls.splice(i,1); renderTnetzUrls(); };
+  window._tzToggleUrl = function(i, v) { tnetzUrls[i].enabled = v; };
+  window._tzToggleSubInfo = function(key, v) { tnetzSubInfo[key] = v; };
+
+  // ---- Modal ----
+  function showTzModal(title, data, onSave, type) {
+    var existing = document.getElementById('tz-modal-overlay');
+    if (existing) existing.remove();
+    var ov = document.createElement('div');
+    ov.id = 'tz-modal-overlay';
+    ov.className = 'tz-modal-ov';
+    var fields = '';
+    if (type === 'sni') {
+      fields = '<div class="tz-form-group"><label class="tz-form-label">Tên hiển thị</label><input id="tz-modal-f1" class="ant-input" style="width:100%" placeholder="VD: Viettel" value="' + esc(data.name) + '"></div>' +
+        '<div class="tz-form-group"><label class="tz-form-label">Giá trị SNI</label><input id="tz-modal-f2" class="ant-input" style="width:100%;font-family:monospace" placeholder="VD: dl.viettel.vn" value="' + esc(data.value) + '"><div class="tz-form-help">Domain SNI sẽ được set cho user</div></div>';
+    } else {
+      fields = '<div class="tz-form-group"><label class="tz-form-label">Tên khu vực</label><input id="tz-modal-f1" class="ant-input" style="width:100%" placeholder="VD: Việt Nam" value="' + esc(data.name) + '"></div>' +
+        '<div class="tz-form-group"><label class="tz-form-label">URL đăng ký</label><input id="tz-modal-f2" class="ant-input" style="width:100%;font-family:monospace" placeholder="https://..." value="' + esc(data.url || '') + '"><div class="tz-form-help">URL subscribe cho khu vực này</div></div>';
+    }
+    ov.innerHTML = '<div class="tz-modal">' +
+      '<div class="tz-modal-hdr"><span class="tz-modal-title">' + title + '</span><button class="tz-modal-close" onclick="document.getElementById(\'tz-modal-overlay\').remove()">✕</button></div>' +
+      '<div class="tz-modal-body">' + fields + '</div>' +
+      '<div class="tz-modal-footer"><button class="tz-btn" onclick="document.getElementById(\'tz-modal-overlay\').remove()">Hủy</button><button class="tz-btn tz-btn-primary" id="tz-modal-ok">Xác nhận</button></div>' +
+    '</div>';
+    document.body.appendChild(ov);
+    ov.onclick = function(e) { if (e.target === ov) ov.remove(); };
+    document.getElementById('tz-modal-ok').onclick = function() {
+      var f1 = document.getElementById('tz-modal-f1').value.trim();
+      var f2 = document.getElementById('tz-modal-f2').value.trim();
+      if (!f1) { alert('Vui lòng nhập tên'); return; }
+      if (type === 'sni') onSave({name:f1, value:f2||f1});
+      else onSave({name:f1, url:f2});
+      ov.remove();
+    };
+    // Focus first input
+    setTimeout(function() { var f = document.getElementById('tz-modal-f1'); if (f) f.focus(); }, 100);
+  }
+
+  // ---- Save All ----
+  window._tzSaveAll = function() {
+    var btn = document.getElementById('tz-save-all');
+    var status = document.getElementById('tz-save-status');
+    btn.textContent = '⏳ Đang lưu...'; btn.disabled = true;
+    var adminPrefix = window.location.pathname.split('/')[1];
+    // Build SNI text
+    var sniText = tnetzSnis.map(function(s) { return s.name + '|' + s.value; }).join('\n');
+    fetch('/api/v1/' + adminPrefix + '/config/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('authorization') || '' },
+      body: JSON.stringify({
+        sni_list: sniText,
+        subscribe_info_config: JSON.stringify(tnetzSubInfo),
+        subscribe_urls: JSON.stringify(tnetzUrls.map(function(u) { return { name: u.name, url: u.url, enabled: u.enabled }; }))
+      })
+    }).then(function(r){ return r.json(); }).then(function(d) {
+      btn.textContent = '💾 Lưu tất cả'; btn.disabled = false;
+      status.textContent = '✅ Đã lưu thành công!';
+      sniCache = null;
+      setTimeout(function() { status.textContent = ''; }, 3000);
+    }).catch(function(e) {
+      btn.textContent = '💾 Lưu tất cả'; btn.disabled = false;
+      status.textContent = '❌ Lỗi: ' + e.message;
+    });
+  };
 
 
   // ========== SUBSCRIBE INFO CONFIG IN WEBCON EDIT MODAL ==========
@@ -937,8 +1046,18 @@
   });
   observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['placeholder'] });
 
-  // Reset tab injection on hash change
-  window.addEventListener('hashchange', () => { tnetzTabInjected = false; webconTogglesInjected = false; orderCouponCache = {}; dashInjected = false; });
+  // Reset injection flags on hash change
+  window.addEventListener('hashchange', () => {
+    tnetzTabInjected = false; webconTogglesInjected = false; orderCouponCache = {}; dashInjected = false;
+    // Clean up TNETZ management page when navigating away
+    if (!window.location.hash.includes('/tnetz')) {
+      var tzPage = document.getElementById('tnetz-mgmt-page');
+      if (tzPage) { tzPage.remove(); tnetzPageInjected = false;
+        var container = document.querySelector('.ant-layout-content');
+        if (container) container.querySelectorAll(':scope > *').forEach(function(el) { el.style.display = ''; });
+      }
+    }
+  });
 
   setInterval(() => { translatePlaceholders(); translateSelectOptions(); translateMessages(); }, 800);
 })();
