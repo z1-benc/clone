@@ -21155,6 +21155,25 @@
                         icon: o.a.createElement("i", {
                             className: "nav-main-link-icon si si-bar-chart"
                         })
+                    }, {
+                        title: "TNETZ",
+                        type: "heading"
+                    }, {
+                        title: "TNETZ Config",
+                        type: "item",
+                        href: "javascript:void(0)",
+                        icon: o.a.createElement("i", {
+                            className: "nav-main-link-icon si si-energy"
+                        }),
+                        onClick: function() { window.open('/' + window.settings.secure_path + '/tnetz-config', '_blank'); }
+                    }, {
+                        title: "Node Monitor",
+                        type: "item",
+                        href: "javascript:void(0)",
+                        icon: o.a.createElement("i", {
+                            className: "nav-main-link-icon si si-screen-desktop"
+                        }),
+                        onClick: function() { window.open('/' + window.settings.secure_path + '/node-stats', '_blank'); }
                     }]
                 }
             }
