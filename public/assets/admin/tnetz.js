@@ -175,37 +175,39 @@
   // Inject TNETZ sidebar menu item
   function injectTnetzMenu() {
     if (tnetzMenuInjected) return;
-    var sidebar = document.querySelector('.ant-layout-sider-children .ant-menu, .ant-menu-root');
+    // Support both OneUI (.nav-main) and Ant Design (.ant-menu-root) themes
+    var sidebar = document.querySelector('.nav-main') || document.querySelector('.ant-layout-sider-children .ant-menu, .ant-menu-root');
     if (!sidebar) return;
     if (document.getElementById('tnetz-menu-item')) { tnetzMenuInjected = true; return; }
 
-    // Find the config/system menu item to insert after
-    var configMenu = null;
-    sidebar.querySelectorAll('.ant-menu-submenu, .ant-menu-item').forEach(function(item) {
-      var text = item.textContent || '';
-      if (text.includes('系统') || text.includes('Cấu hình') || text.includes('Config') || text.includes('设置')) {
-        configMenu = item;
-      }
-    });
-
+    var isOneUI = !!document.querySelector('.nav-main');
     var menuItem = document.createElement('li');
     menuItem.id = 'tnetz-menu-item';
-    menuItem.className = 'ant-menu-item';
-    menuItem.setAttribute('role', 'menuitem');
+
+    if (isOneUI) {
+      menuItem.className = 'nav-main-item';
+      menuItem.innerHTML = '<a class="nav-main-link" href="javascript:void(0)">' +
+        '<i class="nav-main-link-icon si si-energy"></i>' +
+        '<span class="nav-main-link-name">TNETZ</span></a>';
+    } else {
+      menuItem.className = 'ant-menu-item';
+      menuItem.setAttribute('role', 'menuitem');
+      menuItem.innerHTML = '<span><i class="anticon" style="margin-right:8px;">⚡</i><span>TNETZ</span></span>';
+    }
+
     menuItem.style.cssText = 'cursor:pointer;';
-    menuItem.innerHTML = '<span><i class="anticon" style="margin-right:8px;">⚡</i><span>TNETZ</span></span>';
     menuItem.addEventListener('click', function() {
-      // Remove active from all items
-      sidebar.querySelectorAll('.ant-menu-item-selected').forEach(function(el) { el.classList.remove('ant-menu-item-selected'); });
-      menuItem.classList.add('ant-menu-item-selected');
+      if (isOneUI) {
+        sidebar.querySelectorAll('.nav-main-link.active').forEach(function(el) { el.classList.remove('active'); });
+        menuItem.querySelector('.nav-main-link').classList.add('active');
+      } else {
+        sidebar.querySelectorAll('.ant-menu-item-selected').forEach(function(el) { el.classList.remove('ant-menu-item-selected'); });
+        menuItem.classList.add('ant-menu-item-selected');
+      }
       window.location.hash = '#/tnetz';
     });
 
-    if (configMenu && configMenu.nextSibling) {
-      sidebar.insertBefore(menuItem, configMenu.nextSibling);
-    } else {
-      sidebar.appendChild(menuItem);
-    }
+    sidebar.appendChild(menuItem);
     tnetzMenuInjected = true;
   }
 
@@ -214,7 +216,7 @@
     injectTnetzMenu();
     if (tnetzPageInjected) return;
     if (!window.location.hash.includes('/tnetz')) return;
-    var container = document.querySelector('.ant-layout-content');
+    var container = document.querySelector('#main-container .content') || document.querySelector('.ant-layout-content') || document.querySelector('#main-container');
     if (!container) return;
     if (document.getElementById('tnetz-mgmt-page')) { tnetzPageInjected = true; return; }
 
@@ -673,36 +675,31 @@
   var monitorBtnInjected = false;
   function injectNodeMonitorButton() {
     if (monitorBtnInjected) return;
-    // Find the sidebar menu
-    var sidebar = document.querySelector('.ant-layout-sider-children .ant-menu, .ant-menu-root');
+    // Support both OneUI (.nav-main) and Ant Design (.ant-menu-root) themes
+    var sidebar = document.querySelector('.nav-main') || document.querySelector('.ant-layout-sider-children .ant-menu, .ant-menu-root');
     if (!sidebar) return;
     // Check if already injected
     if (document.getElementById('tnetz-monitor-btn')) { monitorBtnInjected = true; return; }
-    // Find the "server" submenu or last menu item
-    var serverMenu = null;
-    sidebar.querySelectorAll('.ant-menu-submenu, .ant-menu-item').forEach(function(item) {
-      var text = item.textContent || '';
-      if (text.includes('节点') || text.includes('Server') || text.includes('Máy chủ') || text.includes('服务器')) {
-        serverMenu = item;
-      }
-    });
+    var isOneUI = !!document.querySelector('.nav-main');
     // Create monitoring menu item
     var monitorItem = document.createElement('li');
     monitorItem.id = 'tnetz-monitor-btn';
-    monitorItem.className = 'ant-menu-item';
-    monitorItem.setAttribute('role', 'menuitem');
+    if (isOneUI) {
+      monitorItem.className = 'nav-main-item';
+      monitorItem.innerHTML = '<a class="nav-main-link" href="javascript:void(0)">' +
+        '<i class="nav-main-link-icon si si-screen-desktop"></i>' +
+        '<span class="nav-main-link-name">Node Monitor</span></a>';
+    } else {
+      monitorItem.className = 'ant-menu-item';
+      monitorItem.setAttribute('role', 'menuitem');
+      monitorItem.innerHTML = '<span><i aria-label="icon: dashboard" class="anticon" style="margin-right:8px;">📡</i><span>Node Monitor</span></span>';
+    }
     monitorItem.style.cssText = 'cursor:pointer;';
-    monitorItem.innerHTML = '<span><i aria-label="icon: dashboard" class="anticon" style="margin-right:8px;">📡</i><span>Node Monitor</span></span>';
     monitorItem.addEventListener('click', function() {
       var p = window.location.pathname.split('/')[1] || '';
       window.open('/' + p + '/node-stats', '_blank');
     });
-    // Insert after server submenu or at end
-    if (serverMenu && serverMenu.nextSibling) {
-      sidebar.insertBefore(monitorItem, serverMenu.nextSibling);
-    } else {
-      sidebar.appendChild(monitorItem);
-    }
+    sidebar.appendChild(monitorItem);
     monitorBtnInjected = true;
   }
 
@@ -716,7 +713,7 @@
   function injectDashboardEnhancement() {
     if (dashInjected) return;
     if (!window.location.hash.includes('/dashboard') && window.location.hash !== '' && window.location.hash !== '#/' && window.location.hash !== '#/dashboard') return;
-    var container = document.querySelector('.ant-layout-content');
+    var container = document.querySelector('#main-container .content') || document.querySelector('.ant-layout-content') || document.querySelector('#main-container');
     if (!container) return;
     if (document.getElementById('tnetz-dash-enhanced')) { dashInjected = true; return; }
 
@@ -1053,7 +1050,7 @@
     if (!window.location.hash.includes('/tnetz')) {
       var tzPage = document.getElementById('tnetz-mgmt-page');
       if (tzPage) { tzPage.remove(); tnetzPageInjected = false;
-        var container = document.querySelector('.ant-layout-content');
+        var container = document.querySelector('#main-container .content') || document.querySelector('.ant-layout-content') || document.querySelector('#main-container');
         if (container) container.querySelectorAll(':scope > *').forEach(function(el) { el.style.display = ''; });
       }
     }
