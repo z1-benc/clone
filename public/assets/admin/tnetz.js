@@ -164,7 +164,7 @@
     });
   }
 
-  // ========== FIX SIDEBAR LINKS FOR STANDALONE PAGES ==========
+  // ========== INJECT TNETZ SIDEBAR + STANDALONE PAGE LINKS ==========
   var sidebarLinksFixed = false;
   var tnetzTabInjected = false;
 
@@ -174,27 +174,46 @@
     if (sidebarLinksFixed) return;
     var sidebar = document.querySelector('.nav-main');
     if (!sidebar) return;
+    if (document.getElementById('tz-sidebar-heading')) { sidebarLinksFixed = true; return; }
 
     var adminPath = window.location.pathname.split('/')[1] || '';
 
-    // Fix standalone page links: TNETZ Config and Node Monitor
-    var links = sidebar.querySelectorAll('.nav-main-link');
-    links.forEach(function(link) {
-      var text = (link.textContent || '').trim();
-      if (text === 'TNETZ Config') {
-        link.href = '/' + adminPath + '/tnetz-config';
-        link.target = '_self';
-        link.onclick = function(e) { e.preventDefault(); e.stopPropagation(); window.location.href = '/' + adminPath + '/tnetz-config'; };
-      } else if (text === 'Node Monitor') {
-        link.href = '/' + adminPath + '/node-stats';
-        link.target = '_blank';
-        link.onclick = function(e) { e.preventDefault(); e.stopPropagation(); window.open('/' + adminPath + '/node-stats', '_blank'); };
-      }
-    });
+    // 1) TNETZ heading
+    var heading = document.createElement('li');
+    heading.id = 'tz-sidebar-heading';
+    heading.className = 'nav-main-heading';
+    heading.textContent = 'TNETZ';
+    sidebar.appendChild(heading);
 
-    // Check if we found at least one
-    var found = sidebar.querySelector('.nav-main-link[href*="tnetz-config"]');
-    if (found) sidebarLinksFixed = true;
+    // 2) TNETZ Config link → standalone blade page
+    var tnetzItem = document.createElement('li');
+    tnetzItem.className = 'nav-main-item';
+    var tnetzLink = document.createElement('a');
+    tnetzLink.className = 'nav-main-link';
+    tnetzLink.href = '/' + adminPath + '/tnetz-config';
+    tnetzLink.innerHTML = '<i class="nav-main-link-icon si si-energy"></i><span class="nav-main-link-name">TNETZ Config</span>';
+    tnetzLink.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      window.location.href = '/' + adminPath + '/tnetz-config';
+    }, true);
+    tnetzItem.appendChild(tnetzLink);
+    sidebar.appendChild(tnetzItem);
+
+    // 3) Node Monitor link → standalone blade page (open in new tab)
+    var monitorItem = document.createElement('li');
+    monitorItem.className = 'nav-main-item';
+    var monitorLink = document.createElement('a');
+    monitorLink.className = 'nav-main-link';
+    monitorLink.href = '/' + adminPath + '/node-stats';
+    monitorLink.innerHTML = '<i class="nav-main-link-icon si si-screen-desktop"></i><span class="nav-main-link-name">Node Monitor</span>';
+    monitorLink.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      window.open('/' + adminPath + '/node-stats', '_blank');
+    }, true);
+    monitorItem.appendChild(monitorLink);
+    sidebar.appendChild(monitorItem);
+
+    sidebarLinksFixed = true;
   }
 
 
