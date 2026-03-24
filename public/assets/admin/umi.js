@@ -21155,8 +21155,7 @@
                         icon: o.a.createElement("i", {
                             className: "nav-main-link-icon si si-bar-chart"
                         })
-                        })
-)}]
+                    }]
                 }
             }
             componentDidMount() {}
