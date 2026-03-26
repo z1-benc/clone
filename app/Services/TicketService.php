@@ -36,7 +36,7 @@ class TicketService {
         $ticket = Ticket::where('id', $ticketId)
             ->first();
         if (!$ticket) {
-            abort(500, '工单不存在');
+            abort(500, 'Phiếu hỗ trợ không tồn tại');
         }
         
         DB::beginTransaction();
@@ -54,13 +54,13 @@ class TicketService {
         $ticket->touch();
         if (!$ticketMessage || !$ticket->save()) {
             DB::rollback();
-            abort(500, '工单回复失败');
+            abort(500, 'Phản hồi phiếu hỗ trợ thất bại');
         }
         DB::commit();
         $this->sendEmailNotify($ticket, $ticketMessage);
     }
 
-    // 半小时内不再重复通知
+    // Không gửi thông báo lặp lại trong vòng 30 phút
     private function sendEmailNotify(Ticket $ticket, TicketMessage $ticketMessage)
     {
         $user = User::find($ticket->user_id);
@@ -69,12 +69,12 @@ class TicketService {
             Cache::put($cacheKey, 1, 1800);
             SendEmailJob::dispatch([
                 'email' => $user->email,
-                'subject' => '您在' . config('v2board.app_name', 'V2Board') . '的工单得到了回复',
+                'subject' => 'Phiếu hỗ trợ của bạn tại ' . config('v2board.app_name', 'V2Board') . ' đã được phản hồi',
                 'template_name' => 'notify',
                 'template_value' => [
                     'name' => config('v2board.app_name', 'V2Board'),
                     'url' => config('v2board.app_url'),
-                    'content' => "主题：{$ticket->subject}\r\n回复内容：{$ticketMessage->message}"
+                    'content' => "Chủ đề: {$ticket->subject}\r\nNội dung phản hồi: {$ticketMessage->message}"
                 ]
             ]);
         }

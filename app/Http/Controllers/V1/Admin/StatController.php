@@ -67,6 +67,49 @@ class StatController extends Controller
 
     public function getOrder(Request $request)
     {
+        // Hỗ trợ period: week (7 ngày), month (30 ngày), year (365 ngày)
+        // Nếu không truyền period, dùng stat record 31 ngày gần nhất
+        $period = $request->input('period');
+
+        if ($period) {
+            $days = match($period) {
+                'week'  => 7,
+                'month' => 30,
+                'year'  => 365,
+                default => 30,
+            };
+            $startTime = strtotime("-{$days} days");
+            $result = [];
+            for ($i = 0; $i < $days; $i++) {
+                $dayStart = strtotime("+{$i} days", $startTime);
+                $dayEnd   = $dayStart + 86400;
+                $date     = date('Y-m-d', $dayStart);
+
+                $revenue = Order::where('created_at', '>=', $dayStart)
+                    ->where('created_at', '<', $dayEnd)
+                    ->whereNotIn('status', [0, 2])
+                    ->sum('total_amount');
+
+                $orders = Order::where('created_at', '>=', $dayStart)
+                    ->where('created_at', '<', $dayEnd)
+                    ->whereNotIn('status', [0, 2])
+                    ->count();
+
+                $registrations = User::where('created_at', '>=', $dayStart)
+                    ->where('created_at', '<', $dayEnd)
+                    ->count();
+
+                $result[] = [
+                    'date'          => $date,
+                    'revenue'       => $revenue / 100,
+                    'orders'        => $orders,
+                    'registrations' => $registrations,
+                ];
+            }
+            return ['data' => $result];
+        }
+
+        // Mặc định: dùng stat records (hiệu quả hơn, dùng dữ liệu đã được pre-aggregate)
         $statistics = Stat::where('record_type', 'd')
             ->limit(31)
             ->orderBy('record_at', 'DESC')
@@ -75,36 +118,14 @@ class StatController extends Controller
         $result = [];
         foreach ($statistics as $statistic) {
             $date = date('m-d', $statistic['record_at']);
-            $result[] = [
-                'type' => '注册人数',
-                'date' => $date,
-                'value' => $statistic['register_count']
-            ];
-            $result[] = [
-                'type' => '收款金额',
-                'date' => $date,
-                'value' => $statistic['paid_total'] / 100
-            ];
-            $result[] = [
-                'type' => '收款笔数',
-                'date' => $date,
-                'value' => $statistic['paid_count']
-            ];
-            $result[] = [
-                'type' => '佣金金额(已发放)',
-                'date' => $date,
-                'value' => $statistic['commission_total'] / 100
-            ];
-            $result[] = [
-                'type' => '佣金笔数(已发放)',
-                'date' => $date,
-                'value' => $statistic['commission_count']
-            ];
+            $result[] = ['type' => '注册人数',       'date' => $date, 'value' => $statistic['register_count']];
+            $result[] = ['type' => '收款金额',       'date' => $date, 'value' => $statistic['paid_total'] / 100];
+            $result[] = ['type' => '收款笔数',       'date' => $date, 'value' => $statistic['paid_count']];
+            $result[] = ['type' => '佣金金额(已发放)', 'date' => $date, 'value' => $statistic['commission_total'] / 100];
+            $result[] = ['type' => '佣金笔数(已发放)', 'date' => $date, 'value' => $statistic['commission_count']];
         }
         $result = array_reverse($result);
-        return [
-            'data' => $result
-        ];
+        return ['data' => $result];
     }
 
     public function getServerLastRank()
@@ -292,82 +313,41 @@ class StatController extends Controller
         ];
     }
 
-    // Feature 5: Revenue Chart API
-    public function getRevenueChart(Request $request)
-    {
-        $period = $request->input('period', 'month'); // week, month, year
-        $days = match($period) {
-            'week' => 7,
-            'month' => 30,
-            'year' => 365,
-            default => 30,
-        };
-
-        $startTime = strtotime("-{$days} days");
-        $data = [];
-
-        for ($i = 0; $i < $days; $i++) {
-            $dayStart = strtotime("+{$i} days", $startTime);
-            $dayEnd = $dayStart + 86400;
-            $date = date('Y-m-d', $dayStart);
-
-            $revenue = Order::where('created_at', '>=', $dayStart)
-                ->where('created_at', '<', $dayEnd)
-                ->whereNotIn('status', [0, 2])
-                ->sum('total_amount');
-
-            $orders = Order::where('created_at', '>=', $dayStart)
-                ->where('created_at', '<', $dayEnd)
-                ->whereNotIn('status', [0, 2])
-                ->count();
-
-            $registrations = User::where('created_at', '>=', $dayStart)
-                ->where('created_at', '<', $dayEnd)
-                ->count();
-
-            $data[] = [
-                'date' => $date,
-                'revenue' => $revenue,
-                'orders' => $orders,
-                'registrations' => $registrations,
-            ];
-        }
-
-        return response(['data' => $data]);
-    }
-
-    // Feature 16: Revenue Export CSV
+    // Revenue Export CSV
     public function exportRevenue(Request $request)
     {
-        $month = $request->input('month', date('Y-m'));
+        $month     = $request->input('month', date('Y-m'));
         $startTime = strtotime($month . '-01');
-        $endTime = strtotime('+1 month', $startTime);
+        $endTime   = strtotime('+1 month', $startTime);
 
-        $orders = Order::where('created_at', '>=', $startTime)
+        // Eager-load plan names trong 1 query thay vì N queries
+        $orders = Order::with('plan:id,name')
+            ->where('created_at', '>=', $startTime)
             ->where('created_at', '<', $endTime)
             ->whereNotIn('status', [0, 2])
             ->orderBy('created_at', 'ASC')
             ->get();
 
-        $csv = "Mã đơn,User ID,Gói,Loại,Tổng tiền,Giảm giá,Thanh toán,Ngày tạo\r\n";
+        $csv          = "\xEF\xBB\xBFMã đơn,User ID,Gói,Loại đơn,Tổng tiền,Giảm giá,Ngày tạo\r\n";
         $totalRevenue = 0;
+        $typeMap      = [1 => 'Mua mới', 2 => 'Gia hạn', 3 => 'Đổi gói', 4 => 'Reset data'];
+
         foreach ($orders as $order) {
             $totalRevenue += $order->total_amount;
             $csv .= implode(',', [
                 $order->trade_no,
                 $order->user_id,
-                $order->plan_id,
-                $order->type,
+                $order->plan->name ?? "Gói #{$order->plan_id}",
+                $typeMap[$order->type] ?? $order->type,
                 $order->total_amount / 100,
                 ($order->discount_amount ?? 0) / 100,
-                $order->total_amount / 100,
                 date('Y-m-d H:i:s', $order->created_at),
             ]) . "\r\n";
         }
-        $csv .= "\r\nTổng doanh thu,,,,,," . ($totalRevenue / 100) . "\r\n";
+        $csv .= "\r\nTổng doanh thu,,,,," . ($totalRevenue / 100) . "\r\n";
 
         return response($csv, 200, [
-            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Type'        => 'text/csv; charset=UTF-8',
             'Content-Disposition' => 'attachment; filename="revenue_' . $month . '.csv"',
         ]);
     }

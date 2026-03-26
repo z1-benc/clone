@@ -36,12 +36,12 @@ class OrderService
 
             if (!$this->user->save()) {
                 DB::rollBack();
-                abort(500, '充值失败');
+                abort(500, 'Nạp tiền thất bại');
             }
             $order->status = 3;
             if (!$order->save()) {
                 DB::rollBack();
-                abort(500, '充值失败');
+                abort(500, 'Nạp tiền thất bại');
             }
             DB::commit();
             return;
@@ -60,7 +60,7 @@ class OrderService
                 ]);
             } catch (\Exception $e) {
                 DB::rollback();
-                abort(500, '开通失败');
+                abort(500, 'Kích hoạt dịch vụ thất bại');
             }
         }
         switch ((string)$order->period) {
@@ -96,12 +96,12 @@ class OrderService
 
         if (!$this->user->save()) {
             DB::rollBack();
-            abort(500, '开通失败');
+            abort(500, 'Kích hoạt dịch vụ thất bại');
         }
         $order->status = 3;
         if (!$order->save()) {
             DB::rollBack();
-            abort(500, '开通失败');
+            abort(500, 'Kích hoạt dịch vụ thất bại');
         }
 
         DB::commit();
@@ -116,7 +116,7 @@ class OrderService
         } else if (in_array($order->period, ['reset_price', 'extra_device', 'extra_data'])) {
             $order->type = 4;
         } else if ($user->plan_id !== NULL && $order->plan_id !== $user->plan_id && ($user->expired_at > time() || $user->expired_at === NULL)) {
-            if (!(int)config('v2board.plan_change_enable', 1)) abort(500, '目前不允许更改订阅，请联系客服或提交工单操作');
+            if (!(int)config('v2board.plan_change_enable', 1)) abort(500, 'Hiện không cho phép thay đổi gói, vui lòng liên hệ CSKH hoặc gửi phiếu hỗ trợ');
             $order->type = 3;
             if ((int)config('v2board.surplus_enable', 1)) $this->getSurplusValue($user, $order);
             if ($order->surplus_amount >= $order->total_amount) {
@@ -125,9 +125,9 @@ class OrderService
             } else {
                 $order->total_amount = $order->total_amount - $order->surplus_amount;
             }
-        } else if ($user->expired_at > time() && $order->plan_id == $user->plan_id) { // 用户订阅未过期且购买订阅与当前订阅相同 === 续费
+        } else if ($user->expired_at > time() && $order->plan_id == $user->plan_id) { // Đăng ký chưa hết hạn, mua cùng gói == gia hạn
             $order->type = 2;
-        } else { // 新购
+        } else { // Mua mới
             $order->type = 1;
         }
     }
@@ -315,12 +315,12 @@ class OrderService
         }
         $this->user->transfer_enable = $plan->transfer_enable * 1073741824;
         $this->user->device_limit = $plan->device_limit;
-        // 从一次性转换到循环
+        // Chuyển từ gói mua 1 lần sang định kỳ
         if ($this->user->expired_at === NULL) $this->buyByResetTraffic();
-        // 新购
+        // Mua mới
         if ($order->type === 1) $this->buyByResetTraffic();
 
-        // 到期当天续费刷新流量
+        // Gia hạn trong ngày hết hạn – làm mới lưu lượng
         $expireDay = date('d', $this->user->expired_at);
         $expireMonth = date('m', $this->user->expired_at);
         $today = date('d');

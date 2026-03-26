@@ -16,13 +16,13 @@ class UserController extends Controller
     public function getUserInfoById(Request $request)
     {
         if (empty($request->input('id'))) {
-            abort(500, '参数错误');
+            abort(500, 'Tham số không hợp lệ');
         }
         $user = User::where('is_admin', 0)
             ->where('id', $request->input('id'))
             ->where('is_staff', 0)
             ->first();
-        if (!$user) abort(500, '用户不存在');
+        if (!$user) abort(500, 'Người dùng không tồn tại');
         return response([
             'data' => $user
         ]);
@@ -33,10 +33,10 @@ class UserController extends Controller
         $params = $request->validated();
         $user = User::find($request->input('id'));
         if (!$user) {
-            abort(500, '用户不存在');
+            abort(500, 'Người dùng không tồn tại');
         }
         if (User::where('email', $params['email'])->first() && $user->email !== $params['email']) {
-            abort(500, '邮箱已被使用');
+            abort(500, 'Email đã được sử dụng');
         }
         if (isset($params['password'])) {
             $params['password'] = password_hash($params['password'], PASSWORD_DEFAULT);
@@ -47,7 +47,7 @@ class UserController extends Controller
         if (isset($params['plan_id'])) {
             $plan = Plan::find($params['plan_id']);
             if (!$plan) {
-                abort(500, '订阅计划不存在');
+                abort(500, 'Gói đăng ký không tồn tại');
             }
             $params['group_id'] = $plan->group_id;
         }
@@ -55,7 +55,7 @@ class UserController extends Controller
         try {
             $user->update($params);
         } catch (\Exception $e) {
-            abort(500, '保存失败');
+            abort(500, 'Lưu thất bại');
         }
         return response([
             'data' => true
@@ -98,7 +98,7 @@ class UserController extends Controller
                 'banned' => 1
             ]);
         } catch (\Exception $e) {
-            abort(500, '处理失败');
+            abort(500, 'Xử lý thất bại');
         }
 
         return response([

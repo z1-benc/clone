@@ -17,10 +17,10 @@ class Admin
     public function handle($request, Closure $next)
     {
         $authorization = $request->input('auth_data') ?? $request->header('authorization');
-        if (!$authorization) abort(403, '未登录或登陆已过期');
+        if (!$authorization) abort(403, 'Chưa đăng nhập hoặc phiên đã hết hạn');
 
         $user = AuthService::decryptAuthData($authorization);
-        if (!$user || !$user['is_admin']) abort(403, '未登录或登陆已过期');
+        if (!$user || !$user['is_admin']) abort(403, 'Chưa đăng nhập hoặc phiên đã hết hạn');
         $request->merge([
             'user' => $user
         ]);

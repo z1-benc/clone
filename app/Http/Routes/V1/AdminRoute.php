@@ -125,7 +125,11 @@ class AdminRoute
             $router->post('/user/allDel', 'V1\\Admin\\UserController@allDel');
             $router->post('/user/setInviteUser', 'V1\\Admin\\UserController@setInviteUser');
             $router->post('/user/setSni', 'V1\\Admin\\UserController@setSni');
-            $router->post('/user/batchUpdate', 'V1\\Admin\\UserController@batchUpdate');
+            // Tính năng admin mới
+            $router->get ('/user/quickSearch', 'V1\\Admin\\UserController@quickSearch');
+            $router->get ('/user/expiring', 'V1\\Admin\\UserController@expiringUsers');
+            $router->post('/user/resetTraffic', 'V1\\Admin\\UserController@resetTraffic');
+            $router->post('/user/sendMailTemplate', 'V1\\Admin\\UserController@sendMailTemplate');
             // Stat
             $router->get ('/stat/getStat', 'V1\\Admin\\StatController@getStat');
             $router->get ('/stat/getOverride', 'V1\\Admin\\StatController@getOverride');
@@ -133,12 +137,15 @@ class AdminRoute
             $router->get ('/stat/getServerTodayRank', 'V1\\Admin\\StatController@getServerTodayRank');
             $router->get ('/stat/getUserLastRank', 'V1\\Admin\\StatController@getUserLastRank');
             $router->get ('/stat/getUserTodayRank', 'V1\\Admin\\StatController@getUserTodayRank');
-            $router->get ('/stat/getOrder', 'V1\\Admin\\StatController@getOrder');
+            $router->get ('/stat/getOrder', 'V1\\Admin\\StatController@getOrder');     // ?period=week|month|year
             $router->get ('/stat/getStatUser', 'V1\\Admin\\StatController@getStatUser');
             $router->get ('/stat/getRanking', 'V1\\Admin\\StatController@getRanking');
             $router->get ('/stat/getStatRecord', 'V1\\Admin\\StatController@getStatRecord');
-            $router->get ('/stat/getRevenueChart', 'V1\\Admin\\StatController@getRevenueChart');
             $router->get ('/stat/exportRevenue', 'V1\\Admin\\StatController@exportRevenue');
+            // Dashboard & Reports mới
+            $router->get ('/stat/getDashboard', 'V1\\Admin\\StatDashboardController@getDashboard');
+            $router->get ('/stat/getPlanReport', 'V1\\Admin\\StatDashboardController@getPlanReport');
+            $router->get ('/stat/getServerHealth', 'V1\\Admin\\StatDashboardController@getServerHealth');
             // Health
             $router->get ('/health/check', 'V1\\Admin\\HealthController@check');
             // Notice

@@ -9,19 +9,19 @@ use Illuminate\Support\Facades\Cache;
 
 class Bind extends Telegram {
     public $command = '/bind';
-    public $description = '将Telegram账号绑定到网站';
+    public $description = 'Liên kết tài khoản Telegram với website';
 
     public function handle($message, $match = []) {
         if (!$message->is_private) return;
         if (!isset($message->args[0])) {
-            abort(500, '参数有误，请携带订阅地址发送');
+            abort(500, 'Tham số không hợp lệ, vui lòng gửi kèm đường dẫn đăng ký');
         }
         $subscribeUrl = $message->args[0];
         $subscribeUrl = parse_url($subscribeUrl);
         parse_str($subscribeUrl['query'], $query);
         $token = $query['token'];
         if (!$token) {
-            abort(500, '订阅地址无效');
+            abort(500, 'Đường dẫn đăng ký không hợp lệ');
         }
         $submethod = (int)config('v2board.show_subscribe_method', 0);
         switch ($submethod) {
@@ -64,16 +64,16 @@ class Bind extends Telegram {
         }
         $user = User::where('token', $token)->first();
         if (!$user) {
-            abort(500, '用户不存在');
+            abort(500, 'Người dùng không tồn tại');
         }
         if ($user->telegram_id) {
-            abort(500, '该账号已经绑定了Telegram账号');
+            abort(500, 'Tài khoản này đã liên kết với Telegram');
         }
         $user->telegram_id = $message->chat_id;
         if (!$user->save()) {
-            abort(500, '设置失败');
+            abort(500, 'Liên kết thất bại');
         }
         $telegramService = $this->telegramService;
-        $telegramService->sendMessage($message->chat_id, '绑定成功');
+        $telegramService->sendMessage($message->chat_id, 'Liên kết thành công!');
     }
 }

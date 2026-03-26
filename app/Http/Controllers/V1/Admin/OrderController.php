@@ -199,17 +199,18 @@ class OrderController extends Controller
         ]);
     }
 
-    // Feature 6: Order Refund
+    // Order Refund – hoàn tiền vào số dư, tùy chọn reset gói
     public function refund(Request $request)
     {
         $request->validate([
-            'trade_no' => 'required|string',
-            'refund_amount' => 'nullable|integer'
+            'trade_no'     => 'required|string',
+            'refund_amount' => 'nullable|integer',
+            'reset_plan'   => 'nullable|boolean', // nếu true: thu hồi gói khỏi user
         ]);
 
         $order = Order::where('trade_no', $request->input('trade_no'))->first();
         if (!$order) abort(500, 'Đơn hàng không tồn tại');
-        if (!in_array($order->status, [1, 3])) abort(500, 'Đơn hàng chưa thanh toán');
+        if (!in_array($order->status, [1, 3])) abort(500, 'Đơn hàng chưa thanh toán hoặc đã xử lý');
 
         $refundAmount = $request->input('refund_amount', $order->total_amount);
         if ($refundAmount > $order->total_amount) abort(500, 'Số tiền hoàn lớn hơn giá trị đơn');
@@ -219,10 +220,23 @@ class OrderController extends Controller
 
         DB::beginTransaction();
         try {
+            // Cộng lại số dư
             $user->balance += $refundAmount;
+
+            // Nếu admin chọn reset_plan: thu hồi gói khỏi user
+            if ($request->boolean('reset_plan')) {
+                $user->plan_id          = null;
+                $user->group_id         = null;
+                $user->transfer_enable  = 0;
+                $user->speed_limit      = null;
+                $user->device_limit     = null;
+                $user->expired_at       = null;
+            }
+
             $user->save();
 
-            $order->status = 4; // refunded
+            // Đánh dấu trạng thái đơn
+            $order->status        = 4; // refunded
             $order->refund_amount = $refundAmount;
             $order->save();
 

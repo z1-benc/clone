@@ -71,16 +71,16 @@ class TicketController extends Controller
                         ->exists();
 
                     if (!$hasOrder) {
-                        throw new \Exception(__('请先购买套餐'));
+                        throw new \Exception(__('Vui lòng mua gói trước'));
                     }
                     break;
                 case 2:
-                    // 完全禁止所有工单
-                    throw new \Exception(__('当前套餐不允许发起工单'));
+                    // Hoàn toàn cấm tất cả phiếu hỗ trợ
+                    throw new \Exception(__('Gói hiện tại không cho phép tạo phiếu hỗ trợ'));
                     break;
                 default:
-                    // 处理未知状态
-                    throw new \Exception(__('未知的工单状态'));
+                    // Xử lý trạng thái không xác định
+                    throw new \Exception(__('Trạng thái phiếu hỗ trợ không xác định'));
             }
 
             $ticketData = $request->only(['subject', 'level']) + ['user_id' => $request->user['id']];
@@ -269,7 +269,7 @@ class TicketController extends Controller
 
     private function getFlowData($b)
     {
-        $g = $b / (1024 * 1024 * 1024); // 转换流量数据
+        $g = $b / (1024 * 1024 * 1024); // Chuyển đổi dữ liệu lưu lượng
         $m = $b / (1024 * 1024);
         if ($g >= 1) {
             $text = round($g, 2) . "GB";

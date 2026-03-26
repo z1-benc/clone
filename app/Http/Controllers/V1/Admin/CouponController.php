@@ -134,33 +134,40 @@ class CouponController extends Controller
         ]);
     }
 
-    // Feature 15: Coupon Statistics
+    // Coupon Statistics – tối ưu: 2 group-by queries thay vì N*2 queries
     public function stats(Request $request)
     {
         $coupons = Coupon::orderBy('id', 'DESC')->get();
-        $stats = [];
 
-        foreach ($coupons as $coupon) {
-            $usedCount = Order::where('coupon_id', $coupon->id)
-                ->whereNotIn('status', [0, 2])
-                ->count();
-            $totalDiscount = Order::where('coupon_id', $coupon->id)
-                ->whereNotIn('status', [0, 2])
-                ->sum('discount_amount');
+        // 1 query để đếm số lần dùng
+        $usedCounts = Order::whereNotIn('status', [0, 2])
+            ->whereNotNull('coupon_id')
+            ->selectRaw('coupon_id, COUNT(*) as cnt')
+            ->groupBy('coupon_id')
+            ->pluck('cnt', 'coupon_id');
 
-            $stats[] = [
-                'id' => $coupon->id,
-                'code' => $coupon->code,
-                'name' => $coupon->name,
-                'type' => $coupon->type,
-                'value' => $coupon->value,
-                'limit_use' => $coupon->limit_use,
-                'used_count' => $usedCount,
-                'total_discount' => $totalDiscount,
-                'started_at' => $coupon->started_at,
-                'ended_at' => $coupon->ended_at,
+        // 1 query để tổng giảm giá
+        $totalDiscounts = Order::whereNotIn('status', [0, 2])
+            ->whereNotNull('coupon_id')
+            ->selectRaw('coupon_id, SUM(discount_amount) as total')
+            ->groupBy('coupon_id')
+            ->pluck('total', 'coupon_id');
+
+        $stats = $coupons->map(function ($coupon) use ($usedCounts, $totalDiscounts) {
+            return [
+                'id'             => $coupon->id,
+                'code'           => $coupon->code,
+                'name'           => $coupon->name,
+                'type'           => $coupon->type,
+                'value'          => $coupon->value,
+                'limit_use'      => $coupon->limit_use,
+                'used_count'     => $usedCounts[$coupon->id] ?? 0,
+                'total_discount' => $totalDiscounts[$coupon->id] ?? 0,
+                'started_at'     => $coupon->started_at,
+                'ended_at'       => $coupon->ended_at,
+                'show'           => $coupon->show,
             ];
-        }
+        });
 
         return response(['data' => $stats]);
     }

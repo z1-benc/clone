@@ -65,21 +65,7 @@ Route::get('/' . config('v2board.secure_path', config('v2board.frontend_admin_pa
     ]);
 });
 
-// TNETZ config page
-Route::get('/' . config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key')))) . '/tnetz', function () {
-    return view('tnetz.index', [
-        'secure_path' => config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key'))))
-    ]);
-});
-
-// Node monitoring stats page
-Route::get('/' . config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key')))) . '/node-stats', function () {
-    return view('admin.stats', [
-        'secure_path' => config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key'))))
-    ]);
-});
-
-// TNETZ config management page
+// TNETZ config management page (route chính thức, tích hợp vào admin panel)
 Route::get('/' . config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key')))) . '/tnetz-config', function () {
     return view('admin.tnetz', [
         'secure_path' => config('v2board.secure_path', config('v2board.frontend_admin_path', hash('crc32b', config('app.key'))))

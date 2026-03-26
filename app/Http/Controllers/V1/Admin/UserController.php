@@ -12,6 +12,7 @@ use App\Models\InviteCode;
 use App\Models\Ticket;
 use App\Models\Order;
 use App\Models\Plan;
+use App\Models\ServerStat;
 use App\Models\TicketMessage;
 use App\Models\User;
 use App\Services\AuthService;
@@ -19,6 +20,7 @@ use App\Utils\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -405,49 +407,195 @@ class UserController extends Controller
         ]);
     }
 
-    // Feature 8: Bulk User Operations
-    public function batchUpdate(Request $request)
+    // ─────────────────────────────────────────────────────────
+    //  TÍNH NĂNG MỚI – Admin Utilities
+    // ─────────────────────────────────────────────────────────
+
+    /**
+     * Tìm kiếm nhanh user theo email hoặc ID (gọi từ header admin).
+     * GET /admin/user/quickSearch?q=email_or_id
+     */
+    public function quickSearch(Request $request)
     {
-        $request->validate([
-            'user_ids' => 'required|array',
-            'action' => 'required|in:ban,unban,assign_plan,set_expiry,add_balance'
-        ]);
-
-        $userIds = $request->input('user_ids');
-        $action = $request->input('action');
-        $updated = 0;
-
-        foreach ($userIds as $userId) {
-            $user = User::find($userId);
-            if (!$user) continue;
-
-            switch ($action) {
-                case 'ban':
-                    $user->banned = 1;
-                    break;
-                case 'unban':
-                    $user->banned = 0;
-                    break;
-                case 'assign_plan':
-                    $planId = $request->input('plan_id');
-                    if ($planId) {
-                        $user->plan_id = $planId;
-                        $user->group_id = Plan::find($planId)->group_id ?? $user->group_id;
-                    }
-                    break;
-                case 'set_expiry':
-                    $expiredAt = $request->input('expired_at');
-                    if ($expiredAt) $user->expired_at = $expiredAt;
-                    break;
-                case 'add_balance':
-                    $balance = $request->input('balance', 0);
-                    $user->balance += $balance;
-                    break;
-            }
-
-            if ($user->save()) $updated++;
+        $q = $request->input('q', '');
+        if (strlen($q) < 2) {
+            return response(['data' => []]);
         }
 
-        return response(['data' => $updated]);
+        $builder = User::select(
+            'id', 'email', 'plan_id', 'balance', 'expired_at',
+            'banned', 't', 'transfer_enable', 'u', 'd', 'created_at'
+        );
+
+        if (is_numeric($q)) {
+            $builder->where('id', $q);
+        } else {
+            $builder->where('email', 'like', "%{$q}%");
+        }
+
+        $users = $builder->limit(15)->get();
+        $planMap = Plan::pluck('name', 'id');
+
+        $result = $users->map(function ($u) use ($planMap) {
+            $u->plan_name   = $planMap[$u->plan_id] ?? null;
+            $u->order_count = Order::where('user_id', $u->id)->whereNotIn('status', [0, 2])->count();
+            $u->is_online   = $u->t > (time() - 600);
+            return $u;
+        });
+
+        return response(['data' => $result]);
+    }
+
+    /**
+     * Danh sách user sắp hết hạn trong X ngày.
+     * GET /admin/user/expiring?days=7&plan_id=1
+     */
+    public function expiringUsers(Request $request)
+    {
+        $days   = max(1, min(90, (int) $request->input('days', 7)));
+        $planId = $request->input('plan_id');
+
+        $deadline = time() + ($days * 86400);
+
+        $builder = User::where('expired_at', '>', time())
+            ->where('expired_at', '<=', $deadline)
+            ->where('banned', 0)
+            ->whereNotNull('plan_id');
+
+        if ($planId) {
+            $builder->where('plan_id', $planId);
+        }
+
+        $users   = $builder->orderBy('expired_at', 'ASC')->get();
+        $planMap = Plan::pluck('name', 'id');
+
+        $result = $users->map(function ($u) use ($planMap) {
+            $u->plan_name        = $planMap[$u->plan_id] ?? null;
+            $u->days_remaining   = ceil(($u->expired_at - time()) / 86400);
+            $u->has_renewed_before = Order::where('user_id', $u->id)
+                ->whereIn('type', [2])
+                ->whereNotIn('status', [0, 2])
+                ->exists();
+            return $u;
+        });
+
+        return response(['data' => $result, 'total' => $result->count()]);
+    }
+
+    /**
+     * Reset traffic (u+d) của một hoặc nhiều user, có audit log.
+     * POST /admin/user/resetTraffic
+     * Body: { user_ids: [1,2,3] } hoặc { id: 1 }
+     */
+    public function resetTraffic(Request $request)
+    {
+        $request->validate([
+            'user_ids'    => 'nullable|array',
+            'user_ids.*'  => 'integer',
+            'id'          => 'nullable|integer',
+        ]);
+
+        $ids = $request->input('user_ids', []);
+        if ($request->input('id')) {
+            $ids[] = (int) $request->input('id');
+        }
+        $ids = array_unique(array_filter($ids));
+
+        if (empty($ids)) {
+            abort(422, 'Chưa cung cấp user_ids hoặc id');
+        }
+
+        DB::beginTransaction();
+        try {
+            foreach ($ids as $uid) {
+                $user = User::find($uid);
+                if (!$user) continue;
+
+                $oldU = $user->u;
+                $oldD = $user->d;
+                $user->u = 0;
+                $user->d = 0;
+                $user->save();
+
+                // Audit log
+                Log::channel('single')->info("[AdminResetTraffic] uid={$uid} old_u={$oldU} old_d={$oldD} reset_by=admin");
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            abort(500, 'Reset traffic thất bại: ' . $e->getMessage());
+        }
+
+        return response(['data' => count($ids) . ' user(s) đã được reset']);
+    }
+
+    /**
+     * Gửi email theo template có sẵn tới user lọc theo điều kiện.
+     * POST /admin/user/sendMailTemplate
+     * Body: { template: 'expiring'|'promotion'|'maintenance', filter: [...], extra: {...} }
+     */
+    public function sendMailTemplate(Request $request)
+    {
+        $request->validate([
+            'template' => 'required|in:expiring,promotion,maintenance,custom',
+        ]);
+
+        $templates = [
+            'expiring'    => [
+                'subject' => '[' . config('v2board.app_name') . '] Gói của bạn sắp hết hạn',
+                'content' => "Xin chào {email},\n\nGói dịch vụ của bạn sắp hết hạn vào {expired_at}.\nVui lòng gia hạn để không bị gián đoạn dịch vụ.\nTruy cập: {app_url}",
+            ],
+            'promotion'   => [
+                'subject' => '[' . config('v2board.app_name') . '] Ưu đãi đặc biệt dành cho bạn',
+                'content' => "Xin chào {email},\n\nChúng tôi có một ưu đãi đặc biệt dành cho bạn.\n{extra_message}\nTruy cập: {app_url}",
+            ],
+            'maintenance' => [
+                'subject' => '[' . config('v2board.app_name') . '] Thông báo bảo trì hệ thống',
+                'content' => "Xin chào {email},\n\nHệ thống sẽ bảo trì vào {extra_message}.\nXin lỗi vì sự bất tiện này.",
+            ],
+            'custom' => [
+                'subject' => $request->input('subject', 'Thông báo'),
+                'content' => $request->input('content', ''),
+            ],
+        ];
+
+        $tpl        = $templates[$request->input('template')];
+        $extraMsg   = $request->input('extra.message', '');
+        $appUrl     = config('v2board.app_url', '');
+        $appName    = config('v2board.app_name', 'V2Board');
+
+        $sortType = in_array($request->input('sort_type'), ['ASC', 'DESC']) ? $request->input('sort_type') : 'DESC';
+        $sort     = $request->input('sort') ?: 'created_at';
+        $builder  = User::orderBy($sort, $sortType);
+        $this->filter($request, $builder);
+
+        $dispatched = 0;
+        foreach ($builder->cursor() as $user) {
+            $body = str_replace(
+                ['{email}', '{expired_at}', '{app_url}', '{extra_message}', '{app_name}'],
+                [
+                    $user->email,
+                    $user->expired_at ? date('d/m/Y', $user->expired_at) : 'Không có',
+                    $appUrl,
+                    $extraMsg,
+                    $appName,
+                ],
+                $tpl['content']
+            );
+
+            SendEmailJob::dispatch([
+                'email'          => $user->email,
+                'subject'        => $tpl['subject'],
+                'template_name'  => 'notify',
+                'template_value' => [
+                    'name'    => $appName,
+                    'url'     => $appUrl,
+                    'content' => nl2br($body),
+                ],
+            ], 'send_email_mass');
+            $dispatched++;
+        }
+
+        return response(['data' => "{$dispatched} email đã được đưa vào hàng đợi gửi"]);
     }
 }

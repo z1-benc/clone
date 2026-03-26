@@ -40,9 +40,9 @@ class UAfilter
     </style>
 </head>
 <body>
-    <h1>浏览器不支持</h1>
-    <p>很抱歉，我们的页面在QQ和微信浏览器中无法正常访问。</p>
-    <p>请点击右上方，选择在浏览器中打开。</p>
+    <h1>Trình duyệt không được hỗ trợ</h1>
+    <p>Xin lỗi, trang của chúng tôi không thể truy cập bình thường trên trình duyệt QQ và WeChat.</p>
+    <p>Vui lòng nhấn vào góc trên bên phải và chọn mở trong trình duyệt.</p>
 </body>
 </html>
 HTML;

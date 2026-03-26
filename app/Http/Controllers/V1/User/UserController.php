@@ -404,7 +404,7 @@ $telegramService->sendMessageWithAdmin($message);
             }
         }
 
-        //统计在线设备
+        // Thống kê thiết bị đang online
         $countalive = 0;
         $ips_array = Cache::get('ALIVE_IP_USER_' . $request->user['id']);
         if ($ips_array) {
@@ -502,7 +502,7 @@ $telegramService->sendMessageWithAdmin($message);
         $order->status = 3;
         $order->total_amount = 0;
         $order->surplus_amount = $request->input('transfer_amount');
-        $order->callback_no = '佣金划转 Commission transfer';
+        $order->callback_no = 'Chuyển đổi hoa hồng - Commission transfer';
         if (!$order->save()||!$user->save()) {
             DB::rollback();
             abort(500, __('Transfer failed'));

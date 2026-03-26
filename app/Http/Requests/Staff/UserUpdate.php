@@ -33,26 +33,26 @@ class UserUpdate extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => '邮箱不能为空',
-            'email.email' => '邮箱格式不正确',
-            'transfer_enable.numeric' => '流量格式不正确',
-            'device_limit.integer' => '设备数限制格式不正确',
-            'expired_at.integer' => '到期时间格式不正确',
-            'banned.required' => '是否封禁不能为空',
-            'banned.in' => '是否封禁格式不正确',
-            'plan_id.integer' => '订阅计划格式不正确',
-            'commission_rate.integer' => '推荐返利比例格式不正确',
-            'commission_rate.nullable' => '推荐返利比例格式不正确',
-            'commission_rate.min' => '推荐返利比例最小为0',
-            'commission_rate.max' => '推荐返利比例最大为100',
-            'discount.integer' => '专属折扣比例格式不正确',
-            'discount.nullable' => '专属折扣比例格式不正确',
-            'discount.min' => '专属折扣比例最小为0',
-            'discount.max' => '专属折扣比例最大为100',
-            'u.integer' => '上行流量格式不正确',
-            'd.integer' => '下行流量格式不正确',
-            'balance.integer' => '余额格式不正确',
-            'commission_balance.integer' => '佣金格式不正确'
+            'email.required' => 'Email không được để trống',
+            'email.email' => 'Định dạng email không đúng',
+            'transfer_enable.numeric' => 'Định dạng lưu lượng không đúng',
+            'device_limit.integer' => 'Định dạng giới hạn thiết bị không đúng',
+            'expired_at.integer' => 'Định dạng thời gian hết hạn không đúng',
+            'banned.required' => 'Trạng thái chặn không được để trống',
+            'banned.in' => 'Định dạng trạng thái chặn không đúng',
+            'plan_id.integer' => 'Định dạng gói đăng ký không đúng',
+            'commission_rate.integer' => 'Định dạng tỷ lệ hoa hồng không đúng',
+            'commission_rate.nullable' => 'Định dạng tỷ lệ hoa hồng không đúng',
+            'commission_rate.min' => 'Tỷ lệ hoa hồng tối thiểu là 0',
+            'commission_rate.max' => 'Tỷ lệ hoa hồng tối đa là 100',
+            'discount.integer' => 'Định dạng tỷ lệ giảm giá riêng không đúng',
+            'discount.nullable' => 'Định dạng tỷ lệ giảm giá riêng không đúng',
+            'discount.min' => 'Tỷ lệ giảm giá riêng tối thiểu là 0',
+            'discount.max' => 'Tỷ lệ giảm giá riêng tối đa là 100',
+            'u.integer' => 'Định dạng lưu lượng upload không đúng',
+            'd.integer' => 'Định dạng lưu lượng download không đúng',
+            'balance.integer' => 'Định dạng số dư không đúng',
+            'commission_balance.integer' => 'Định dạng hoa hồng không đúng'
         ];
     }
 }
