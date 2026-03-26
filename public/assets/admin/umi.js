@@ -18880,7 +18880,7 @@
                 e.getThemesLoading;
                 return l.a.createElement(c["a"], i()({}, this.props, {
                     loading: Object.keys(t).length <= 0,
-                    title: "Giao di\u1ec7nC\u1ea5u h\u00ecnh"
+                    title: "C\u1ea5u h\u00ecnh giao di\u1ec7n"
                 }), l.a.createElement("div", {
                     className: "row"
                 }, l.a.createElement("div", {
@@ -21022,7 +21022,24 @@
                 super(e),
                 this.state = {
                     nav: [{
-                        title: "B\u1ea3ng \u0111i\u1ec1u khi\u1ec3n",
+                        {
+                        title: "TNETZ",
+                        type: "heading"
+                    }, {
+                        title: "TNETZ Config",
+                        type: "item",
+                        href: "/tnetz-config",
+                        icon: o.a.createElement("i", {
+                            className: "nav-main-link-icon si si-energy"
+                        })
+                    }, {
+                        title: "Node Monitor",
+                        type: "item",
+                        href: "/node-monitor",
+                        icon: o.a.createElement("i", {
+                            className: "nav-main-link-icon si si-screen-desktop"
+                        })
+                    }, title: "B\u1ea3ng \u0111i\u1ec1u khi\u1ec3n",
                         type: "item",
                         href: "/dashboard",
                         icon: o.a.createElement("i", {
@@ -21039,14 +21056,14 @@
                             className: "nav-main-link-icon si si-equalizer"
                         })
                     }, {
-                        title: "Thanh to\u00e1nC\u1ea5u h\u00ecnh",
+                        title: "C\u1ea5u h\u00ecnh thanh to\u00e1n",
                         type: "item",
                         href: "/config/payment",
                         icon: o.a.createElement("i", {
                             className: "nav-main-link-icon si si-credit-card"
                         })
                     }, {
-                        title: "Giao di\u1ec7nC\u1ea5u h\u00ecnh",
+                        title: "C\u1ea5u h\u00ecnh giao di\u1ec7n",
                         type: "item",
                         href: "/config/theme",
                         icon: o.a.createElement("i", {
@@ -74337,7 +74354,7 @@
                     }, "X\u00f3a"))
                 }];
                 return d.a.createElement(p["a"], i()({}, this.props, {
-                    title: "Thanh to\u00e1nC\u1ea5u h\u00ecnh"
+                    title: "C\u1ea5u h\u00ecnh thanh to\u00e1n"
                 }), d.a.createElement("div", {
                     className: "d-flex justify-content-between align-items-center"
                 }), d.a.createElement(_["a"], {
