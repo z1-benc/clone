@@ -145,7 +145,7 @@ class AdminRoute
             // Dashboard & Reports mới
             $router->get ('/stat/getDashboard', 'V1\\Admin\\StatDashboardController@getDashboard');
             $router->get ('/stat/getPlanReport', 'V1\\Admin\\StatDashboardController@getPlanReport');
-            $router->get ('/stat/getServerHealth', 'V1\\Admin\\StatDashboardController@getServerHealth');
+            $router->get ('/stat/getServerTraffic', 'V1\\Admin\\StatDashboardController@getServerTraffic');
             // Health
             $router->get ('/health/check', 'V1\\Admin\\HealthController@check');
             // Notice
