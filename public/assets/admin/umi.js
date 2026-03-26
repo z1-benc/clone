@@ -21022,7 +21022,6 @@
                 super(e),
                 this.state = {
                     nav: [{
-                        {
                         title: "TNETZ",
                         type: "heading"
                     }, {
@@ -21039,7 +21038,8 @@
                         icon: o.a.createElement("i", {
                             className: "nav-main-link-icon si si-screen-desktop"
                         })
-                    }, title: "B\u1ea3ng \u0111i\u1ec1u khi\u1ec3n",
+                    }, {
+                        title: "B\u1ea3ng \u0111i\u1ec1u khi\u1ec3n",
                         type: "item",
                         href: "/dashboard",
                         icon: o.a.createElement("i", {
