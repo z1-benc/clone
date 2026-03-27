@@ -5682,7 +5682,7 @@
                     onChange: e=>this.set("site", "app_name", e.target.value)
                 })), f.a.createElement(m, {
                     title: "M\u00f4 t\u1ea3 trang web",
-                    description: "d\u00f9ng \u0111\u1ec3Hi\u1ec3n th\u1ecb\u9700\u8981M\u00f4 t\u1ea3 trang web\u7684\u5730\u65b9\u3002"
+                    description: "d\u00f9ng \u0111\u1ec3Hi\u1ec3n th\u1ecb\u9700\u8981M\u00f4 t\u1ea3 trang webc\u1ee7a\u5730\u65b9\u3002"
                 }, f.a.createElement("input", {
                     type: "text",
                     className: "form-control",
@@ -5742,13 +5742,13 @@
                     defaultValue: t.tos_url,
                     onChange: e=>this.set("site", "tos_url", e.target.value)
                 })), f.a.createElement(m, {
-                    title: "\u505c\u6b62\u0110\u0103ng k\u00fd ng\u01b0\u1eddi d\u00f9ng m\u1edbi",
+                    title: "D\u1eebng \u0111\u0103ng k\u00fd ng\u01b0\u1eddi d\u00f9ng m\u1edbi",
                     description: "Khi b\u1eadt, kh\u00f4ng ai c\u00f3 th\u1ec3 \u0111\u0103ng k\u00fd."
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(t.stop_register),
                     onChange: e=>this.set("site", "stop_register", e ? 1 : 0)
                 })), f.a.createElement(m, {
-                    title: "\u0110\u0103ng k\u00fd\u8bd5\u7528",
+                    title: "G\u00f3i d\u00f9ng th\u1eed",
                     description: "Ch\u1ecdn g\u00f3i d\u00f9ng th\u1eed. N\u1ebfu ch\u01b0a c\u00f3, v\u00e0o Qu\u1ea3n l\u00fd g\u00f3i \u0111\u1ec3 th\u00eam."
                 }, f.a.createElement("select", {
                     onChange: e=>this.set("site", "try_out_plan_id", e.target.value),
@@ -5765,7 +5765,7 @@
                 }
                 ))), 0 === t.try_out_plan_id || f.a.createElement(m, {
                     isChildren: !0,
-                    title: "\u8bd5\u7528Th\u1eddi gian(\u5c0f\u65f6)"
+                    title: "Th\u1eddi gian d\u00f9ng th\u1eed (gi\u1edd)"
                 }, f.a.createElement("input", {
                     type: "text",
                     className: "form-control",
@@ -5832,7 +5832,7 @@
                     defaultValue: _.staff_path,
                     onChange: e=>this.set("safe", "staff_path", e.target.value)
                 })), f.a.createElement(m, {
-                    title: "Email\u540e\u7f00\u767d\u540d\u5355",
+                    title: "Danh s\u00e1ch tr\u1eafng h\u1eadu t\u1ed1 Email",
                     description: "Khi b\u1eadt, ch\u1ec9 h\u1eadu t\u1ed1 email trong danh s\u00e1ch m\u1edbi \u0111\u01b0\u1ee3c ph\u00e9p \u0111\u0103ng k\u00fd."
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(_.email_whitelist_enable),
@@ -5849,7 +5849,7 @@
                     defaultValue: _.email_whitelist_suffix,
                     onChange: e=>this.set("safe", "email_whitelist_suffix", e.target.value.split(","))
                 })) : "", f.a.createElement(m, {
-                    title: "\u9632Bot",
+                    title: "Ch\u1ed1ng Bot",
                     description: "Khi b\u1eadt, s\u1ebd d\u00f9ng Google reCAPTCHA \u0111\u1ec3 ch\u1ed1ng bot."
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(_.recaptcha_enable),
@@ -5866,7 +5866,7 @@
                     onChange: e=>this.set("safe", "recaptcha_key", e.target.value)
                 })), f.a.createElement(m, {
                     isChildren: !0,
-                    title: "\u7f51\u7ad9Kh\u00f3a b\u00ed m\u1eadt",
+                    title: "Kh\u00f3a b\u00ed m\u1eadt trang web",
                     description: "Kh\u00f3a trang web \u0111\u0103ng k\u00fd t\u1eeb Google reCAPTCHA."
                 }, f.a.createElement("input", {
                     type: "text",
@@ -5882,7 +5882,7 @@
                     onChange: e=>this.set("safe", "register_limit_by_ip_enable", e ? 1 : 0)
                 })), _.register_limit_by_ip_enable ? f.a.createElement(f.a.Fragment, null, f.a.createElement(m, {
                     isChildren: !0,
-                    title: "\u6b21\u6570",
+                    title: "S\u1ed1 l\u1ea7n",
                     description: "Sau khi \u0111\u1ea1t\u0110\u0103ng k\u00fds\u1ed1 l\u1ea7nB\u1eadtPh\u1ea1t\u3002"
                 }, f.a.createElement("input", {
                     type: "text",
@@ -5892,7 +5892,7 @@
                     onChange: e=>this.set("safe", "register_limit_count", e.target.value)
                 })), f.a.createElement(m, {
                     isChildren: !0,
-                    title: "Ph\u1ea1tTh\u1eddi gian(\u5206\u949f)",
+                    title: "Th\u1eddi gian ph\u1ea1t (ph\u00fat)",
                     description: "C\u1ea7n \u0111\u1ee3i h\u1ebft th\u1eddi gian ph\u1ea1t m\u1edbi c\u00f3 th\u1ec3 \u0111\u0103ng k\u00fd l\u1ea1i."
                 }, f.a.createElement("input", {
                     type: "text",
@@ -5901,14 +5901,14 @@
                     defaultValue: _.register_limit_expire,
                     onChange: e=>this.set("safe", "register_limit_expire", e.target.value)
                 }))) : "", f.a.createElement(m, {
-                    title: "\u9632\u7206\u7834Gi\u1edbi h\u1ea1n",
+                    title: "Gi\u1edbi h\u1ea1n ch\u1ed1ng brute force",
                     description: "Khi b\u1eadt, t\u00e0i kho\u1ea3n \u0111\u0103ng nh\u1eadp sai qu\u00e1 nhi\u1ec1u l\u1ea7n s\u1ebd b\u1ecb h\u1ea1n ch\u1ebf."
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(_.password_limit_enable),
                     onChange: e=>this.set("safe", "password_limit_enable", e ? 1 : 0)
                 })), _.password_limit_enable ? f.a.createElement(f.a.Fragment, null, f.a.createElement(m, {
                     isChildren: !0,
-                    title: "\u6b21\u6570",
+                    title: "S\u1ed1 l\u1ea7n",
                     description: "Sau khi \u0111\u1ea1tTh\u1ea5t b\u1ea1is\u1ed1 l\u1ea7nB\u1eadtPh\u1ea1t\u3002"
                 }, f.a.createElement("input", {
                     type: "text",
@@ -5918,7 +5918,7 @@
                     onChange: e=>this.set("safe", "password_limit_count", e.target.value)
                 })), f.a.createElement(m, {
                     isChildren: !0,
-                    title: "Ph\u1ea1tTh\u1eddi gian(\u5206\u949f)",
+                    title: "Th\u1eddi gian ph\u1ea1t (ph\u00fat)",
                     description: "C\u1ea7n \u0111\u1ee3i h\u1ebft th\u1eddi gian ph\u1ea1t m\u1edbi c\u00f3 th\u1ec3 \u0111\u0103ng nh\u1eadp l\u1ea1i."
                 }, f.a.createElement("input", {
                     type: "text",
@@ -5944,32 +5944,32 @@
                     checked: parseInt(r.noti_admin_giftcard),
                     onChange: e=>this.set("subscribe", "noti_admin_giftcard", e ? 1 : 0)
                 })), f.a.createElement(m, {
-                    title: "\u6708\u0110\u1eb7t l\u1ea1i l\u01b0u l\u01b0\u1ee3ng\u65b9\u5f0f",
+                    title: "Ph\u01b0\u01a1ng th\u1ee9c \u0111\u1eb7t l\u1ea1i l\u01b0u l\u01b0\u1ee3ng th\u00e1ng",
                     description: "Ph\u01b0\u01a1ng th\u1ee9c \u0111\u1eb7t l\u1ea1i l\u01b0u l\u01b0\u1ee3ng to\u00e0n c\u1ee5c, m\u1eb7c \u0111\u1ecbnh ng\u00e0y 1 h\u00e0ng th\u00e1ng. C\u00f3 th\u1ec3 c\u00e0i ri\u00eang cho t\u1eebng g\u00f3i."
                 }, f.a.createElement("select", {
                     onChange: e=>this.set("subscribe", "reset_traffic_method", e.target.value),
                     className: "form-control",
                     value: r.reset_traffic_method,
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u0110\u0103ng k\u00fd\u0110\u1eb7t l\u1ea1i\u65b9\u5f0f"
+                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u0110\u0103ng k\u00fd\u0110\u1eb7t l\u1ea1iPh\u01b0\u01a1ng th\u1ee9c"
                 }, f.a.createElement("option", {
                     value: 0
-                }, "H\u00e0ng th\u00e1ng1\u53f7"), f.a.createElement("option", {
+                }, "Ng\u00e0y 1 h\u00e0ng th\u00e1ng"), f.a.createElement("option", {
                     value: 1
                 }, "\u0110\u1eb7t l\u1ea1i theo th\u00e1ng"), f.a.createElement("option", {
                     value: 2
-                }, "\u4e0d\u0110\u1eb7t l\u1ea1i"), f.a.createElement("option", {
+                }, "Kh\u00f4ng \u0111\u1eb7t l\u1ea1i"), f.a.createElement("option", {
                     value: 3
-                }, "\u6bcf\u5e741\u67081ng\u00e0y"), f.a.createElement("option", {
+                }, "Ng\u00e0y 1 th\u00e1ng 1 h\u00e0ng n\u0103m"), f.a.createElement("option", {
                     value: 4
                 }, "\u0110\u1eb7t l\u1ea1i theo n\u0103m"))), f.a.createElement(m, {
-                    title: "B\u1eadt\u6298\u62b5\u65b9\u6848",
+                    title: "B\u1eadt ph\u01b0\u01a1ng \u00e1n b\u00f9 tr\u1eeb",
                     description: "Khi b\u1eadt, khi ng\u01b0\u1eddi d\u00f9ng \u0111\u1ed5i g\u00f3i, h\u1ec7 th\u1ed1ng s\u1ebd b\u00f9 tr\u1eeb g\u00f3i c\u0169. Tham kh\u1ea3o t\u00e0i li\u1ec7u."
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(r.surplus_enable),
                     onChange: e=>this.set("subscribe", "surplus_enable", e ? 1 : 0)
                 })), f.a.createElement(m, {
-                    title: "Cho ph\u00e9p\u63d0\u524dB\u1eadtL\u01b0u l\u01b0\u1ee3ng\u5468\u671f",
-                    description: "B\u1eadt\u540eng\u01b0\u1eddi d\u00f9ngL\u01b0u l\u01b0\u1ee3ng\u7528\u5c3d\u65f6\u53ef\u4ee5\u9009\u62e9\u6263\u9664\u0110\u0103ng k\u00fd\u65f6\u957f\u4e3a\u4ee3\u4ef7\u0110\u1eb7t l\u1ea1i l\u01b0u l\u01b0\u1ee3ng\uff0c\u0110\u1eb7t l\u1ea1i theo th\u00e1ng\u65f6\u6263\u9664Tu\u1ea7n n\u00e0y\u671f\u5269\u4f59\u0110\u0103ng k\u00fd\u65f6\u957f\uff0cH\u00e0ng th\u00e1ng\u0031\u53f7\u0110\u1eb7t l\u1ea1i\u65f6\u6263\u9664\u6574\u6708Th\u1eddi gian\u0033\u0030\u5929\u3002"
+                    title: "Cho ph\u00e9p\u63d0\u524dB\u1eadtL\u01b0u l\u01b0\u1ee3ngChu k\u1ef3",
+                    description: "B\u1eadt\u540eng\u01b0\u1eddi d\u00f9ngL\u01b0u l\u01b0\u1ee3ng\u7528\u5c3d\u65f6\u53ef\u4ee5Ch\u1ecdn\u6263\u9664\u0110\u0103ng k\u00fdTh\u1eddi l\u01b0\u1ee3ng\u4e3a\u4ee3\u4ef7\u0110\u1eb7t l\u1ea1i l\u01b0u l\u01b0\u1ee3ng\uff0c\u0110\u1eb7t l\u1ea1i theo th\u00e1ng\u65f6\u6263\u9664Tu\u1ea7n n\u00e0y\u671f\u5269\u4f59\u0110\u0103ng k\u00fdTh\u1eddi l\u01b0\u1ee3ng\uff0cH\u00e0ng th\u00e1ng\u0031\u53f7\u0110\u1eb7t l\u1ea1i\u65f6\u6263\u9664\u6574Th\u00e1ngTh\u1eddi gian\u0033\u0030Ng\u00e0y\u3002"
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(r.allow_new_period),
                     onChange: e=>this.set("subscribe", "allow_new_period", e ? 1 : 0)
@@ -5980,10 +5980,10 @@
                     onChange: e=>this.set("subscribe", "new_order_event_id", e.target.value),
                     className: "form-control",
                     value: r.new_order_event_id,
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u4e8b\u4ef6"
+                    placeholder: "Vui l\u00f2ng ch\u1ecdn s\u1ef1 ki\u1ec7n"
                 }, f.a.createElement("option", {
                     value: 0
-                }, "\u4e0d\u6267h\u00e0ng\u4efb\u4f55\u52a8\u4f5c"), f.a.createElement("option", {
+                }, "Kh\u00f4ng th\u1ef1c hi\u1ec7n b\u1ea5t k\u1ef3 h\u00e0nh \u0111\u1ed9ng n\u00e0o"), f.a.createElement("option", {
                     value: 1
                 }, "\u0110\u1eb7t l\u1ea1ing\u01b0\u1eddi d\u00f9ngL\u01b0u l\u01b0\u1ee3ng"))), f.a.createElement(m, {
                     title: "Khi\u0110\u0103ng k\u00fdGia h\u1ea1nk\u00edch ho\u1ea1t s\u1ef1 ki\u1ec7n",
@@ -5992,10 +5992,10 @@
                     onChange: e=>this.set("subscribe", "renew_order_event_id", e.target.value),
                     className: "form-control",
                     value: r.renew_order_event_id,
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u4e8b\u4ef6"
+                    placeholder: "Vui l\u00f2ng ch\u1ecdn s\u1ef1 ki\u1ec7n"
                 }, f.a.createElement("option", {
                     value: 0
-                }, "\u4e0d\u6267h\u00e0ng\u4efb\u4f55\u52a8\u4f5c"), f.a.createElement("option", {
+                }, "Kh\u00f4ng th\u1ef1c hi\u1ec7n b\u1ea5t k\u1ef3 h\u00e0nh \u0111\u1ed9ng n\u00e0o"), f.a.createElement("option", {
                     value: 1
                 }, "\u0110\u1eb7t l\u1ea1ing\u01b0\u1eddi d\u00f9ngL\u01b0u l\u01b0\u1ee3ng"))), f.a.createElement(m, {
                     title: "KhiThay \u0111\u1ed5i g\u00f3ik\u00edch ho\u1ea1t s\u1ef1 ki\u1ec7n",
@@ -6004,10 +6004,10 @@
                     onChange: e=>this.set("subscribe", "change_order_event_id", e.target.value),
                     className: "form-control",
                     value: r.change_order_event_id,
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u4e8b\u4ef6"
+                    placeholder: "Vui l\u00f2ng ch\u1ecdn s\u1ef1 ki\u1ec7n"
                 }, f.a.createElement("option", {
                     value: 0
-                }, "\u4e0d\u6267h\u00e0ng\u4efb\u4f55\u52a8\u4f5c"), f.a.createElement("option", {
+                }, "Kh\u00f4ng th\u1ef1c hi\u1ec7n b\u1ea5t k\u1ef3 h\u00e0nh \u0111\u1ed9ng n\u00e0o"), f.a.createElement("option", {
                     value: 1
                 }, "\u0110\u1eb7t l\u1ea1ing\u01b0\u1eddi d\u00f9ngL\u01b0u l\u01b0\u1ee3ng"))), f.a.createElement(m, {
                     title: "\u5728\u0110\u0103ng k\u00fdTrung b\u00ecnhHi\u1ec3n th\u1ecbTh\u00f4ng tin \u0111\u0103ng k\u00fd",
@@ -6016,7 +6016,7 @@
                     checked: parseInt(r.show_info_to_server_enable),
                     onChange: e=>this.set("subscribe", "show_info_to_server_enable", e ? 1 : 0)
                 })), f.a.createElement(m, {
-                    title: "Li\u00ean k\u1ebft \u0111\u0103ng k\u00fd\u751f\u6548\u6a21\u5f0f",
+                    title: "Ch\u1ebf \u0111\u1ed9 c\u00f3 hi\u1ec7u l\u1ef1c li\u00ean k\u1ebft \u0111\u0103ng k\u00fd",
                     description: "ng\u01b0\u1eddi d\u00f9ngl\u1ea5yLi\u00ean k\u1ebft \u0111\u0103ng k\u00fd\u540eTh\u1eddi h\u1ea1n hi\u1ec7u l\u1ef1c\u3002"
                 }, f.a.createElement("select", {
                     onChange: e=>this.set("subscribe", "show_subscribe_method", e.target.value),
@@ -6027,11 +6027,11 @@
                     value: 0
                 }, "V\u0129nh vi\u1ec5nH\u1ee3p l\u1ec7"), f.a.createElement("option", {
                     value: 1
-                }, "\u4e00\u6b21\u6027H\u1ee3p l\u1ec7"), f.a.createElement("option", {
+                }, "H\u1ee3p l\u1ec7 m\u1ed9t l\u1ea7n"), f.a.createElement("option", {
                     value: 2
-                }, "\u9650\u65f6H\u1ee3p l\u1ec7"))), r.show_subscribe_method == 2 ? f.a.createElement(m, {
+                }, "H\u1ee3p l\u1ec7 c\u00f3 th\u1eddi h\u1ea1n"))), r.show_subscribe_method == 2 ? f.a.createElement(m, {
                     isChildren: !0,
-                    title: "Li\u00ean k\u1ebft \u0111\u0103ng k\u00fdH\u1ee3p l\u1ec7Th\u1eddi gian\u0028\u5206\u949f\u0029",
+                    title: "Li\u00ean k\u1ebft \u0111\u0103ng k\u00fdH\u1ee3p l\u1ec7Th\u1eddi gian\u0028ph\u00fat\u0029",
                     description: "Li\u00ean k\u1ebft \u0111\u0103ng k\u00fd s\u1ebd h\u1ebft h\u1ea1n sau kho\u1ea3ng th\u1eddi gian n\u00e0y."
                 }, f.a.createElement("input", {
                     type: "text",
@@ -6046,7 +6046,7 @@
                     className: ""
                 }, f.a.createElement(m, {
                     title: "N\u1ea1p ti\u1ec1nPh\u1ea7n th\u01b0\u1edfng",
-                    description: "N\u1ea1p m\u1ed9t l\u01b0\u1ee3ng ti\u1ec1n nh\u1ea5t \u0111\u1ecbnhS\u1ed1 ti\u1ec1n\u53ef\u4ee5\u83b7\u5f97\u7684Ph\u1ea7n th\u01b0\u1edfng\u3002"
+                    description: "N\u1ea1p m\u1ed9t l\u01b0\u1ee3ng ti\u1ec1n nh\u1ea5t \u0111\u1ecbnhS\u1ed1 ti\u1ec1n\u53ef\u4ee5\u83b7\u5f97c\u1ee7aPh\u1ea7n th\u01b0\u1edfng\u3002"
                 }, f.a.createElement("textarea", {
                     rows: "2",
                     type: "text",
@@ -6055,39 +6055,39 @@
                     defaultValue: e.deposit.deposit_bounus,
                     onChange: e=>this.set("deposit", "deposit_bounus", e.target.value.split(","))
                 })))), f.a.createElement(s["a"].TabPane, {
-                    tab: "\u5de5\u5355",
+                    tab: "Phi\u1ebfu h\u1ed7 tr\u1ee3",
                     key: "ticket"
                 }, f.a.createElement("div", {
                     className: ""
                 }, f.a.createElement(m, {
                     title: "C\u00e0i \u0111\u1eb7t phi\u1ebfu h\u1ed7 tr\u1ee3",
-                    description: "Vui l\u00f2ng ch\u1ecdn\u5de5\u5355\u7684\u72b6\u6001\u3002"
+                    description: "Vui l\u00f2ng ch\u1ecdnPhi\u1ebfu h\u1ed7 tr\u1ee3c\u1ee7aTr\u1ea1ng th\u00e1i\u3002"
                 }, f.a.createElement("select", {
                     onChange: e => this.set("ticket", "ticket_status", e.target.value),
                     className: "form-control",
                     value: e.ticket.ticket_status || 0,
                 }, f.a.createElement("option", {
                     value: 0
-                }, "\u5b8c\u5168\u5f00\u653e\u5de5\u5355"),
+                }, "M\u1edf phi\u1ebfu h\u1ed7 tr\u1ee3 ho\u00e0n to\u00e0n"),
                    f.a.createElement("option", {
                     value: 1
-                }, "\u4ec5\u9650\u6709Tr\u1ea3 ph\u00ed\u8ba2\u5355ng\u01b0\u1eddi d\u00f9ng"),
+                }, "Ch\u1ec9 ng\u01b0\u1eddi d\u00f9ng c\u00f3 \u0111\u01a1n tr\u1ea3 ph\u00ed"),
                    f.a.createElement("option", {
                     value: 2
-                }, "\u5b8c\u5168\u7981\u6b62\u5de5\u5355")
+                }, "C\u1ea5m phi\u1ebfu h\u1ed7 tr\u1ee3 ho\u00e0n to\u00e0n")
                 )))), f.a.createElement(s["a"].TabPane, {
-                    tab: "\u9080\u8bf7&\u4f63\u91d1",
+                    tab: "M\u1eddi & Hoa h\u1ed3ng",
                     key: "invite"
                 }, f.a.createElement("div", {
                     className: ""
                 }, f.a.createElement(m, {
-                    title: "B\u1eadt\u5f3a\u5236\u9080\u8bf7",
+                    title: "B\u1eadt b\u1eaft bu\u1ed9c m\u1eddi",
                     description: "Khi b\u1eadt, ch\u1ec9 ng\u01b0\u1eddi \u0111\u01b0\u1ee3c m\u1eddi m\u1edbi c\u00f3 th\u1ec3 \u0111\u0103ng k\u00fd."
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(n.invite_force),
                     onChange: e=>this.set("invite", "invite_force", e ? 1 : 0)
                 })), f.a.createElement(m, {
-                    title: "\u9080\u8bf7\u4f63\u91d1\u767e\u5206\u6bd4",
+                    title: "T\u1ef7 l\u1ec7 % hoa h\u1ed3ng m\u1eddi",
                     description: "T\u1ef7 l\u1ec7 hoa h\u1ed3ng to\u00e0n c\u1ee5c m\u1eb7c \u0111\u1ecbnh. C\u00f3 th\u1ec3 c\u1ea5u h\u00ecnh ri\u00eang t\u1eebng ng\u01b0\u1eddi d\u00f9ng."
                 }, f.a.createElement("input", {
                     type: "text",
@@ -6104,25 +6104,25 @@
                     defaultValue: n.invite_gen_limit,
                     onChange: e=>this.set("invite", "invite_gen_limit", parseInt(e.target.value))
                 })), f.a.createElement(m, {
-                    title: "M\u00e3 m\u1eddi\u6c38\u4e0d\u5931\u6548",
+                    title: "M\u00e3 m\u1eddi kh\u00f4ng bao gi\u1edd h\u1ebft h\u1ea1n",
                     description: "Khi b\u1eadt, m\u00e3 m\u1eddi s\u1ebd kh\u00f4ng h\u1ebft h\u1ea1n sau khi d\u00f9ng. Khi t\u1eaft, m\u00e3 ch\u1ec9 d\u00f9ng m\u1ed9t l\u1ea7n."
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(n.invite_never_expire),
                     onChange: e=>this.set("invite", "invite_never_expire", e ? 1 : 0)
                 })), f.a.createElement(m, {
-                    title: "\u4f63\u91d1\u4ec5\u9996\u6b21ph\u00e1t",
+                    title: "Hoa h\u1ed3ng ch\u1ec9 ph\u00e1t l\u1ea7n \u0111\u1ea7u",
                     description: "Khi b\u1eadt, hoa h\u1ed3ng ch\u1ec9 \u0111\u01b0\u1ee3c t\u1ea1o khi ng\u01b0\u1eddi \u0111\u01b0\u1ee3c m\u1eddi thanh to\u00e1n l\u1ea7n \u0111\u1ea7u. C\u00f3 th\u1ec3 c\u1ea5u h\u00ecnh ri\u00eang t\u1eebng ng\u01b0\u1eddi d\u00f9ng."
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(n.commission_first_time_enable),
                     onChange: e=>this.set("invite", "commission_first_time_enable", e ? 1 : 0)
                 })), f.a.createElement(m, {
-                    title: "\u4f63\u91d1X\u00e1c nh\u1eadn t\u1ef1 \u0111\u1ed9ng",
+                    title: "Hoa h\u1ed3ngX\u00e1c nh\u1eadn t\u1ef1 \u0111\u1ed9ng",
                     description: "Khi b\u1eadt, hoa h\u1ed3ng s\u1ebd t\u1ef1 \u0111\u1ed9ng x\u00e1c nh\u1eadn sau 3 ng\u00e0y k\u1ec3 t\u1eeb khi \u0111\u01a1n h\u00e0ng ho\u00e0n th\u00e0nh."
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(n.commission_auto_check_enable),
                     onChange: e=>this.set("invite", "commission_auto_check_enable", e ? 1 : 0)
                 })), f.a.createElement(m, {
-                    title: "R\u00fat ti\u1ec1n\u5355\u7533\u8bf7\u95e8\u69db(\u5143)",
+                    title: "Ng\u01b0\u1ee1ng y\u00eau c\u1ea7u r\u00fat ti\u1ec1n (CNY)",
                     description: "Y\u00eau c\u1ea7u r\u00fat ti\u1ec1n d\u01b0\u1edbi m\u1ee9c t\u1ed1i thi\u1ec3u s\u1ebd kh\u00f4ng \u0111\u01b0\u1ee3c g\u1eedi."
                 }, f.a.createElement("input", {
                     type: "text",
@@ -6147,7 +6147,7 @@
                     checked: parseInt(n.withdraw_close_enable),
                     onChange: e=>this.set("invite", "withdraw_close_enable", e ? 1 : 0)
                 })), f.a.createElement(m, {
-                    title: "\u4e09\u7ea7\u5206\u9500",
+                    title: "Ph\u00e2n ph\u1ed1i 3 c\u1ea5p",
                     description: "Khi b\u1eadt, hoa h\u1ed3ng s\u1ebd \u0111\u01b0\u1ee3c chia theo t\u1ef7 l\u1ec7 c\u1ea5p 3 \u0111\u00e3 c\u00e0i \u0111\u1eb7t. T\u1ed5ng t\u1ef7 l\u1ec7 kh\u00f4ng \u0111\u01b0\u1ee3c v\u01b0\u1ee3t qu\u00e1 100%."
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(n.commission_distribution_enable),
@@ -6225,7 +6225,7 @@
                     value: "darkblue"
                 }, "Xanh t\u1ed1i"), f.a.createElement("option", {
                     value: "green"
-                }, "\u5976\u7eff\u8272"))), f.a.createElement(m, {
+                }, "Xanh s\u1eefa"))), f.a.createElement(m, {
                     title: "N\u1ec1n",
                     description: "S\u1ebd hi\u1ec3n th\u1ecb tr\u00ean trang \u0111\u0103ng nh\u1eadp qu\u1ea3n tr\u1ecb."
                 }, f.a.createElement("input", {
@@ -6251,7 +6251,7 @@
                 }))), f.a.createElement("div", {
                     className: ""
                 }, f.a.createElement(m, {
-                    title: "\u901a\u8bafKh\u00f3a b\u00ed m\u1eadt",
+                    title: "Kh\u00f3a b\u00ed m\u1eadt giao ti\u1ebfp",
                     description: "Kh\u00f3a giao ti\u1ebfp gi\u1eefa V2board v\u00e0 node, b\u1ea3o v\u1ec7 d\u1eef li\u1ec7u kh\u1ecfi b\u1ecb \u0111\u00e1nh c\u1eafp."
                 }, f.a.createElement("input", {
                     type: "text",
@@ -6299,7 +6299,7 @@
                     className: ""
                 }, f.a.createElement(m, {
                     title: "Nodeng\u01b0\u1eddi d\u00f9ngS\u1ed1 thi\u1ebft b\u1ecbTh\u1ed1ng k\u00eaTh\u1ea5p nh\u1ea5t\u9608Gi\u00e1 tr\u1ecb",
-                    description: "\u6bcf\u6b21\u0110\u1ea9y\u52a8\u4f5c\u4ec5b\u00e1o c\u00e1oL\u01b0u l\u01b0\u1ee3ngCao\u4e8e\u9608Gi\u00e1 tr\u1ecb\u7684Thi\u1ebft b\u1ecb \u0111ang online\u0049\u0050\u0110\u1ecba ch\u1ec9\u4f1a\u88abNodeTh\u1ed1ng k\u00ea"
+                    description: "\u6bcf\u6b21\u0110\u1ea9yH\u00e0nh \u0111\u1ed9ng\u4ec5b\u00e1o c\u00e1oL\u01b0u l\u01b0\u1ee3ngCao\u4e8e\u9608Gi\u00e1 tr\u1ecbc\u1ee7aThi\u1ebft b\u1ecb \u0111ang online\u0049\u0050\u0110\u1ecba ch\u1ec9\u4f1a\u88abNodeTh\u1ed1ng k\u00ea"
                 }, f.a.createElement(a["a"], {
                     addonAfter: "Kb",
                     size: "large",
@@ -6331,7 +6331,7 @@
                     className: ""
                 }, f.a.createElement(m, {
                     title: "SMTPM\u00e1y ch\u1ee7\u0110\u1ecba ch\u1ec9",
-                    description: "\u7531D\u1ecbch v\u1ee5 emailnh\u00e0 cung c\u1ea5p\u7684D\u1ecbch v\u1ee5\u0110\u1ecba ch\u1ec9"
+                    description: "\u7531D\u1ecbch v\u1ee5 emailnh\u00e0 cung c\u1ea5pc\u1ee7aD\u1ecbch v\u1ee5\u0110\u1ecba ch\u1ec9"
                 }, f.a.createElement("input", {
                     type: "text",
                     className: "form-control",
@@ -6358,7 +6358,7 @@
                     onChange: e=>this.set("email", "email_encryption", e.target.value)
                 })), f.a.createElement(m, {
                     title: "SMTPT\u00e0i kho\u1ea3n",
-                    description: "\u7531D\u1ecbch v\u1ee5 emailnh\u00e0 cung c\u1ea5p\u7684T\u00e0i kho\u1ea3n"
+                    description: "\u7531D\u1ecbch v\u1ee5 emailnh\u00e0 cung c\u1ea5pc\u1ee7aT\u00e0i kho\u1ea3n"
                 }, f.a.createElement("input", {
                     type: "text",
                     className: "form-control",
@@ -6367,7 +6367,7 @@
                     onChange: e=>this.set("email", "email_username", e.target.value)
                 })), f.a.createElement(m, {
                     title: "SMTPM\u1eadt kh\u1ea9u",
-                    description: "\u7531D\u1ecbch v\u1ee5 emailnh\u00e0 cung c\u1ea5p\u7684M\u1eadt kh\u1ea9u"
+                    description: "\u7531D\u1ecbch v\u1ee5 emailnh\u00e0 cung c\u1ea5pc\u1ee7aM\u1eadt kh\u1ea9u"
                 }, f.a.createElement("input", {
                     type: "text",
                     className: "form-control",
@@ -6375,8 +6375,8 @@
                     defaultValue: v.email_password,
                     onChange: e=>this.set("email", "email_password", e.target.value)
                 })), f.a.createElement(m, {
-                    title: "\u53d1\u4ef6\u0110\u1ecba ch\u1ec9",
-                    description: "\u7531D\u1ecbch v\u1ee5 emailnh\u00e0 cung c\u1ea5p\u7684\u53d1\u4ef6\u0110\u1ecba ch\u1ec9"
+                    title: "\u0110\u1ecba ch\u1ec9 g\u1eedi th\u01b0",
+                    description: "\u7531D\u1ecbch v\u1ee5 emailnh\u00e0 cung c\u1ea5pc\u1ee7a\u0110\u1ecba ch\u1ec9 g\u1eedi th\u01b0"
                 }, f.a.createElement("input", {
                     type: "text",
                     className: "form-control",
@@ -6432,8 +6432,8 @@
                     ,
                     loading: b,
                     disabled: b
-                }, "\u4e00\u952eC\u00e0i \u0111\u1eb7t")), f.a.createElement(m, {
-                    title: "B\u1eadtBot\u901a\u77e5",
+                }, "C\u00e0i \u0111\u1eb7t m\u1ed9t click")), f.a.createElement(m, {
+                    title: "B\u1eadt th\u00f4ng b\u00e1o Bot",
                     description: "Khi b\u1eadt, bot s\u1ebd g\u1eedi th\u00f4ng b\u00e1o c\u01a1 b\u1ea3n \u0111\u1ebfn admin v\u00e0 ng\u01b0\u1eddi d\u00f9ng \u0111\u00e3 li\u00ean k\u1ebft Telegram."
                 }, f.a.createElement(l["a"], {
                     checked: parseInt(y.telegram_bot_enable),
@@ -12260,7 +12260,7 @@
                         rows: 5,
                         onChange: e=>this.changeServer(t, "domains", e.target.value),
                         value: null === (n = e.domains) || void 0 === n ? void 0 : n.join("\n"),
-                        placeholder: "T\u00ean mi\u1ec1n\u5217\u8868\uff0c\u6b64\u5217\u8868Ch\u1ee9a\u7684T\u00ean mi\u1ec1n\uff0c\u5c06\u4f18\u5148\u4f7f\u7528\u6b64M\u00e1y ch\u1ee7th\u1ef1c hi\u1ec7n\u67e5\u8be2\u3002\u4e00h\u00e0ng\u4e00m\u1ee5c"
+                        placeholder: "T\u00ean mi\u1ec1n\u5217\u8868\uff0c\u6b64\u5217\u8868Ch\u1ee9ac\u1ee7aT\u00ean mi\u1ec1n\uff0c\u5c06\u4f18\u5148\u4f7f\u7528\u6b64M\u00e1y ch\u1ee7th\u1ef1c hi\u1ec7n\u67e5\u8be2\u3002\u4e00h\u00e0ng\u4e00m\u1ee5c"
                     })))
                 }
                 ), d.a.createElement("div", null, d.a.createElement(i["a"], {
@@ -12299,7 +12299,7 @@
                   , n = e.protocol;
                 return d.a.createElement(d.a.Fragment, null, d.a.createElement("div", {
                     className: "form-group"
-                }, d.a.createElement("label", null, "T\u00ean mi\u1ec1nL\u1ecdc\u5668"), d.a.createElement(s["a"].TextArea, {
+                }, d.a.createElement("label", null, "B\u1ed9 l\u1ecdc t\u00ean mi\u1ec1n"), d.a.createElement(s["a"].TextArea, {
                     value: t && t.join("\n"),
                     onChange: e=>this.change("domain", e.target.value),
                     rows: 5
@@ -12472,7 +12472,7 @@
                         href: "https://www.v2ray.com/chapter_02/05_transport.html"
                     }, d.a.createElement(l["a"], {
                         type: "link"
-                    }), "\u53c2\u8003")), d.a.createElement(x.a, {
+                    }), "Tham kh\u1ea3o")), d.a.createElement(x.a, {
                         placeholder: (null === o || void 0 === o ? void 0 : o[this.state.server.network]) || "",
                         mode: "json",
                         theme: "github",
@@ -12527,7 +12527,7 @@
                 }), d.a.createElement(r["a"], {
                     id: "server",
                     maskClosable: !0,
-                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode" : "\u65b0\u5efaNode",
+                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode" : "T\u1ea1o Node m\u1edbi",
                     width: "80%",
                     visible: this.state.visible,
                     onClose: ()=>this.onShow()
@@ -12548,13 +12548,13 @@
                     onChange: e=>this.formChange("rate", e.target.value)
                 }))), d.a.createElement("div", {
                     className: "form-group"
-                }, d.a.createElement("label", null, "Node\u6807\u7b7e"), d.a.createElement(a["a"], {
+                }, d.a.createElement("label", null, "Nh\u00e3n Node"), d.a.createElement(a["a"], {
                     mode: "tags",
                     value: e.tags || [],
                     style: {
                         width: "100%"
                     },
-                    placeholder: "\u8f93\u5165\u540e\u56de\u8f66Th\u00eam\u6807\u7b7e",
+                    placeholder: "Nh\u1eadp r\u1ed3i Enter \u0111\u1ec3 th\u00eam nh\u00e3n",
                     onChange: e=>this.formChange("tags", e.length > 0 ? e : null)
                 })), d.a.createElement("div", {
                     className: "form-group"
@@ -12588,7 +12588,7 @@
                     onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eedaTLSC\u1ea5u h\u00ecnh", "tlsSettings")
                 }, "Ch\u1ec9nh s\u1eedaC\u1ea5u h\u00ecnh")), d.a.createElement(a["a"], {
                     value: parseInt(e.tls) ? 1 : 0,
-                    placeholder: "C\u00f3Kh\u00f4ng\u652f\u6301TLS",
+                    placeholder: "C\u00f3/Kh\u00f4ng h\u1ed7 tr\u1ee3 TLS",
                     style: {
                         width: "100%"
                     },
@@ -12596,10 +12596,10 @@
                 }, d.a.createElement(a["a"].Option, {
                     key: 0,
                     value: 0
-                }, "\u4e0d\u652f\u6301"), d.a.createElement(a["a"].Option, {
+                }, "Kh\u00f4ng h\u1ed7 tr\u1ee3"), d.a.createElement(a["a"].Option, {
                     key: 1,
                     value: 1
-                }, "\u652f\u6301")))), d.a.createElement("div", {
+                }, "H\u1ed7 tr\u1ee3")))), d.a.createElement("div", {
                     className: "row"
                 }, d.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
@@ -12612,7 +12612,7 @@
                 })), d.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 }, d.a.createElement("label", null, "D\u1ecbch v\u1ee5C\u1ed5ng"), d.a.createElement(s["a"], {
-                    placeholder: "\u975eNAT\u540ck\u1ebft n\u1ed1iC\u1ed5ng",
+                    placeholder: "C\u1ed5ng k\u1ebft n\u1ed1i kh\u00f4ng NAT",
                     value: e.server_port,
                     onChange: e=>this.formChange("server_port", e.target.value)
                 }))), d.a.createElement("div", {
@@ -12624,7 +12624,7 @@
                     onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eedaGiao th\u1ee9cC\u1ea5u h\u00ecnh", "networkSettings")
                 }, "Ch\u1ec9nh s\u1eedaC\u1ea5u h\u00ecnh")), d.a.createElement(a["a"], {
                     value: e.network,
-                    placeholder: "\u9009\u62e9Giao th\u1ee9c truy\u1ec1n t\u1ea3i",
+                    placeholder: "Ch\u1ecdnGiao th\u1ee9c truy\u1ec1n t\u1ea3i",
                     style: {
                         width: "100%"
                     },
@@ -12659,7 +12659,7 @@
                     }
                 }, d.a.createElement(a["a"].Option, {
                     value: ""
-                }, "\u65e0"), n.map(t=>{
+                }, "Kh\u00f4ng"), n.map(t=>{
                     if ("vmess" === t.type && t.id !== e.id)
                         return d.a.createElement(a["a"].Option, {
                             key: Math.random(),
@@ -12668,10 +12668,10 @@
                 }
                 ))), d.a.createElement("div", {
                     className: "form-group"
-                }, d.a.createElement("label", null, "\u8def\u7531\u7ec4"), d.a.createElement(a["a"], {
+                }, d.a.createElement("label", null, "Nh\u00f3m routing"), d.a.createElement(a["a"], {
                     mode: "multiple",
                     value: e.route_id || [],
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u8def\u7531\u7ec4",
+                    placeholder: "Vui l\u00f2ng ch\u1ecdnNh\u00f3m routing",
                     style: {
                         width: "100%"
                     },
@@ -17068,8 +17068,8 @@
                                     return e.abrupt("return");
                                 case 9:
                                     r["a"][(null === m || void 0 === m ? void 0 : null === (t = m.log) || void 0 === t ? void 0 : t.error) ? "error" : "success"]({
-                                        title: (null === m || void 0 === m ? void 0 : null === (i = m.log) || void 0 === i ? void 0 : i.error) ? "\u53d1\u9001Th\u1ea5t b\u1ea1i" : "G\u1eedi th\u00e0nh c\u00f4ng",
-                                        content: l.a.createElement("div", null, (null === m || void 0 === m ? void 0 : null === (o = m.log) || void 0 === o ? void 0 : o.error) && l.a.createElement("div", null, l.a.createElement("span", null, "Th\u1ea5t b\u1ea1i\u539f\u56e0:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (a = m.log) || void 0 === a ? void 0 : a.error)), l.a.createElement("div", null, l.a.createElement("span", null, "\u6536\u4fe1\u0110\u1ecba ch\u1ec9:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (s = m.log) || void 0 === s ? void 0 : s.email)), l.a.createElement("div", null, l.a.createElement("span", null, "\u53d1\u4fe1M\u00e1y ch\u1ee7:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (h = m.log) || void 0 === h ? void 0 : h.config.host)), l.a.createElement("div", null, l.a.createElement("span", null, "\u53d1\u4fe1C\u1ed5ng:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (f = m.log) || void 0 === f ? void 0 : f.config.port)), l.a.createElement("div", null, l.a.createElement("span", null, "\u53d1\u4fe1Ph\u01b0\u01a1ng th\u1ee9c m\u00e3 h\u00f3a:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (d = m.log) || void 0 === d ? void 0 : d.config.encryption)), l.a.createElement("div", null, l.a.createElement("span", null, "\u53d1\u4fe1T\u00ean ng\u01b0\u1eddi d\u00f9ng:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (p = m.log) || void 0 === p ? void 0 : p.config.username)))
+                                        title: (null === m || void 0 === m ? void 0 : null === (i = m.log) || void 0 === i ? void 0 : i.error) ? "G\u1eedi th\u1ea5t b\u1ea1i" : "G\u1eedi th\u00e0nh c\u00f4ng",
+                                        content: l.a.createElement("div", null, (null === m || void 0 === m ? void 0 : null === (o = m.log) || void 0 === o ? void 0 : o.error) && l.a.createElement("div", null, l.a.createElement("span", null, "Nguy\u00ean nh\u00e2n th\u1ea5t b\u1ea1i:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (a = m.log) || void 0 === a ? void 0 : a.error)), l.a.createElement("div", null, l.a.createElement("span", null, "\u0110\u1ecba ch\u1ec9 nh\u1eadn th\u01b0:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (s = m.log) || void 0 === s ? void 0 : s.email)), l.a.createElement("div", null, l.a.createElement("span", null, "M\u00e1y ch\u1ee7 g\u1eedi th\u01b0:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (h = m.log) || void 0 === h ? void 0 : h.config.host)), l.a.createElement("div", null, l.a.createElement("span", null, "C\u1ed5ng g\u1eedi th\u01b0:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (f = m.log) || void 0 === f ? void 0 : f.config.port)), l.a.createElement("div", null, l.a.createElement("span", null, "Ph\u01b0\u01a1ng th\u1ee9c m\u00e3 h\u00f3a g\u1eedi th\u01b0:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (d = m.log) || void 0 === d ? void 0 : d.config.encryption)), l.a.createElement("div", null, l.a.createElement("span", null, "T\u00ean ng\u01b0\u1eddi d\u00f9ng g\u1eedi th\u01b0:"), l.a.createElement("span", null, null === m || void 0 === m ? void 0 : null === (p = m.log) || void 0 === p ? void 0 : p.config.username)))
                                     }),
                                     console.log(m);
                                 case 11:
@@ -18890,7 +18890,7 @@
                     role: "alert"
                 }, l.a.createElement("p", {
                     className: "mb-0"
-                }, "\u5982\u679c\u4f60\u91c7\u7528T\u00e1ch bi\u1ec7t frontend/backend\u7684\u65b9\u5f0f\u90e8\u7f72V2board\uff0c\u90a3\u4e48Giao di\u1ec7nC\u1ea5u h\u00ecnh\u5c06\u4e0d\u4f1a\u751f\u6548\u3002T\u00ecm hi\u1ec3u", l.a.createElement("b", null, l.a.createElement("a", {
+                }, "\u5982\u679c\u4f60\u91c7\u7528T\u00e1ch bi\u1ec7t frontend/backendc\u1ee7aPh\u01b0\u01a1ng th\u1ee9c\u90e8\u7f72V2board\uff0c\u90a3\u4e48Giao di\u1ec7nC\u1ea5u h\u00ecnh\u5c06\u4e0d\u4f1aC\u00f3 hi\u1ec7u l\u1ef1c\u3002T\u00ecm hi\u1ec3u", l.a.createElement("b", null, l.a.createElement("a", {
                     href: "https://docs.v2board.com/use/advanced.html#%E5%89%8D%E7%AB%AF%E5%88%86%E7%A6%BB"
                 }, "T\u00e1ch bi\u1ec7t frontend/backend")))))), Object.keys(t).map(e=>{
                     var r = t[e];
@@ -19306,8 +19306,8 @@
                     className: "form-group"
                 }, c.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u7ec4\u540d"), c.a.createElement(i["a"], {
-                    placeholder: "Vui l\u00f2ng nh\u1eadp\u7ec4\u540d",
+                }, "T\u00ean nh\u00f3m"), c.a.createElement(i["a"], {
+                    placeholder: "Vui l\u00f2ng nh\u1eadpT\u00ean nh\u00f3m",
                     value: this.state.submit.name,
                     onChange: e=>{
                         this.setState({
@@ -21087,17 +21087,17 @@
                             className: "nav-main-link-icon si si-wrench"
                         })
                     }, {
-                        title: "\u8def\u7531\u7ba1\u7406",
+                        title: "Qu\u1ea3n l\u00fd routing",
                         type: "item",
                         href: "/server/route",
                         icon: o.a.createElement("i", {
                             className: "nav-main-link-icon si si-shuffle"
                         })
                     }, {
-                        title: "\u8d22\u52a1",
+                        title: "T\u00e0i ch\u00ednh",
                         type: "heading"
                     }, {
-                        title: "\u0110\u0103ng k\u00fd\u7ba1\u7406",
+                        title: "Qu\u1ea3n l\u00fd \u0111\u0103ng k\u00fd",
                         type: "item",
                         href: "/plan",
                         icon: o.a.createElement("i", {
@@ -21118,7 +21118,7 @@
                             className: "nav-main-link-icon si si-present"
                         })
                     }, {
-                        title: "Th\u1ebb qu\u00e0 t\u1eb7ng\u7ba1\u7406",
+                        title: "Qu\u1ea3n l\u00fd th\u1ebb qu\u00e0 t\u1eb7ng",
                         type: "item",
                         href: "/giftcard",
                         icon: o.a.createElement("i", {
@@ -21156,14 +21156,14 @@
                             className: "nav-main-link-icon si si-support"
                         })
                     }, {
-                        title: "C\u01a1 s\u1edf ki\u1ebfn th\u1ee9c\u7ba1\u7406",
+                        title: "Qu\u1ea3n l\u00fd c\u01a1 s\u1edf ki\u1ebfn th\u1ee9c",
                         type: "item",
                         href: "/knowledge",
                         icon: o.a.createElement("i", {
                             className: "nav-main-link-icon si si-bulb"
                         })
                     }, {
-                        title: "\u6307\u6807",
+                        title: "Ch\u1ec9 s\u1ed1",
                         type: "heading"
                     }, {
                         title: "QueueGi\u00e1m s\u00e1t",
@@ -22344,8 +22344,8 @@
                     className: "form-group"
                 }, p.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u9080\u8bf7\u4ebaEmail"), p.a.createElement(u["a"], {
-                    placeholder: "Vui l\u00f2ng nh\u1eadp\u9080\u8bf7\u4ebaEmail",
+                }, "Email ng\u01b0\u1eddi m\u1eddi"), p.a.createElement(u["a"], {
+                    placeholder: "Vui l\u00f2ng nh\u1eadpEmail ng\u01b0\u1eddi m\u1eddi",
                     defaultValue: t.invite_user_email,
                     onChange: e=>this.formChange("invite_user_email", e.target.value)
                 })), p.a.createElement("div", {
@@ -22368,28 +22368,28 @@
                     onChange: e=>this.formChange("balance", e.target.value)
                 })), p.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
-                }, p.a.createElement("label", null, "\u63a8\u5e7f\u4f63\u91d1"), p.a.createElement(u["a"], {
+                }, p.a.createElement("label", null, "Hoa h\u1ed3ng qu\u1ea3ng b\u00e1"), p.a.createElement(u["a"], {
                     type: "number",
                     addonAfter: "đ",
-                    placeholder: "\u63a8\u5e7f\u4f63\u91d1",
+                    placeholder: "Hoa h\u1ed3ng qu\u1ea3ng b\u00e1",
                     defaultValue: t.commission_balance,
                     onChange: e=>this.formChange("commission_balance", e.target.value)
                 }))), p.a.createElement("div", {
                     className: "row"
                 }, p.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
-                }, p.a.createElement("label", null, "\u5df2\u7528\u4e0ah\u00e0ng"), p.a.createElement(u["a"], {
+                }, p.a.createElement("label", null, "Upload \u0111\u00e3 d\u00f9ng"), p.a.createElement(u["a"], {
                     type: "number",
                     addonAfter: "GB",
-                    placeholder: "\u5df2\u7528\u4e0ah\u00e0ng",
+                    placeholder: "Upload \u0111\u00e3 d\u00f9ng",
                     defaultValue: t.u,
                     onChange: e=>this.formChange("u", e.target.value)
                 })), p.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
-                }, p.a.createElement("label", null, "\u5df2\u7528\u4e0bh\u00e0ng"), p.a.createElement(u["a"], {
+                }, p.a.createElement("label", null, "Download \u0111\u00e3 d\u00f9ng"), p.a.createElement(u["a"], {
                     type: "number",
                     addonAfter: "GB",
-                    placeholder: "\u5df2\u7528\u4e0bh\u00e0ng",
+                    placeholder: "Download \u0111\u00e3 d\u00f9ng",
                     defaultValue: t.d,
                     onChange: e=>this.formChange("d", e.target.value)
                 }))), p.a.createElement("div", {
@@ -22407,7 +22407,7 @@
                 }, p.a.createElement("label", {
                     for: "example-text-input-alt"
                 }, "S\u1ed1 thi\u1ebft b\u1ecbGi\u1edbi h\u1ea1n"), p.a.createElement(u["a"], {
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ng\u5219Kh\u00f4ng gi\u1edbi h\u1ea1n",
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ng = Kh\u00f4ng gi\u1edbi h\u1ea1n",
                     defaultValue: t.device_limit,
                     onChange: e=>this.formChange("device_limit", e.target.value)
                 })), p.a.createElement("div", {
@@ -22423,7 +22423,7 @@
                 }, p.a.createElement("label", {
                     for: "example-text-input-alt"
                 }, "Th\u1eddi gian h\u1ebft h\u1ea1n"), p.a.createElement("div", null, p.a.createElement(c["a"], {
-                    placeholder: "\u957f\u671fH\u1ee3p l\u1ec7",
+                    placeholder: "H\u1ee3p l\u1ec7 v\u0129nh vi\u1ec5n",
                     defaultValue: null !== t.expired_at && v()(1e3 * t.expired_at),
                     style: {
                         width: "100%"
@@ -22442,7 +22442,7 @@
                     onChange: e=>this.formChange("plan_id", e)
                 }, p.a.createElement(l["a"].Option, {
                     value: null
-                }, "\u65e0"), h.map(e=>{
+                }, "Kh\u00f4ng"), h.map(e=>{
                     return p.a.createElement(l["a"].Option, {
                         key: Math.random(),
                         value: e.id
@@ -22452,7 +22452,7 @@
                     className: "form-group"
                 }, p.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "T\u00e0i kho\u1ea3n\u72b6\u6001"), p.a.createElement(l["a"], {
+                }, "Tr\u1ea1ng th\u00e1i t\u00e0i kho\u1ea3n"), p.a.createElement(l["a"], {
                     style: {
                         width: "100%"
                     },
@@ -22468,7 +22468,7 @@
                     className: "form-group"
                 }, p.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u63a8\u8350\u8fd4\u5229Lo\u1ea1i"), p.a.createElement(l["a"], {
+                }, "Lo\u1ea1i ho\u00e0n ti\u1ec1n gi\u1edbi thi\u1ec7u"), p.a.createElement(l["a"], {
                     style: {
                         width: "100%"
                     },
@@ -22477,26 +22477,26 @@
                 }, p.a.createElement(l["a"].Option, {
                     key: 0,
                     value: 0
-                }, "\u8ddf\u968fC\u00e0i \u0111\u1eb7t h\u1ec7 th\u1ed1ng"), p.a.createElement(l["a"].Option, {
+                }, "Theo c\u00e0i \u0111\u1eb7t h\u1ec7 th\u1ed1ng"), p.a.createElement(l["a"].Option, {
                     key: 1,
                     value: 1
-                }, "\u5faa\u73af\u8fd4\u5229"), p.a.createElement(l["a"].Option, {
+                }, "Ho\u00e0n ti\u1ec1n v\u00f2ng l\u1eb7p"), p.a.createElement(l["a"].Option, {
                     key: 2,
                     value: 2
-                }, "\u9996\u6b21\u8fd4\u5229"))), p.a.createElement("div", {
+                }, "Ho\u00e0n ti\u1ec1n l\u1ea7n \u0111\u1ea7u"))), p.a.createElement("div", {
                     className: "form-group"
                 }, p.a.createElement("label", {
                     for: "example-text-input-alt"
                 }, "T\u1ef7 l\u1ec7 ho\u00e0n ti\u1ec1n gi\u1edbi thi\u1ec7u"), p.a.createElement(u["a"], {
                     addonAfter: "%",
                     defaultValue: t.commission_rate,
-                    placeholder: "Vui l\u00f2ng nh\u1eadpT\u1ef7 l\u1ec7 ho\u00e0n ti\u1ec1n gi\u1edbi thi\u1ec7u(\u4e3a\u7a7a\u5219\u8ddf\u968fTrang webC\u00e0i \u0111\u1eb7t\u8fd4\u5229\u6bd4\u4f8b)",
+                    placeholder: "Vui l\u00f2ng nh\u1eadpT\u1ef7 l\u1ec7 ho\u00e0n ti\u1ec1n gi\u1edbi thi\u1ec7u(\u4e3a\u7a7aTh\u00ecTheoTrang webC\u00e0i \u0111\u1eb7t\u8fd4\u5229T\u1ef7 l\u1ec7)",
                     onChange: e=>this.formChange("commission_rate", e.target.value)
                 })), p.a.createElement("div", {
                     className: "form-group"
                 }, p.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u4e13\u4eabGi\u1ea3m gi\u00e1\u6bd4\u4f8b ", p.a.createElement(a["a"], {
+                }, "T\u1ef7 l\u1ec7 gi\u1ea3m gi\u00e1 ri\u00eang", p.a.createElement(a["a"], {
                     placement: "top",
                     title: "C\u00e0i \u0111\u1eb7t\u540e\u8be5ng\u01b0\u1eddi d\u00f9ngMua\u4efb\u4f55\u0110\u0103ng k\u00fd\u5c06lu\u00f4n \u0111\u01b0\u1ee3c h\u01b0\u1edfng\u8be5Gi\u1ea3m gi\u00e1"
                 }, p.a.createElement(s["a"], {
@@ -22504,7 +22504,7 @@
                 }))), p.a.createElement(u["a"], {
                     addonAfter: "%",
                     defaultValue: t.discount,
-                    placeholder: "Vui l\u00f2ng nh\u1eadp\u4e13\u4eabGi\u1ea3m gi\u00e1\u6bd4\u4f8b",
+                    placeholder: "Vui l\u00f2ng nh\u1eadpRi\u00eangGi\u1ea3m gi\u00e1T\u1ef7 l\u1ec7",
                     onChange: e=>this.formChange("discount", e.target.value)
                 })), p.a.createElement("div", {
                     className: "form-group"
@@ -22513,7 +22513,7 @@
                 }, "Gi\u1edbi h\u1ea1n t\u1ed1c \u0111\u1ed9"), p.a.createElement(u["a"], {
                     addonAfter: "Mbps",
                     defaultValue: t.speed_limit,
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ng\u5219Kh\u00f4ng gi\u1edbi h\u1ea1n",
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ng = Kh\u00f4ng gi\u1edbi h\u1ea1n",
                     onChange: e=>this.formChange("speed_limit", e.target.value)
                 })), p.a.createElement("div", {
                     className: "form-group"
@@ -22535,7 +22535,7 @@
                     htmlFor: "example-text-input-alt"
                 }, "Ghi ch\u00fa"), p.a.createElement("div", null, p.a.createElement(u["a"].TextArea, {
                     rows: 4,
-                    placeholder: "\u8bf7\u5728\u8fd9\u91ccB\u1ea3n ghi..",
+                    placeholder: "Vui l\u00f2ng ghi ch\u00fa t\u1ea1i \u0111\u00e2y..",
                     defaultValue: t.remarks,
                     onChange: e=>this.formChange("remarks", e.target.value)
                 })))), p.a.createElement("div", {
@@ -26445,7 +26445,7 @@
                     userId: null === n || void 0 === n ? void 0 : n.user_id,
                     key: null === n || void 0 === n ? void 0 : n.user_id
                 }, o.a.createElement(l["a"], {
-                    title: "TA\u7684L\u01b0u l\u01b0\u1ee3ngB\u1ea3n ghi",
+                    title: "B\u1ea3n ghi l\u01b0u l\u01b0\u1ee3ng c\u1ee7a h\u1ecd",
                     placement: "left"
                 }, o.a.createElement(c["a"], {
                     type: "solution"
@@ -26477,7 +26477,7 @@
                     ref: "message",
                     type: "text",
                     className: "js-chat-input bg-body-dark border-0 form-control form-control-alt",
-                    placeholder: "\u8f93\u5165N\u1ed9i dungPh\u1ea3n h\u1ed3i\u5de5\u5355...",
+                    placeholder: "Nh\u1eadpN\u1ed9i dungPh\u1ea3n h\u1ed3iPhi\u1ebfu h\u1ed7 tr\u1ee3...",
                     onChange: e=>this.props.onChange(e)
                 })))
             }
@@ -28258,7 +28258,7 @@
                 }), h.a.createElement(r["a"], {
                     id: "server",
                     maskClosable: !0,
-                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode" : "\u65b0\u5efaNode",
+                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode" : "T\u1ea1o Node m\u1edbi",
                     width: "80%",
                     visible: this.state.visible,
                     onClose: ()=>this.onShow()
@@ -28279,13 +28279,13 @@
                     onChange: e=>this.formChange("rate", e.target.value)
                 }))), h.a.createElement("div", {
                     className: "form-group"
-                }, h.a.createElement("label", null, "Node\u6807\u7b7e"), h.a.createElement(a["a"], {
+                }, h.a.createElement("label", null, "Nh\u00e3n Node"), h.a.createElement(a["a"], {
                     mode: "tags",
                     value: e.tags || [],
                     style: {
                         width: "100%"
                     },
-                    placeholder: "\u8f93\u5165\u540e\u56de\u8f66Th\u00eam\u6807\u7b7e",
+                    placeholder: "Nh\u1eadp r\u1ed3i Enter \u0111\u1ec3 th\u00eam nh\u00e3n",
                     onChange: e=>this.formChange("tags", e.length > 0 ? e : null)
                 })), h.a.createElement("div", {
                     className: "form-group"
@@ -28309,7 +28309,7 @@
                 }, h.a.createElement("div", {
                     className: "form-group col-md-12 col-xs-12"
                 }, h.a.createElement("label", null, "\u0110\u1ecba ch\u1ec9 node"), h.a.createElement(s["a"], {
-                    placeholder: "\u0110\u1ecba ch\u1ec9\u6216IP",
+                    placeholder: "\u0110\u1ecba ch\u1ec9 ho\u1eb7c IP",
                     value: e.host,
                     onChange: e=>this.formChange("host", e.target.value)
                 }))), h.a.createElement("div", {
@@ -28325,14 +28325,14 @@
                 })), h.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 }, h.a.createElement("label", null, "D\u1ecbch v\u1ee5C\u1ed5ng"), h.a.createElement(s["a"], {
-                    placeholder: "D\u1ecbch v\u1ee5ph\u00eda\u5f00\u653eC\u1ed5ng",
+                    placeholder: "C\u1ed5ng m\u1edf ph\u00eda d\u1ecbch v\u1ee5",
                     value: e.server_port,
                     onChange: e=>{
                         this.formChange("server_port", e.target.value)
                     }
                 }))), h.a.createElement("div", {
                     className: "form-group"
-                }, h.a.createElement("label", null, "\u52a0\u5bc6\u7b97\u6cd5"), h.a.createElement(a["a"], {
+                }, h.a.createElement("label", null, "Thu\u1eadt to\u00e1n m\u00e3 h\u00f3a"), h.a.createElement(a["a"], {
                     value: e.cipher,
                     onChange: e=>this.formChange("cipher", e),
                     style: {
@@ -28352,7 +28352,7 @@
                     value: "2022-blake3-aes-256-gcm"
                 }, "2022-blake3-aes-256-gcm"))), h.a.createElement("div", {
                     className: "form-group"
-                }, h.a.createElement("label", null, "\u6df7\u6dc6"), h.a.createElement(a["a"], {
+                }, h.a.createElement("label", null, "Obfuscation"), h.a.createElement(a["a"], {
                     value: e.obfs || "",
                     onChange: e=>this.formChange("obfs", e),
                     style: {
@@ -28360,7 +28360,7 @@
                     }
                 }, h.a.createElement(a["a"].Option, {
                     value: ""
-                }, "\u65e0"), h.a.createElement(a["a"].Option, {
+                }, "Kh\u00f4ng"), h.a.createElement(a["a"].Option, {
                     value: "http"
                 }, "HTTP")), h.a.createElement("div", null, this.renderObfs())), h.a.createElement("div", {
                     className: "form-group"
@@ -28370,7 +28370,7 @@
                     target: "_blank",
                     href: "https://docs.v2board.com/use/node.html#quan-he-node-cha-va-node-con",
                     rel: "noreferrer"
-                }, "Th\u00eam\u89e3\u7b54"))), h.a.createElement(a["a"], {
+                }, "Th\u00eam gi\u1ea3i \u0111\u00e1p"))), h.a.createElement(a["a"], {
                     value: e.parent_id || "",
                     onChange: e=>this.formChange("parent_id", e),
                     style: {
@@ -28378,7 +28378,7 @@
                     }
                 }, h.a.createElement(a["a"].Option, {
                     value: ""
-                }, "\u65e0"), n.map(t=>{
+                }, "Kh\u00f4ng"), n.map(t=>{
                     if ("shadowsocks" === t.type && t.id !== e.id)
                         return h.a.createElement(a["a"].Option, {
                             key: Math.random(),
@@ -28387,10 +28387,10 @@
                 }
                 ))), h.a.createElement("div", {
                     className: "form-group"
-                }, h.a.createElement("label", null, "\u8def\u7531\u7ec4"), h.a.createElement(a["a"], {
+                }, h.a.createElement("label", null, "Nh\u00f3m routing"), h.a.createElement(a["a"], {
                     mode: "multiple",
                     value: e.route_id || [],
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u8def\u7531\u7ec4",
+                    placeholder: "Vui l\u00f2ng ch\u1ecdnNh\u00f3m routing",
                     style: {
                         width: "100%"
                     },
@@ -31486,13 +31486,13 @@
                     className: "form-group"
                 }, g.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "Th\u00f4ng b\u00e1o\u6807\u7b7e"), g.a.createElement(a["a"], {
+                }, "Nh\u00e3n th\u00f4ng b\u00e1o"), g.a.createElement(a["a"], {
                     mode: "tags",
                     value: this.state.submit.tags || [],
                     style: {
                         width: "100%"
                     },
-                    placeholder: "\u8f93\u5165\u540e\u56de\u8f66Th\u00eam\u6807\u7b7e",
+                    placeholder: "Nh\u1eadp r\u1ed3i Enter \u0111\u1ec3 th\u00eam nh\u00e3n",
                     onChange: e=>{
                         this.setState({
                             submit: p()({}, this.state.submit, {
@@ -31504,8 +31504,8 @@
                     className: "form-group"
                 }, g.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u56fe\u7247URL"), g.a.createElement(s["a"], {
-                    placeholder: "Vui l\u00f2ng nh\u1eadp\u56fe\u7247URL",
+                }, "URL h\u00ecnh \u1ea3nh"), g.a.createElement(s["a"], {
+                    placeholder: "Vui l\u00f2ng nh\u1eadpURL h\u00ecnh \u1ea3nh",
                     value: this.state.submit.img_url,
                     onChange: e=>{
                         this.setState({
@@ -32368,27 +32368,27 @@
                     className: "block-header block-header-default"
                 }, s.a.createElement("h3", {
                     className: "block-title"
-                }, "\u603b\u89c8")), s.a.createElement("div", {
+                }, "T\u1ed5ng quan")), s.a.createElement("div", {
                     className: "block-content p-0"
                 }, s.a.createElement("div", {
                     className: "row no-gutters"
                 }, s.a.createElement("div", {
                     className: "col-lg-6 col-xl-3 border-right p-4 border-bottom"
-                }, s.a.createElement("div", null, s.a.createElement("div", null, "Hi\u1ec7n t\u1ea1i\u4f5c\u4e1a\u91cf"), s.a.createElement("div", {
+                }, s.a.createElement("div", null, s.a.createElement("div", null, "Kh\u1ed1i l\u01b0\u1ee3ng c\u00f4ng vi\u1ec7c hi\u1ec7n t\u1ea1i"), s.a.createElement("div", {
                     className: "mt-4 font-size-h3"
                 }, (null === t || void 0 === t ? void 0 : t.jobsPerMinute) || "0"))), s.a.createElement("div", {
                     className: "col-lg-6 col-xl-3 border-right p-4 border-bottom"
-                }, s.a.createElement("div", null, s.a.createElement("div", null, "\u8fd1\u4e00\u5c0f\u65f6\u5904\u7406\u91cf"), s.a.createElement("div", {
+                }, s.a.createElement("div", null, s.a.createElement("div", null, "X\u1eed l\u00fd trong 1 gi\u1edd g\u1ea7n nh\u1ea5t"), s.a.createElement("div", {
                     className: "mt-4 font-size-h3"
                 }, (null === t || void 0 === t ? void 0 : t.recentJobs) || "0"))), s.a.createElement("div", {
                     className: "col-lg-6 col-xl-3 border-right p-4 border-bottom"
-                }, s.a.createElement("div", null, s.a.createElement("div", null, "7ng\u00e0y\u5185\u62a5\u9519S\u1ed1 l\u01b0\u1ee3ng"), s.a.createElement("div", {
+                }, s.a.createElement("div", null, s.a.createElement("div", null, "S\u1ed1 l\u1ed7i trong 7 ng\u00e0y"), s.a.createElement("div", {
                     className: "mt-4 font-size-h3"
                 }, (null === t || void 0 === t ? void 0 : t.failedJobs) || "0"))), s.a.createElement("div", {
                     className: "col-lg-6 col-xl-3 p-4 border-bottom overflow-hidden"
-                }, s.a.createElement("div", null, s.a.createElement("div", null, "\u72b6\u6001"), s.a.createElement("div", {
+                }, s.a.createElement("div", null, s.a.createElement("div", null, "Tr\u1ea1ng th\u00e1i"), s.a.createElement("div", {
                     className: "mt-4 font-size-h3"
-                }, t && ((null === t || void 0 === t ? void 0 : t.status) ? "\u8fd0h\u00e0ngTrung b\u00ecnh" : "\u672a\u542f\u52a8")), t && ((null === t || void 0 === t ? void 0 : t.status) ? s.a.createElement("i", {
+                }, t && ((null === t || void 0 === t ? void 0 : t.status) ? "Trung b\u00ecnh x\u1eed l\u00fd" : "Ch\u01b0a kh\u1edfi \u0111\u1ed9ng")), t && ((null === t || void 0 === t ? void 0 : t.status) ? s.a.createElement("i", {
                     class: "si si-check text-success",
                     style: {
                         position: "absolute",
@@ -32412,7 +32412,7 @@
                     className: "block-header block-header-default"
                 }, s.a.createElement("h3", {
                     className: "block-title"
-                }, "Hi\u1ec7n t\u1ea1i\u4f5c\u4e1aChi ti\u1ebft")), s.a.createElement("div", {
+                }, "Chi ti\u1ebft c\u00f4ng vi\u1ec7c hi\u1ec7n t\u1ea1i")), s.a.createElement("div", {
                     className: "block-content p-0"
                 }, s.a.createElement(o["a"], {
                     columns: [{
@@ -32421,25 +32421,25 @@
                         key: "name",
                         render: e=>{
                             var t = {
-                                order_handle: "\u8ba2\u5355Queue",
+                                order_handle: "Queue \u0111\u01a1n h\u00e0ng",
                                 send_email: "EmailQueue",
-                                send_email_mass: "Email\u7fa4\u53d1Queue",
-                                send_telegram: "Telegram\u6d88\u606fQueue",
+                                send_email_mass: "Queue g\u1eedi email h\u00e0ng lo\u1ea1t",
+                                send_telegram: "Queue tin nh\u1eafn Telegram",
                                 stat: "Th\u1ed1ng k\u00eaQueue",
-                                traffic_fetch: "L\u01b0u l\u01b0\u1ee3ng\u6d88\u8d39Queue"
+                                traffic_fetch: "Queue ti\u00eau th\u1ee5 l\u01b0u l\u01b0\u1ee3ng"
                             };
                             return t[e]
                         }
                     }, {
-                        title: "\u4f5c\u4e1a\u91cf",
+                        title: "Kh\u1ed1i l\u01b0\u1ee3ng c\u00f4ng vi\u1ec7c",
                         dataIndex: "processes",
                         key: "processes"
                     }, {
-                        title: "\u4efb\u52a1\u91cf",
+                        title: "Kh\u1ed1i l\u01b0\u1ee3ng t\u00e1c v\u1ee5",
                         dataIndex: "length",
                         key: "length"
                     }, {
-                        title: "\u5360\u7528Th\u1eddi gian",
+                        title: "Th\u1eddi gian chi\u1ebfm d\u1ee5ng",
                         dataIndex: "wait",
                         key: "wait",
                         align: "right",
@@ -33213,31 +33213,31 @@
     L9pr: function(e, t, n) {
         "use strict";
         t["a"] = {
-            today: "\u4eca\u5929",
-            now: "\u6b64\u523b",
-            backToToday: "Quay l\u1ea1i\u4eca\u5929",
+            today: "H\u00f4m nay",
+            now: "L\u00fac n\u00e0y",
+            backToToday: "Quay l\u1ea1i h\u00f4m nay",
             ok: "X\u00e1c nh\u1eadn",
-            timeSelect: "\u9009\u62e9Th\u1eddi gian",
-            dateSelect: "\u9009\u62e9Ng\u00e0y",
-            weekSelect: "\u9009\u62e9\u5468",
-            clear: "\u6e05\u9664",
-            month: "\u6708",
-            year: "\u5e74",
-            previousMonth: "\u4e0a\u4e2a\u6708 (\u7ffbtrang\u4e0a\u952e)",
-            nextMonth: "\u4e0b\u4e2a\u6708 (\u7ffbtrang\u4e0b\u952e)",
-            monthSelect: "\u9009\u62e9\u6708\u4efd",
-            yearSelect: "\u9009\u62e9\u5e74\u4efd",
-            decadeSelect: "\u9009\u62e9\u5e74\u4ee3",
-            yearFormat: "YYYY\u5e74",
+            timeSelect: "Ch\u1ecdn th\u1eddi gian",
+            dateSelect: "Ch\u1ecdn ng\u00e0y",
+            weekSelect: "Ch\u1ecdn tu\u1ea7n",
+            clear: "X\u00f3a",
+            month: "Th\u00e1ng",
+            year: "N\u0103m",
+            previousMonth: "Th\u00e1ng tr\u01b0\u1edbc (PageUp)",
+            nextMonth: "Th\u00e1ng sau (PageDown)",
+            monthSelect: "Ch\u1ecdn th\u00e1ng",
+            yearSelect: "Ch\u1ecdn n\u0103m",
+            decadeSelect: "Ch\u1ecdn th\u1eadp k\u1ef7",
+            yearFormat: "YYYY",
             dayFormat: "Dng\u00e0y",
-            dateFormat: "YYYY\u5e74M\u6708Dng\u00e0y",
+            dateFormat: "YYYY-MM-DD",
             dateTimeFormat: "YYYY-MM-DD HH:mm:ss",
             previousYear: "N\u0103m tr\u01b0\u1edbc (Ctrl + m\u0169i t\u00ean tr\u00e1i)",
             nextYear: "N\u0103m sau (Ctrl + m\u0169i t\u00ean ph\u1ea3i)",
-            previousDecade: "\u4e0a\u4e00\u5e74\u4ee3",
-            nextDecade: "\u4e0b\u4e00\u5e74\u4ee3",
-            previousCentury: "\u4e0a\u4e00\u4e16\u7eaa",
-            nextCentury: "\u4e0b\u4e00\u4e16\u7eaa"
+            previousDecade: "Th\u1eadp k\u1ef7 tr\u01b0\u1edbc",
+            nextDecade: "Th\u1eadp k\u1ef7 sau",
+            previousCentury: "Th\u1ebf k\u1ef7 tr\u01b0\u1edbc",
+            nextCentury: "Th\u1ebf k\u1ef7 sau"
         }
     },
     LIAx: function(e, t, n) {
@@ -36930,15 +36930,15 @@
         "use strict";
         t["a"] = {
             items_per_page: "m\u1ee5c/trang",
-            jump_to: "\u8df3\u81f3",
+            jump_to: "Nh\u1ea3y \u0111\u1ebfn",
             jump_to_confirm: "X\u00e1c nh\u1eadn",
             page: "trang",
             prev_page: "Trang tr\u01b0\u1edbc",
             next_page: "Trang sau",
-            prev_5: "\u5411\u524d 5 trang",
-            next_5: "\u5411\u540e 5 trang",
-            prev_3: "\u5411\u524d 3 trang",
-            next_3: "\u5411\u540e 3 trang"
+            prev_5: "V\u1ec1 tr\u01b0\u1edbc 5 trang",
+            next_5: "V\u1ec1 sau 5 trang",
+            prev_3: "V\u1ec1 tr\u01b0\u1edbc 3 trang",
+            next_3: "V\u1ec1 sau 3 trang"
         }
     },
     N4uP: function(e, t, n) {
@@ -40096,7 +40096,7 @@
                         })
                     }
                 }, {
-                    title: "\u5238T\u00ean",
+                    title: "M\u00e3 voucher",
                     dataIndex: "name",
                     key: "name"
                 }, {
@@ -40104,10 +40104,10 @@
                     dataIndex: "type",
                     key: "type",
                     render: e=>{
-                        return 1 === e ? "S\u1ed1 ti\u1ec1n" : "\u6bd4\u4f8b"
+                        return 1 === e ? "S\u1ed1 ti\u1ec1n" : "T\u1ef7 l\u1ec7"
                     }
                 }, {
-                    title: "\u5238\u7801",
+                    title: "M\u00e3 phi\u1ebfu",
                     dataIndex: "code",
                     key: "code",
                     render: e=>{
@@ -40122,11 +40122,11 @@
                         }, e)
                     }
                 }, {
-                    title: "\u5269\u4f59\u6b21\u6570",
+                    title: "S\u1ed1 l\u1ea7n c\u00f2n l\u1ea1i",
                     dataIndex: "limit_use",
                     key: "limit_use",
                     render: e=>{
-                        return b.a.createElement(d["a"], null, null !== e ? e : "\u65e0\u9650")
+                        return b.a.createElement(d["a"], null, null !== e ? e : "V\u00f4 h\u1ea1n")
                     }
                 }, {
                     title: "Th\u1eddi h\u1ea1n hi\u1ec7u l\u1ef1c",
@@ -40160,7 +40160,7 @@
                             onClick: ()=>{
                                 h["a"].confirm({
                                     title: "C\u1ea3nh b\u00e1o",
-                                    content: "X\u00e1c nh\u1eadn\u8981X\u00f3a\u8be5m\u1ee5c\u9879\u76ee\u5417\uff1f",
+                                    content: "B\u1ea1n c\u00f3 ch\u1eafc mu\u1ed1n x\u00f3a m\u1ee5c n\u00e0y?",
                                     onOk: ()=>this.drop(n),
                                     okText: "X\u00e1c nh\u1eadn",
                                     cancelText: "H\u1ee7y"
@@ -40229,7 +40229,7 @@
                     className: "form-group"
                 }, b.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "T\u00f9y ch\u1ec9nhPhi\u1ebfu gi\u1ea3m gi\u00e1\u7801"), b.a.createElement(s["a"], {
+                }, "M\u00e3 phi\u1ebfu gi\u1ea3m gi\u00e1 t\u00f9y ch\u1ec9nh"), b.a.createElement(s["a"], {
                     placeholder: "M\u00e3 khuy\u1ebfn m\u00e3i t\u00f9y ch\u1ec9nh (\u0111\u1ec3 tr\u1ed1ng = t\u1ea1o ng\u1eabu nhi\u00ean)",
                     value: this.state.submit.code,
                     onChange: e=>{
@@ -40244,7 +40244,7 @@
                     className: "form-group"
                 }, b.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u4f18\u60e0\u4fe1\u606f"), b.a.createElement(s["a"], {
+                }, "Th\u00f4ng tin \u01b0u \u0111\u00e3i"), b.a.createElement(s["a"], {
                     type: "number",
                     addonBefore: b.a.createElement(a["a"], {
                         style: {
@@ -40260,9 +40260,9 @@
                         }
                     }, b.a.createElement(a["a"].Option, {
                         value: 1
-                    }, "\u6309S\u1ed1 ti\u1ec1n\u4f18\u60e0"), b.a.createElement(a["a"].Option, {
+                    }, "Gi\u1ea3m gi\u00e1 theo s\u1ed1 ti\u1ec1n"), b.a.createElement(a["a"].Option, {
                         value: 2
-                    }, "\u6309\u6bd4\u4f8b\u4f18\u60e0")),
+                    }, "Gi\u1ea3m gi\u00e1 theo t\u1ef7 l\u1ec7")),
                     addonAfter: 1 === this.state.submit.type ? "đ" : "%",
                     placeholder: "Vui l\u00f2ng nh\u1eadpGi\u00e1 tr\u1ecb",
                     value: this.state.submit.value,
@@ -40303,7 +40303,7 @@
                     className: "form-group"
                 }, b.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u6700\u5927S\u1ed1 l\u1ea7n s\u1eed d\u1ee5ng"), b.a.createElement(s["a"], {
+                }, "S\u1ed1 l\u1ea7n s\u1eed d\u1ee5ng t\u1ed1i \u0111a"), b.a.createElement(s["a"], {
                     placeholder: "Gi\u1edbi h\u1ea1n s\u1ed1 l\u1ea7n s\u1eed d\u1ee5ng t\u1ed1i \u0111a. D\u00f9ng h\u1ebft s\u1ebd kh\u00f4ng s\u1eed d\u1ee5ng \u0111\u01b0\u1ee3c (\u0111\u1ec3 tr\u1ed1ng = kh\u00f4ng gi\u1edbi h\u1ea1n)",
                     value: this.state.submit.limit_use,
                     onChange: e=>{
@@ -40331,7 +40331,7 @@
                     className: "form-group"
                 }, b.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u6307\u5b9a\u0110\u0103ng k\u00fd"), b.a.createElement("div", null, b.a.createElement(a["a"], {
+                }, "Ch\u1ec9 \u0111\u1ecbnh \u0111\u0103ng k\u00fd"), b.a.createElement("div", null, b.a.createElement(a["a"], {
                     value: this.state.submit.limit_plan_ids || [],
                     onChange: e=>{
                         this.setState({
@@ -40356,7 +40356,7 @@
                     className: "form-group"
                 }, b.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "\u6307\u5b9a\u5468\u671f"), b.a.createElement("div", null, b.a.createElement(a["a"], {
+                }, "Chu k\u1ef3 quy \u0111\u1ecbnh"), b.a.createElement("div", null, b.a.createElement(a["a"], {
                     value: this.state.submit.limit_period || [],
                     onChange: e=>{
                         this.setState({
@@ -40381,8 +40381,8 @@
                     className: "form-group"
                 }, b.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "\u751f\u6210S\u1ed1 l\u01b0\u1ee3ng"), b.a.createElement(s["a"], {
-                    placeholder: "\u8f93\u5165S\u1ed1 l\u01b0\u1ee3ngT\u1ea1o h\u00e0ng lo\u1ea1t",
+                }, "S\u1ed1 l\u01b0\u1ee3ng t\u1ea1o"), b.a.createElement(s["a"], {
+                    placeholder: "Nh\u1eadp s\u1ed1 l\u01b0\u1ee3ng \u0111\u1ec3 t\u1ea1o h\u00e0ng lo\u1ea1t",
                     value: this.state.submit.generate_count,
                     onChange: e=>{
                         this.setState({
@@ -41191,7 +41191,7 @@
                     okButtonProps: {
                         loading: n
                     },
-                    okText: "\u751f\u6210"
+                    okText: "T\u1ea1o"
                 }, u.a.createElement("div", null, u.a.createElement("div", {
                     className: "form-group"
                 }, u.a.createElement("label", {
@@ -41213,7 +41213,7 @@
                     },
                     disabled: !0
                 }), u.a.createElement(a["a"], {
-                    placeholder: "\u57df",
+                    placeholder: "Mi\u1ec1n",
                     style: {
                         width: "45%"
                     },
@@ -41225,7 +41225,7 @@
                     htmlFor: "example-text-input-alt"
                 }, "M\u1eadt kh\u1ea9u"), u.a.createElement(a["a"], {
                     value: h.password,
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ng\u5219M\u1eadt kh\u1ea9uv\u00e0Email\u76f8\u540c",
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ngTh\u00ecM\u1eadt kh\u1ea9uv\u00e0Email\u76f8C\u00f9ng",
                     onChange: e=>this.formChange("password", e.target.value)
                 })), u.a.createElement("div", {
                     className: "form-group"
@@ -41251,7 +41251,7 @@
                     onChange: e=>this.formChange("plan_id", e)
                 }, u.a.createElement(i["a"].Option, {
                     value: null
-                }, "\u65e0"), s.map(e=>{
+                }, "Kh\u00f4ng"), s.map(e=>{
                     return u.a.createElement(i["a"].Option, {
                         key: Math.random(),
                         value: e.id
@@ -41261,9 +41261,9 @@
                     className: "form-group"
                 }, u.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "\u751f\u6210S\u1ed1 l\u01b0\u1ee3ng"), u.a.createElement(a["a"], {
+                }, "S\u1ed1 l\u01b0\u1ee3ng t\u1ea1o"), u.a.createElement(a["a"], {
                     value: h.generate_count,
-                    placeholder: "N\u1ebfu l\u00e0 t\u1ea1o h\u00e0ng lo\u1ea1tVui l\u00f2ng nh\u1eadp\u751f\u6210S\u1ed1 l\u01b0\u1ee3ng",
+                    placeholder: "N\u1ebfu l\u00e0 t\u1ea1o h\u00e0ng lo\u1ea1tVui l\u00f2ng nh\u1eadpS\u1ed1 l\u01b0\u1ee3ng t\u1ea1o",
                     onChange: e=>this.formChange("generate_count", e.target.value)
                 })))))
             }
@@ -41555,7 +41555,7 @@
                     dataIndex: "subject",
                     key: "subject"
                 }, {
-                    title: "\u5de5\u5355\u7ea7\u522b",
+                    title: "C\u1ea5p \u0111\u1ed9 phi\u1ebfu",
                     dataIndex: "level",
                     key: "level",
                     render: e=>{
@@ -41566,10 +41566,10 @@
                     dataIndex: "reply_status",
                     key: "reply_status",
                     filters: 1 !== a.status && [{
-                        text: "\u5df2Ph\u1ea3n h\u1ed3i",
+                        text: "\u0110\u00e3 ph\u1ea3n h\u1ed3i",
                         value: 1
                     }, {
-                        text: "\u5f85Ph\u1ea3n h\u1ed3i",
+                        text: "Ch\u1edd ph\u1ea3n h\u1ed3i",
                         value: 0
                     }],
                     render: (e,t)=>{
@@ -41577,7 +41577,7 @@
                             status: "success"
                         }), "\u0110\u00e3 \u0111\u00f3ng") : d.a.createElement("span", null, d.a.createElement(h["a"], {
                             status: e ? "processing" : "error"
-                        }), e ? "\u5df2Ph\u1ea3n h\u1ed3i" : "\u5f85Ph\u1ea3n h\u1ed3i")
+                        }), e ? "\u0110\u00e3 ph\u1ea3n h\u1ed3i" : "Ch\u1edd ph\u1ea3n h\u1ed3i")
                     }
                 }, {
                     title: "Th\u1eddi gian t\u1ea1o",
@@ -41587,7 +41587,7 @@
                         return v()(1e3 * e).format("YYYY/MM/DD HH:mm")
                     }
                 }, {
-                    title: "\u6700\u540ePh\u1ea3n h\u1ed3i",
+                    title: "Ph\u1ea3n h\u1ed3i cu\u1ed1i",
                     dataIndex: "updated_at",
                     key: "updated_at",
                     render: e=>{
@@ -41627,14 +41627,14 @@
                     onChange: e=>this.filter("status", e.target.value)
                 }, d.a.createElement(c["a"].Button, {
                     value: 0
-                }, "\u5df2B\u1eadt"), d.a.createElement(c["a"].Button, {
+                }, "\u0110\u00e3 b\u1eadt"), d.a.createElement(c["a"].Button, {
                     value: 1
                 }, "\u0110\u00e3 \u0111\u00f3ng")), d.a.createElement("div", {
                     style: {
                         float: "right"
                     }
                 }, d.a.createElement(l["a"], {
-                    placeholder: "\u8f93\u5165EmailT\u00ecm ki\u1ebfm",
+                    placeholder: "Nh\u1eadp Email t\u00ecm ki\u1ebfm",
                     onChange: e=>this.onSearch("email", e.target.value)
                 }))), d.a.createElement(o["a"], {
                     tableLayout: "auto",
@@ -41885,7 +41885,7 @@
                     className: "text-dark"
                 }, window.settings.title || "V2Board")), a.a.createElement("p", {
                     className: "font-size-sm text-muted mb-3"
-                }, "\u0110\u0103ng nh\u1eadp\u5230\u7ba1\u7406Trung b\u00ecnh\u5fc3")), a.a.createElement("div", {
+                }, "\u0110\u0103ng nh\u1eadp v\u00e0o trung t\u00e2m qu\u1ea3n tr\u1ecb")), a.a.createElement("div", {
                     className: "form-group"
                 }, a.a.createElement("input", {
                     type: "text",
@@ -41910,7 +41910,7 @@
                     type: "loading"
                 }) : a.a.createElement("span", null, a.a.createElement("i", {
                     className: "si si-login mr-1"
-                }), "\u767b\u5165")))))), a.a.createElement("div", {
+                }), "\u0110\u0103ng nh\u1eadp")))))), a.a.createElement("div", {
                     className: "text-center bg-gray-lighter p-3 px-4"
                 }, a.a.createElement("a", {
                     onClick: ()=>{
@@ -41918,7 +41918,7 @@
                             title: "Qu\u00ean m\u1eadt kh\u1ea9u",
                             content: a.a.createElement("div", null, a.a.createElement("div", null, "\u5728Trang webth\u01b0 m\u1ee5c\u4e0b\u6267h\u00e0ng\u547d\u4ee4Kh\u00f4i ph\u1ee5c m\u1eadt kh\u1ea9u"), a.a.createElement("code", null, "php artisan reset:password [email qu\u1ea3n tr\u1ecb vi\u00ean]")),
                             centered: !0,
-                            okText: "\u6211\u77e5\u9053\u4e86",
+                            okText: "T\u00f4i hi\u1ec3u r\u1ed3i",
                             onOk() {}
                         })
                     }
@@ -45874,13 +45874,13 @@
                     key: "record_at",
                     render: e=>d()(1e3 * e).format("YYYY-MM-DD")
                 }, {
-                    title: "\u4e0ah\u00e0ng",
+                    title: "Upload",
                     dataIndex: "u",
                     key: "d",
                     align: "right",
                     render: e=>Object(p["b"])(e)
                 }, {
-                    title: "\u4e0bh\u00e0ng",
+                    title: "Download",
                     dataIndex: "d",
                     key: "d",
                     align: "right",
@@ -71186,8 +71186,8 @@
             }
             ban() {
                 p["a"].confirm({
-                    title: "\u63d0\u9192",
-                    content: "X\u00e1c nh\u1eadn\u8981th\u1ef1c hi\u1ec7nCh\u1eb7n\u5417\uff1f",
+                    title: "Nh\u1eafc nh\u1edf",
+                    content: "X\u00e1c nh\u1eadn\u8981th\u1ef1c hi\u1ec7nCh\u1eb7nkh\u00f4ng?",
                     onOk: ()=>{
                         this.props.dispatch({
                             type: "user/ban"
@@ -71197,8 +71197,8 @@
             }
             allDel() {
                 p["a"].confirm({
-                    title: "\u63d0\u9192",
-                    content: "X\u00e1c nh\u1eadn\u8981th\u1ef1c hi\u1ec7nX\u00f3a\u5417\uff1f",
+                    title: "Nh\u1eafc nh\u1edf",
+                    content: "B\u1ea1n c\u00f3 ch\u1eafc mu\u1ed1n th\u1ef1c hi\u1ec7n x\u00f3a?",
                     onOk: ()=>{
                         this.props.dispatch({
                             type: "user/allDel"
@@ -71228,8 +71228,8 @@
             resetSecret(e) {
                 var t = this;
                 p["a"].confirm({
-                    title: "\u0110\u1eb7t l\u1ea1iB\u1ea3o m\u1eadt\u4fe1\u606f",
-                    content: "X\u00e1c nh\u1eadn\u8981\u0110\u1eb7t l\u1ea1i".concat(e.email, "\u7684B\u1ea3o m\u1eadt\u4fe1\u606f\u5417\uff1f"),
+                    title: "\u0110\u1eb7t l\u1ea1i th\u00f4ng tin b\u1ea3o m\u1eadt",
+                    content: "X\u00e1c nh\u1eadn \u0111\u1eb7t l\u1ea1i".concat(e.email, "Th\u00f4ng tin b\u1ea3o m\u1eadt?"),
                     onOk() {
                         t.props.dispatch({
                             type: "user/resetSecret",
@@ -71244,7 +71244,7 @@
                 var t = this;
                 p["a"].confirm({
                     title: "X\u00f3ang\u01b0\u1eddi d\u00f9ng",
-                    content: "X\u00e1c nh\u1eadn\u8981X\u00f3a".concat(e.email, "\u7684Th\u00f4ng tin ng\u01b0\u1eddi d\u00f9ng\u5417\uff1f"),
+                    content: "X\u00e1c nh\u1eadn x\u00f3a".concat(e.email, "Th\u00f4ng tin ng\u01b0\u1eddi d\u00f9ng?"),
                     onOk() {
                         t.props.dispatch({
                             type: "user/delUser",
@@ -71268,13 +71268,13 @@
                     render: (e,t)=>{
                         return g.a.createElement(f["a"], {
                             placement: "top",
-                            title: t.t ? "\u6700\u540eOnline".concat(w()(1e3 * t.t).format("YYYY-MM-DD HH:mm:ss")) : "\u4ece\u672aOnline"
+                            title: t.t ? "Online l\u1ea7n cu\u1ed1i".concat(w()(1e3 * t.t).format("YYYY-MM-DD HH:mm:ss")) : "Ch\u01b0a bao gi\u1edd online"
                         }, g.a.createElement(d["a"], {
                             status: (new Date).getTime() / 1e3 - 600 > t.t ? "default" : "success"
                         }), e)
                     }
                 }, {
-                    title: "\u72b6\u6001",
+                    title: "Tr\u1ea1ng th\u00e1i",
                     dataIndex: "banned",
                     key: "banned",
                     sorter: !0,
@@ -71301,7 +71301,7 @@
                         return t ? t.name : "-"
                     }
                 }, {
-                    title: "\u5df2\u7528(G)",
+                    title: "\u0110\u00e3 d\u00f9ng (GB)",
                     dataIndex: "total_used",
                     key: "total_used",
                     sorter: !0,
@@ -71339,7 +71339,7 @@
                     render: e=>{
                         return g.a.createElement(h["a"], {
                             color: e < (new Date).getTime() / 1e3 && null !== e ? "red" : "green"
-                        }, e ? w()(1e3 * e).format("YYYY/MM/DD HH:mm") : null === e ? "\u957f\u671fH\u1ee3p l\u1ec7" : "-")
+                        }, e ? w()(1e3 * e).format("YYYY/MM/DD HH:mm") : null === e ? "H\u1ee3p l\u1ec7 v\u0129nh vi\u1ec5n" : "-")
                     }
                 }, {
                     title: "S\u1ed1 d\u01b0",
@@ -71347,12 +71347,12 @@
                     key: "balance",
                     sorter: !0
                 }, {
-                    title: "\u4f63\u91d1",
+                    title: "Hoa h\u1ed3ng",
                     dataIndex: "commission_balance",
                     key: "commission_balance",
                     sorter: !0
                 }, {
-                    title: "\u52a0\u5165Th\u1eddi gian",
+                    title: "Th\u1eddi gian tham gia",
                     dataIndex: "created_at",
                     key: "created_at",
                     sorter: !0,
@@ -71386,7 +71386,7 @@
                                 key: t.email
                             }, g.a.createElement("a", null, g.a.createElement(u["a"], {
                                 type: "plus"
-                            }), " \u5206\u914d\u8ba2\u5355"))), g.a.createElement(c["a"].Item, null, g.a.createElement("a", {
+                            }), " Ph\u00e2n b\u1ed5 \u0111\u01a1n h\u00e0ng"))), g.a.createElement(c["a"].Item, null, g.a.createElement("a", {
                                 onClick: ()=>Object(L["a"])(t.subscribe_url)
                             }, g.a.createElement(u["a"], {
                                 type: "copy"
@@ -71407,15 +71407,15 @@
                                 onClick: ()=>this.resetSecret(t)
                             }, g.a.createElement(u["a"], {
                                 type: "reload"
-                            }), " \u0110\u1eb7t l\u1ea1iUUID\u53ca\u0110\u0103ng k\u00fdURL")), g.a.createElement(c["a"].Item, {
+                            }), "\u0110\u1eb7t l\u1ea1i UUID v\u00e0 URL \u0111\u0103ng k\u00fd")), g.a.createElement(c["a"].Item, {
                                 onClick: ()=>this.orderFilter("user_id", "=", t.id)
                             }, g.a.createElement("a", null, g.a.createElement(u["a"], {
                                 type: "account-book"
-                            }), " TA\u7684\u8ba2\u5355")), g.a.createElement(c["a"].Item, {
+                            }), " \u0110\u01a1n h\u00e0ng c\u1ee7a h\u1ecd")), g.a.createElement(c["a"].Item, {
                                 onClick: ()=>this.userFilter("invite_user_id", "=", t.id, !0)
                             }, g.a.createElement("a", null, g.a.createElement(u["a"], {
                                 type: "usergroup-add"
-                            }), " TA\u7684\u9080\u8bf7")), g.a.createElement(c["a"].Item, {
+                            }), " L\u1eddi m\u1eddi c\u1ee7a h\u1ecd")), g.a.createElement(c["a"].Item, {
                                 onContextMenu: e=>{
                                     e.stopPropagation()
                                 }
@@ -71424,7 +71424,7 @@
                                 key: null === t || void 0 === t ? void 0 : t.email
                             }, g.a.createElement("a", null, g.a.createElement(u["a"], {
                                 type: "solution"
-                            }), " TA\u7684L\u01b0u l\u01b0\u1ee3ngB\u1ea3n ghi"))), g.a.createElement(c["a"].Item, null, g.a.createElement("a", {
+                            }), "B\u1ea3n ghi l\u01b0u l\u01b0\u1ee3ng c\u1ee7a h\u1ecd"))), g.a.createElement(c["a"].Item, null, g.a.createElement("a", {
                                 onClick: ()=>this.delUser(t)
                             }, g.a.createElement(u["a"], {
                                 type: "delete"
@@ -71473,7 +71473,7 @@
                         condition: ["="],
                         type: "select",
                         options:[{
-                            key: "\u65e0\u0110\u0103ng k\u00fd",
+                            key: "Kh\u00f4ng c\u00f3 g\u00f3i",
                             value: "null" }, ...R.map(e=>({
                             key: e.name,
                             value: e.id
@@ -71484,7 +71484,7 @@
                         condition: [">=", ">", "<", "<="]
                     }, {
                         key: "d",
-                        title: "\u4e0bh\u00e0ng",
+                        title: "Download",
                         condition: [">=", ">", "<", "<="]
                     }, {
                         key: "expired_at",
@@ -71501,7 +71501,7 @@
                         condition: ["="]
                     }, {
                         key: "banned",
-                        title: "T\u00e0i kho\u1ea3n\u72b6\u6001",
+                        title: "Tr\u1ea1ng th\u00e1i t\u00e0i kho\u1ea3n",
                         condition: ["="],
                         type: "select",
                         options: [{
@@ -71513,11 +71513,11 @@
                         }]
                     }, {
                         key: "invite_by_email",
-                        title: "\u9080\u8bf7\u4ebaEmail",
+                        title: "Email ng\u01b0\u1eddi m\u1eddi",
                         condition: ["Gần đúng"]
                     }, {
                         key: "invite_user_id",
-                        title: "\u9080\u8bf7\u4ebaID",
+                        title: "ID ng\u01b0\u1eddi m\u1eddi",
                         condition: ["="]
                     }, {
                         key: "remarks",
@@ -71540,7 +71540,7 @@
                     type: E.length > 0 ? "primary" : ""
                 }, g.a.createElement(u["a"], {
                     type: "filter"
-                }), " L\u1ecdc\u5668")), g.a.createElement(l["a"], {
+                }), " B\u1ed9 l\u1ecdc")), g.a.createElement(l["a"], {
                     overlay: g.a.createElement(c["a"], null, g.a.createElement(c["a"].Item, null, g.a.createElement("a", {
                         onClick: ()=>this.dumpCSV()
                     }, g.a.createElement(u["a"], {
@@ -71603,7 +71603,7 @@
                     key: null === (r = this.record) || void 0 === r ? void 0 : r.email
                 }, g.a.createElement("a", null, g.a.createElement(u["a"], {
                     type: "plus"
-                }), " \u5206\u914d\u8ba2\u5355"))), g.a.createElement("li", {
+                }), " Ph\u00e2n b\u1ed5 \u0111\u01a1n h\u00e0ng"))), g.a.createElement("li", {
                     className: "ant-dropdown-menu-item"
                 }, g.a.createElement("a", {
                     onClick: ()=>{
@@ -71621,7 +71621,7 @@
                     onClick: ()=>this.resetSecret(this.record)
                 }, g.a.createElement(u["a"], {
                     type: "reload"
-                }), " \u0110\u1eb7t l\u1ea1iUUID\u53ca\u0110\u0103ng k\u00fdURL")), g.a.createElement("li", {
+                }), "\u0110\u1eb7t l\u1ea1i UUID v\u00e0 URL \u0111\u0103ng k\u00fd")), g.a.createElement("li", {
                     className: "ant-dropdown-menu-item",
                     onClick: ()=>{
                         var e;
@@ -71629,7 +71629,7 @@
                     }
                 }, g.a.createElement("a", null, g.a.createElement(u["a"], {
                     type: "account-book"
-                }), " TA\u7684\u8ba2\u5355")), g.a.createElement("li", {
+                }), " \u0110\u01a1n h\u00e0ng c\u1ee7a h\u1ecd")), g.a.createElement("li", {
                     className: "ant-dropdown-menu-item",
                     onClick: ()=>{
                         var e;
@@ -71637,14 +71637,14 @@
                     }
                 }, g.a.createElement("a", null, g.a.createElement(u["a"], {
                     type: "usergroup-add"
-                }), " TA\u7684\u9080\u8bf7")), g.a.createElement("li", {
+                }), " L\u1eddi m\u1eddi c\u1ee7a h\u1ecd")), g.a.createElement("li", {
                     className: "ant-dropdown-menu-item"
                 }, g.a.createElement(j["a"], {
                     userId: null === (o = this.record) || void 0 === o ? void 0 : o.id,
                     key: null === (p = this.record) || void 0 === p ? void 0 : p.email
                 }, g.a.createElement("a", null, g.a.createElement(u["a"], {
                     type: "solution"
-                }), " TA\u7684L\u01b0u l\u01b0\u1ee3ngB\u1ea3n ghi"))), g.a.createElement("li", {
+                }), "B\u1ea3n ghi l\u01b0u l\u01b0\u1ee3ng c\u1ee7a h\u1ecd"))), g.a.createElement("li", {
                     className: "ant-dropdown-menu-item"
                 }, g.a.createElement("a", {
                     onClick: ()=>this.delUser(this.record)
@@ -73287,7 +73287,7 @@
                             while (1)
                                 switch (e.prev = e.next) {
                                 case 0:
-                                    return r["a"].loading("\u53d1\u9001Trung b\u00ecnh"),
+                                    return r["a"].loading("G\u1eedi trung b\u00ecnh"),
                                     e.next = 3,
                                     l({
                                         type: "setState",
@@ -74148,7 +74148,7 @@
                 return d.a.createElement(d.a.Fragment, null, d.a.cloneElement(this.props.children, {
                     onClick: ()=>this.show()
                 }), d.a.createElement(s["a"], {
-                    title: this.state.submit.id ? "Ch\u1ec9nh s\u1eedaThanh to\u00e1n\u65b9\u5f0f" : "Th\u00eamThanh to\u00e1n\u65b9\u5f0f",
+                    title: this.state.submit.id ? "Ch\u1ec9nh s\u1eeda ph\u01b0\u01a1ng th\u1ee9c thanh to\u00e1n" : "Th\u00eam ph\u01b0\u01a1ng th\u1ee9c thanh to\u00e1n",
                     visible: this.state.visible,
                     onCancel: ()=>this.setState({
                         visible: !1
@@ -74171,7 +74171,7 @@
                     className: "form-group"
                 }, d.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "\u56fe\u6807URL(\u9009\u586b)"), d.a.createElement(v["a"], {
+                }, "URL icon (t\u00f9y ch\u1ecdn)"), d.a.createElement(v["a"], {
                     placeholder: "D\u00f9ng \u0111\u1ec3 hi\u1ec3n th\u1ecb \u1edf frontend (https://x.com/icon.svg)",
                     defaultValue: a.icon,
                     onChange: e=>this.submitOnChange("icon", e.target.value)
@@ -74179,7 +74179,7 @@
                     className: "form-group"
                 }, d.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "T\u00f9y ch\u1ec9nh\u901a\u77e5T\u00ean mi\u1ec1n(\u9009\u586b)"), d.a.createElement(v["a"], {
+                }, "T\u00f9y ch\u1ec9nhTh\u00f4ng b\u00e1oT\u00ean mi\u1ec1n(\u9009\u586b)"), d.a.createElement(v["a"], {
                     placeholder: "Th\u00f4ng b\u00e1o t\u1eeb c\u1ed5ng thanh to\u00e1n s\u1ebd g\u1eedi \u0111\u1ebfn t\u00ean mi\u1ec1n n\u00e0y (https://x.com)",
                     defaultValue: a.notify_domain,
                     onChange: e=>this.submitOnChange("notify_domain", e.target.value)
@@ -74191,7 +74191,7 @@
                     className: "form-group"
                 }, d.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "\u767e\u5206\u6bd4Ph\u00ed giao d\u1ecbch(\u9009\u586b)"), d.a.createElement(v["a"], {
+                }, "Ph\u00ed giao d\u1ecbch % (t\u00f9y ch\u1ecdn)"), d.a.createElement(v["a"], {
                     suffix: "%",
                     type: "number",
                     placeholder: "Trong \u0111\u01a1n h\u00e0ngS\u1ed1 ti\u1ec1nth\u00eam v\u00e0oPh\u00ed giao d\u1ecbch",
@@ -74203,7 +74203,7 @@
                     className: "form-group"
                 }, d.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "\u56fa\u5b9aPh\u00ed giao d\u1ecbch(\u9009\u586b)"), d.a.createElement(v["a"], {
+                }, "Ph\u00ed giao d\u1ecbch c\u1ed1 \u0111\u1ecbnh (tu\u1ef3 ch\u1ecdn)"), d.a.createElement(v["a"], {
                     type: "number",
                     placeholder: "Trong \u0111\u01a1n h\u00e0ngS\u1ed1 ti\u1ec1nth\u00eam v\u00e0oPh\u00ed giao d\u1ecbch",
                     defaultValue: a.handling_fee_fixed / 100,
@@ -74212,7 +74212,7 @@
                     className: "form-group"
                 }, d.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "nh\u1eadn\u53e3\u6587\u4ef6"), d.a.createElement("div", null, d.a.createElement(g["a"], {
+                }, "File c\u1ed5ng nh\u1eadn"), d.a.createElement("div", null, d.a.createElement(g["a"], {
                     style: {
                         width: "100%"
                     },
@@ -74312,7 +74312,7 @@
                     dataIndex: "name",
                     key: "name"
                 }, {
-                    title: "Thanh to\u00e1nnh\u1eadn\u53e3",
+                    title: "C\u1ed5ng nh\u1eadn thanh to\u00e1n",
                     dataIndex: "payment",
                     key: "payment"
                 }, {
@@ -74342,7 +74342,7 @@
                         onClick: ()=>{
                             s["a"].confirm({
                                 title: "C\u1ea3nh b\u00e1o",
-                                content: "X\u00e1c nh\u1eadn\u8981X\u00f3a\u8be5m\u1ee5c\u9879\u76ee\u5417\uff1f",
+                                content: "B\u1ea1n c\u00f3 ch\u1eafc mu\u1ed1n x\u00f3a m\u1ee5c n\u00e0y?",
                                 onOk: ()=>this.props.dispatch({
                                     type: "payment/drop",
                                     id: t.id
@@ -74371,7 +74371,7 @@
                     key: 0
                 }, d.a.createElement(a["a"], null, d.a.createElement(h["a"], {
                     type: "plus"
-                }), " Th\u00eamThanh to\u00e1n\u65b9\u5f0f"))), d.a.createElement(E["a"], {
+                }), "Th\u00eam ph\u01b0\u01a1ng th\u1ee9c thanh to\u00e1n"))), d.a.createElement(E["a"], {
                     onDragEnd: (t,n)=>{
                         e.props.dispatch({
                             type: "payment/sort",
@@ -78641,7 +78641,7 @@
                         selectIndex: 0
                     })
                 }
-                )) : h["a"].error("Gi\u00e1 tr\u1ecb\u4e0d\u80fd\u4e3a\u7a7a")
+                )) : h["a"].error("Gi\u00e1 tr\u1ecb kh\u00f4ng \u0111\u01b0\u1ee3c \u0111\u1ec3 tr\u1ed1ng")
             }
             onChange(e, t, n, r) {
                 var i = this.state.filter;
@@ -78658,8 +78658,8 @@
                 var e = !0;
                 this.state.filter.forEach(t=>{
                     "" === t.value && (u["a"].error({
-                        message: "L\u1ecdc\u5668",
-                        description: "\u6b32\u68c0\u7d22N\u1ed9i dung\u4e0d\u80fd\u4e3a\u7a7a",
+                        message: "B\u1ed9 l\u1ecdc",
+                        description: "N\u1ed9i dung c\u1ea7n t\u00ecm ki\u1ebfm\u4e0d\u80fd\u4e3a\u7a7a",
                         duration: 1.5
                     }),
                     e = !1)
@@ -78698,7 +78698,7 @@
                     onClick: ()=>this.show()
                 }), m.a.createElement(r["a"], {
                     onOk: ()=>this.onOk(),
-                    title: "L\u1ecdc\u5668",
+                    title: "B\u1ed9 l\u1ecdc",
                     visible: this.state.visible,
                     onClose: ()=>this.hide(),
                     className: "v2board-filter-drawer",
@@ -78715,7 +78715,7 @@
                         onClick: ()=>this.onDelete(t)
                     })), m.a.createElement("div", {
                         className: "form-group"
-                    }, m.a.createElement("label", null, "\u5b57\u6bb5\u540d"), m.a.createElement("div", null, m.a.createElement(s["a"], {
+                    }, m.a.createElement("label", null, "T\u00ean tr\u01b0\u1eddng"), m.a.createElement("div", null, m.a.createElement(s["a"], {
                         value: this.state.filter[t].key,
                         style: {
                             width: "100%"
@@ -78743,7 +78743,7 @@
                     }
                     )))), m.a.createElement("div", {
                         className: "form-group"
-                    }, m.a.createElement("label", null, "\u6b32\u68c0\u7d22N\u1ed9i dung"), m.a.createElement("div", null, "select" === n.type && m.a.createElement(s["a"], {
+                    }, m.a.createElement("label", null, "N\u1ed9i dung c\u1ea7n t\u00ecm ki\u1ebfm"), m.a.createElement("div", null, "select" === n.type && m.a.createElement(s["a"], {
                         defaultValue: this.state.filter[t].value || void 0,
                         style: {
                             width: "100%"
@@ -78798,7 +78798,7 @@
                     disabled: !this.state.filter.length,
                     onClick: ()=>this.onOk(),
                     type: "primary"
-                }, "\u68c0\u7d22"))))
+                }, "T\u00ecm ki\u1ebfm"))))
             }
         }
     },
@@ -82360,7 +82360,7 @@
                                     }
                                     return e.abrupt("return");
                                 case 13:
-                                    r["a"].success("\u5df2\u52a0\u5165Queue\u6267h\u00e0ng"),
+                                    r["a"].success("\u0110\u00e3 th\u00eam v\u00e0o Queue th\u1ef1c thi"),
                                     "function" === typeof i && i();
                                 case 15:
                                 case "end":
@@ -82947,7 +82947,7 @@
                     }
                 })), m.a.createElement(k["a"], {
                     orientation: "center"
-                }, "\u552e\u4ef7C\u00e0i \u0111\u1eb7t ", m.a.createElement(c["a"], {
+                }, "C\u00e0i \u0111\u1eb7t gi\u00e1 b\u00e1n", m.a.createElement(c["a"], {
                     placement: "top",
                     title: "\u5c06S\u1ed1 ti\u1ec1n\u0110\u1ec3 tr\u1ed1ngth\u00ec s\u1ebd kh\u00f4ngth\u1ef1c hi\u1ec7nb\u00e1n"
                 }, m.a.createElement(h["a"], {
@@ -82978,7 +82978,7 @@
                     className: "form-group"
                 }, m.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u534a\u5e74"), m.a.createElement(C["a"], {
+                }, "N\u1eeda n\u0103m"), m.a.createElement(C["a"], {
                     value: null !== this.state.record.half_year_price ? this.state.record.half_year_price : void 0,
                     onChange: e=>this.priceOnChange("half_year_price", e.target.value)
                 }))), m.a.createElement(S["a"], {
@@ -83016,7 +83016,7 @@
                     className: "form-group"
                 }, m.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u4e00\u6b21\u6027"), m.a.createElement(C["a"], {
+                }, "M\u1ed9t l\u1ea7n"), m.a.createElement(C["a"], {
                     addonAfter: e.currency_symbol,
                     value: null !== this.state.record.onetime_price ? this.state.record.onetime_price : void 0,
                     onChange: e=>this.priceOnChange("onetime_price", e.target.value)
@@ -83026,7 +83026,7 @@
                     className: "form-group"
                 }, m.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u0110\u1eb7t l\u1ea1i\u5305"), m.a.createElement(C["a"], {
+                }, "Reset g\u00f3i"), m.a.createElement(C["a"], {
                     addonAfter: e.currency_symbol,
                     value: null !== this.state.record.reset_price ? this.state.record.reset_price : void 0,
                     onChange: e=>this.priceOnChange("reset_price", e.target.value)
@@ -83050,7 +83050,7 @@
                 }, m.a.createElement("label", {
                     for: "example-text-input-alt"
                 }, "S\u1ed1 thi\u1ebft b\u1ecbGi\u1edbi h\u1ea1n"), m.a.createElement(C["a"], {
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ng\u5219Kh\u00f4ng gi\u1edbi h\u1ea1n",
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ng = Kh\u00f4ng gi\u1edbi h\u1ea1n",
                     value: this.state.record.device_limit,
                     onChange: e=>{
                         this.setState({
@@ -83088,7 +83088,7 @@
                     className: "form-group"
                 }, m.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "\u0110\u1eb7t l\u1ea1i l\u01b0u l\u01b0\u1ee3ng\u65b9\u5f0f"), m.a.createElement(_["a"], {
+                }, "Ph\u01b0\u01a1ng th\u1ee9c \u0111\u1eb7t l\u1ea1i l\u01b0u l\u01b0\u1ee3ng"), m.a.createElement(_["a"], {
                     placeholder: "Vui l\u00f2ng ch\u1ecdnNh\u00f3m quy\u1ec1n",
                     style: {
                         width: "100%"
@@ -83104,27 +83104,27 @@
                 }, m.a.createElement(_["a"].Option, {
                     key: null,
                     value: null
-                }, "\u8ddf\u968fC\u00e0i \u0111\u1eb7t h\u1ec7 th\u1ed1ng"), m.a.createElement(_["a"].Option, {
+                }, "Theo c\u00e0i \u0111\u1eb7t h\u1ec7 th\u1ed1ng"), m.a.createElement(_["a"].Option, {
                     key: 0,
                     value: 0
-                }, "H\u00e0ng th\u00e1ng1\u53f7"), m.a.createElement(_["a"].Option, {
+                }, "Ng\u00e0y 1 h\u00e0ng th\u00e1ng"), m.a.createElement(_["a"].Option, {
                     key: 1,
                     value: 1
                 }, "\u0110\u1eb7t l\u1ea1i theo th\u00e1ng"), m.a.createElement(_["a"].Option, {
                     key: 2,
                     value: 2
-                }, "\u4e0d\u0110\u1eb7t l\u1ea1i"), m.a.createElement(_["a"].Option, {
+                }, "Kh\u00f4ng \u0111\u1eb7t l\u1ea1i"), m.a.createElement(_["a"].Option, {
                     key: 3,
                     value: 3
-                }, "\u6bcf\u5e741\u67081ng\u00e0y"), m.a.createElement(_["a"].Option, {
+                }, "Ng\u00e0y 1 th\u00e1ng 1 h\u00e0ng n\u0103m"), m.a.createElement(_["a"].Option, {
                     key: 4,
                     value: 4
                 }, "\u0110\u1eb7t l\u1ea1i theo n\u0103m")))), m.a.createElement("div", {
                     className: "form-group"
                 }, m.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u6700\u5927\u5bb9\u7eb3ng\u01b0\u1eddi d\u00f9ng\u91cf"), m.a.createElement(C["a"], {
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ng\u5219Kh\u00f4ng gi\u1edbi h\u1ea1n",
+                }, "S\u1ed1 ng\u01b0\u1eddi d\u00f9ng t\u1ed1i \u0111a"), m.a.createElement(C["a"], {
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ng = Kh\u00f4ng gi\u1edbi h\u1ea1n",
                     value: this.state.record.capacity_limit,
                     onChange: e=>{
                         this.setState({
@@ -83139,7 +83139,7 @@
                     for: "example-text-input-alt"
                 }, "Gi\u1edbi h\u1ea1n t\u1ed1c \u0111\u1ed9"), m.a.createElement(C["a"], {
                     addonAfter: "Mbps",
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ng\u5219Kh\u00f4ng gi\u1edbi h\u1ea1n",
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ng = Kh\u00f4ng gi\u1edbi h\u1ea1n",
                     value: this.state.record.speed_limit,
                     onChange: e=>{
                         this.setState({
@@ -83178,7 +83178,7 @@
                             force_update: e.target.checked
                         })
                     })
-                }, "\u5f3a\u5236C\u1eadp nh\u1eadt\u5230ng\u01b0\u1eddi d\u00f9ng"))), m.a.createElement(o["a"], {
+                }, "C\u1eadp nh\u1eadt b\u1eaft bu\u1ed9c cho ng\u01b0\u1eddi d\u00f9ng"))), m.a.createElement(o["a"], {
                     style: {
                         marginRight: 8
                     },
@@ -83269,7 +83269,7 @@
                         }))
                     }
                 }, {
-                    title: "\u9500\u552e\u72b6\u6001",
+                    title: "Tr\u1ea1ng th\u00e1i b\u00e1n",
                     dataIndex: "show",
                     key: "show",
                     render: (e,t)=>{
@@ -83374,7 +83374,7 @@
                         currency: 'VND'
                     }) : "-"
                 }, {
-                    title: "\u4e00\u6b21\u6027",
+                    title: "M\u1ed9t l\u1ea7n",
                     dataIndex: "onetime_price",
                     key: "onetime_price",
                     render: e => null !== e ? e.toLocaleString('vi-VN', {
@@ -83382,7 +83382,7 @@
                         currency: 'VND'
                     }) : "-"
                 }, {
-                    title: "\u0110\u1eb7t l\u1ea1i\u5305",
+                    title: "Reset g\u00f3i",
                     dataIndex: "reset_price",
                     key: "reset_price",
                     render: e => null !== e ? e.toLocaleString('vi-VN', {
@@ -83435,7 +83435,7 @@
                     }
                 }], p = this;
                 return m.a.createElement(g["a"], i()({}, this.props, {
-                    title: "\u0110\u0103ng k\u00fd\u7ba1\u7406"
+                    title: "Qu\u1ea3n l\u00fd \u0111\u0103ng k\u00fd"
                 }), m.a.createElement("div", {
                     className: "d-flex justify-content-between align-items-center"
                 }), m.a.createElement(P["a"], {
@@ -84190,7 +84190,7 @@
                 }), f.a.createElement(y["a"], {
                     width: "80%",
                     visible: e,
-                    title: o ? "Ch\u1ec9nh s\u1eeda\u77e5\u8bc6" : "Th\u00eam m\u1edbi\u77e5\u8bc6",
+                    title: o ? "Ch\u1ec9nh s\u1eeda ki\u1ebfn th\u1ee9c" : "Th\u00eam m\u1edbi ki\u1ebfn th\u1ee9c",
                     id: "knowledge",
                     onClose: ()=>this.hide()
                 }, r ? f.a.createElement(u["a"], {
@@ -84200,7 +84200,7 @@
                 }, f.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
                 }, "Ti\u00eau \u0111\u1ec1"), f.a.createElement(w["a"], {
-                    placeholder: "Vui l\u00f2ng nh\u1eadp\u77e5\u8bc6Ti\u00eau \u0111\u1ec1",
+                    placeholder: "Vui l\u00f2ng nh\u1eadp ti\u00eau \u0111\u1ec1 ki\u1ebfn th\u1ee9c",
                     value: n.title,
                     onChange: e=>this.formChange("title", e.target.value)
                 })), f.a.createElement("div", {
@@ -84216,7 +84216,7 @@
                 }, f.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
                 }, "Ng\u00f4n ng\u1eef"), f.a.createElement(b["a"], {
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u77e5\u8bc6Ng\u00f4n ng\u1eef",
+                    placeholder: "Vui l\u00f2ng ch\u1ecdn ng\u00f4n ng\u1eef ki\u1ebfn th\u1ee9c",
                     defaultValue: n.language || 1,
                     style: {
                         width: "100%"
@@ -84330,7 +84330,7 @@
                         }))
                     }
                 }, {
-                    title: "\u6587\u7ae0ID",
+                    title: "ID b\u00e0i vi\u1ebft",
                     dataIndex: "id",
                     key: "id"
                 }, {
@@ -84378,7 +84378,7 @@
                             onClick: ()=>{
                                 s["a"].confirm({
                                     title: "C\u1ea3nh b\u00e1o",
-                                    content: "X\u00e1c nh\u1eadn\u8981X\u00f3a\u8be5m\u1ee5c\u9879\u76ee\u5417\uff1f",
+                                    content: "B\u1ea1n c\u00f3 ch\u1eafc mu\u1ed1n x\u00f3a m\u1ee5c n\u00e0y?",
                                     onOk: ()=>this.drop(t),
                                     okText: "X\u00e1c nh\u1eadn",
                                     cancelText: "H\u1ee7y"
@@ -84389,7 +84389,7 @@
                 }])
                   , h = this;
                 return f.a.createElement(d["a"], i()({}, this.props, {
-                    title: "C\u01a1 s\u1edf ki\u1ebfn th\u1ee9c\u7ba1\u7406"
+                    title: "Qu\u1ea3n l\u00fd c\u01a1 s\u1edf ki\u1ebfn th\u1ee9c"
                 }), f.a.createElement(M["a"], {
                     loading: n
                 }, f.a.createElement("div", {
@@ -87631,7 +87631,7 @@
                 return u.a.createElement(u.a.Fragment, null, u.a.cloneElement(this.props.children, {
                     onClick: ()=>this.show()
                 }), u.a.createElement(r["a"], {
-                    title: "\u8ba2\u5355\u5206\u914d",
+                    title: "Ph\u00e2n b\u1ed5 \u0111\u01a1n h\u00e0ng",
                     visible: t,
                     onCancel: ()=>this.show(),
                     onOk: ()=>this.ok(),
@@ -87668,12 +87668,12 @@
                     className: "form-group"
                 }, u.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "Vui l\u00f2ng ch\u1ecdn\u5468\u671f"), u.a.createElement("div", null, u.a.createElement(i["a"], {
+                }, "Vui l\u00f2ng ch\u1ecdnChu k\u1ef3"), u.a.createElement("div", null, u.a.createElement(i["a"], {
                     value: n.period,
                     style: {
                         width: "100%"
                     },
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u5468\u671f",
+                    placeholder: "Vui l\u00f2ng ch\u1ecdnChu k\u1ef3",
                     onChange: e=>this.setSubmit("period", e)
                 }, Object.keys(f["a"].periodText).map(e=>{
                     return u.a.createElement(i["a"].Option, {
@@ -87686,7 +87686,7 @@
                 }, u.a.createElement("label", {
                     for: "example-text-input-alt"
                 }, "Thanh to\u00e1nS\u1ed1 ti\u1ec1n"), u.a.createElement(o["a"], {
-                    placeholder: "Vui l\u00f2ng nh\u1eadp\u9700\u8981Thanh to\u00e1n\u7684S\u1ed1 ti\u1ec1n",
+                    placeholder: "Vui l\u00f2ng nh\u1eadp\u9700\u8981Thanh to\u00e1nc\u1ee7aS\u1ed1 ti\u1ec1n",
                     addonAfter: "đ",
                     value: n.total_amount,
                     onChange: e=>this.setSubmit("total_amount", e.target.value)
@@ -88774,7 +88774,7 @@
                     className: "form-group"
                 }, l.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "\u6536\u4ef6\u4eba"), l.a.createElement(a["a"], {
+                }, "Ng\u01b0\u1eddi nh\u1eadn"), l.a.createElement(a["a"], {
                     disabled: !0,
                     value: t.length ? "L\u1ecdcng\u01b0\u1eddi d\u00f9ng" : "T\u1ea5t c\u1ea3ng\u01b0\u1eddi d\u00f9ng"
                 })), l.a.createElement("div", {
@@ -88795,7 +88795,7 @@
                     className: "form-group"
                 }, l.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "\u53d1\u9001N\u1ed9i dung"), l.a.createElement(a["a"].TextArea, {
+                }, "N\u1ed9i dung g\u1eedi"), l.a.createElement(a["a"].TextArea, {
                     rows: 12,
                     value: this.state.submit.content,
                     placeholder: "Vui l\u00f2ng nh\u1eadpEmailN\u1ed9i dung",
@@ -96612,7 +96612,7 @@
                     onClick: ()=>this.getOrderInfo()
                 }, this.props.children), g.a.createElement(x["a"], {
                     visible: this.state.visible,
-                    title: "\u8ba2\u5355\u4fe1\u606f",
+                    title: "Th\u00f4ng tin \u0111\u01a1n h\u00e0ng",
                     onCancel: ()=>this.onShow(),
                     footer: !1
                 }, this.state.user.email ? g.a.createElement("div", null, g.a.createElement(E["a"], {
@@ -96637,14 +96637,14 @@
                     style: n
                 }, g.a.createElement(S["a"], {
                     span: 6
-                }, "\u8ba2\u5355\u5468\u671f"), g.a.createElement(S["a"], {
+                }, "Chu k\u1ef3 \u0111\u01a1n h\u00e0ng"), g.a.createElement(S["a"], {
                     span: 18
                 }, y["a"].periodText[this.state.order.period])), g.a.createElement(E["a"], {
                     gutter: [16, 16],
                     style: n
                 }, g.a.createElement(S["a"], {
                     span: 6
-                }, "\u8ba2\u5355\u72b6\u6001"), g.a.createElement(S["a"], {
+                }, "Tr\u1ea1ng th\u00e1i \u0111\u01a1n h\u00e0ng"), g.a.createElement(S["a"], {
                     span: 18
                 }, y["a"].orderStatusText[this.state.order.status])), g.a.createElement(E["a"], {
                     gutter: [16, 16],
@@ -96658,7 +96658,7 @@
                     style: n
                 }, g.a.createElement(S["a"], {
                     span: 6
-                }, "\u56de\u8c03\u5355\u53f7"), g.a.createElement(S["a"], {
+                }, "M\u00e3 callback"), g.a.createElement(S["a"], {
                     span: 18
                 }, this.state.order.callback_no ? this.state.order.callback_no : "-")), g.a.createElement(_["a"], null), g.a.createElement(E["a"], {
                     gutter: [16, 16],
@@ -96679,21 +96679,21 @@
                     style: n
                 }, g.a.createElement(S["a"], {
                     span: 6
-                }, "\u4f18\u60e0S\u1ed1 ti\u1ec1n"), g.a.createElement(S["a"], {
+                }, "S\u1ed1 ti\u1ec1n \u01b0u \u0111\u00e3i"), g.a.createElement(S["a"], {
                     span: 18
                 }, Math.round(this.state.order.discount_amount / 100))), g.a.createElement(E["a"], {
                     gutter: [16, 16],
                     style: n
                 }, g.a.createElement(S["a"], {
                     span: 6
-                }, "\u9000\u56deS\u1ed1 ti\u1ec1n"), g.a.createElement(S["a"], {
+                }, "S\u1ed1 ti\u1ec1n ho\u00e0n l\u1ea1i"), g.a.createElement(S["a"], {
                     span: 18
                 }, Math.round(this.state.order.refund_amount / 100))), g.a.createElement(E["a"], {
                     gutter: [16, 16],
                     style: n
                 }, g.a.createElement(S["a"], {
                     span: 6
-                }, "\u6298\u62b5S\u1ed1 ti\u1ec1n"), g.a.createElement(S["a"], {
+                }, "S\u1ed1 ti\u1ec1n b\u00f9 tr\u1eeb"), g.a.createElement(S["a"], {
                     span: 18
                 }, Math.round(this.state.order.surplus_amount / 100))), g.a.createElement(_["a"], null), g.a.createElement(E["a"], {
                     gutter: [16, 16],
@@ -96714,10 +96714,10 @@
                     style: n
                 }, g.a.createElement(S["a"], {
                     span: 6
-                }, "\u9080\u8bf7\u4eba"), g.a.createElement(S["a"], {
+                }, "Ng\u01b0\u1eddi m\u1eddi"), g.a.createElement(S["a"], {
                     span: 18
                 }, g.a.createElement(f["a"], {
-                    title: "XemTA\u9080\u8bf7\u7684\u4eba"
+                    title: "Xem ng\u01b0\u1eddi h\u1ecd m\u1eddi"
                 }, g.a.createElement("a", {
                     onClick: ()=>this.jumpUserFilter("invite_by_email", "Gần đúng", this.state.invite_user.email),
                     href: "javascript:void(0);"
@@ -96726,21 +96726,21 @@
                     style: n
                 }, g.a.createElement(S["a"], {
                     span: 6
-                }, "\u4f63\u91d1S\u1ed1 ti\u1ec1n"), g.a.createElement(S["a"], {
+                }, "S\u1ed1 ti\u1ec1n hoa h\u1ed3ng"), g.a.createElement(S["a"], {
                     span: 18
                 }, Math.round(this.state.order.commission_balance / 100))), this.state.order.actual_commission_balance && g.a.createElement(E["a"], {
                     gutter: [16, 16],
                     style: n
                 }, g.a.createElement(S["a"], {
                     span: 6
-                }, "\u5b9e\u9645ph\u00e1t"), g.a.createElement(S["a"], {
+                }, "Th\u1ef1c t\u1ebf ph\u00e1t"), g.a.createElement(S["a"], {
                     span: 18
                 }, Math.round(this.state.order.actual_commission_balance / 100))), g.a.createElement(E["a"], {
                     gutter: [16, 16],
                     style: n
                 }, g.a.createElement(S["a"], {
                     span: 6
-                }, "\u4f63\u91d1\u72b6\u6001"), g.a.createElement(S["a"], {
+                }, "Tr\u1ea1ng th\u00e1i hoa h\u1ed3ng"), g.a.createElement(S["a"], {
                     span: 18
                 }, y["a"].commissionStatusText[this.state.order.commission_status]))) : "") : g.a.createElement(d["a"], {
                     type: "loading",
@@ -96830,7 +96830,7 @@
                             1: "Mua m\u1edbi",
                             2: "Gia h\u1ea1n",
                             3: "Thay \u0111\u1ed5i",
-                            4: "L\u01b0u l\u01b0\u1ee3ng\u5305",
+                            4: "G\u00f3i l\u01b0u l\u01b0\u1ee3ng",
                             9: "N\u1ea1p ti\u1ec1n"
                         };
                         return t[e]
@@ -96840,7 +96840,7 @@
                     dataIndex: "plan_name",
                     key: "plan_name"
                 }, {
-                    title: "\u5468\u671f",
+                    title: "Chu k\u1ef3",
                     dataIndex: "period",
                     key: "period",
                     align: "center",
@@ -96859,8 +96859,8 @@
                 }, {
                     title: g.a.createElement("span", null, g.a.createElement(f["a"], {
                         placement: "top",
-                        title: "\u0110\u00e1nh d\u1ea5u l\u00e0[\u5df2Thanh to\u00e1n]\u540es\u1ebd \u0111\u01b0\u1ee3c h\u1ec7 th\u1ed1ngth\u1ef1c hi\u1ec7nK\u00edch ho\u1ea1t\u540e\u5e76Ho\u00e0n th\u00e0nh"
-                    }, "\u8ba2\u5355\u72b6\u6001 ", g.a.createElement(d["a"], {
+                        title: "\u0110\u00e1nh d\u1ea5u l\u00e0[\u0110\u00e3 thanh to\u00e1n]\u540es\u1ebd \u0111\u01b0\u1ee3c h\u1ec7 th\u1ed1ngth\u1ef1c hi\u1ec7nK\u00edch ho\u1ea1t\u540e\u5e76Ho\u00e0n th\u00e0nh"
+                    }, "Tr\u1ea1ng th\u00e1i \u0111\u01a1n", g.a.createElement(d["a"], {
                         type: "question-circle"
                     }))),
                     dataIndex: "status",
@@ -96878,7 +96878,7 @@
                                         tradeNo: t.trade_no
                                     })
                                 }
-                            }, "\u5df2Thanh to\u00e1n"), g.a.createElement(h["a"].Item, {
+                            }, "\u0110\u00e3 thanh to\u00e1n"), g.a.createElement(h["a"].Item, {
                                 key: "2",
                                 onClick: e=>{
                                     this.props.dispatch({
@@ -96896,7 +96896,7 @@
                         })))))
                     }
                 }, {
-                    title: "\u4f63\u91d1S\u1ed1 ti\u1ec1n",
+                    title: "S\u1ed1 ti\u1ec1n hoa h\u1ed3ng",
                     dataIndex: "commission_balance",
                     key: "commission_balance",
                     align: "right",
@@ -96907,7 +96907,7 @@
                         }) : "-"
                     }
                 }, {
-                    title: g.a.createElement("span", null, "\u4f63\u91d1\u72b6\u6001 ", g.a.createElement(f["a"], {
+                    title: g.a.createElement("span", null, "Tr\u1ea1ng th\u00e1i hoa h\u1ed3ng", g.a.createElement(f["a"], {
                         placement: "top",
                         title: "Sau khi \u0111\u00e1nh d\u1ea5u [H\u1ee3p l\u1ec7] h\u1ec7 th\u1ed1ng s\u1ebd x\u1eed l\u00fd v\u00e0 ph\u00e1t cho ng\u01b0\u1eddi d\u00f9ng"
                     }, g.a.createElement(d["a"], {
@@ -96943,7 +96943,7 @@
                                 onClick: e=>{
                                     this.update(t.trade_no, "commission_status", e.key)
                                 }
-                            }, "\u65e0\u6548"))
+                            }, "Kh\u00f4ng h\u1ee3p l\u1ec7"))
                         }, g.a.createElement("div", null, g.a.createElement(u["a"], {
                             status: n[e]
                         }), g.a.createElement("span", null, y["a"].commissionStatusText[e], " "), g.a.createElement("a", {
@@ -96987,14 +96987,14 @@
                         condition: ["Gần đúng", "="]
                     }, {
                         key: "status",
-                        title: "\u8ba2\u5355\u72b6\u6001",
+                        title: "Tr\u1ea1ng th\u00e1i \u0111\u01a1n h\u00e0ng",
                         type: "select",
                         condition: ["="],
                         options: [{
-                            key: "\u672aThanh to\u00e1n",
+                            key: "Ch\u01b0a thanh to\u00e1n",
                             value: 0
                         }, {
-                            key: "\u5df2Thanh to\u00e1n",
+                            key: "\u0110\u00e3 thanh to\u00e1n",
                             value: 1
                         }, {
                             key: "\u0110\u00e3 h\u1ee7y",
@@ -97003,12 +97003,12 @@
                             key: "\u0110\u00e3 ho\u00e0n th\u00e0nh",
                             value: 3
                         },{
-                            key: "\u5df2\u6298\u62b5",
+                            key: "\u0110\u00e3 b\u00f9 tr\u1eeb",
                             value: 4
                         }]
                     }, {
                         key: "commission_status",
-                        title: "\u4f63\u91d1\u72b6\u6001",
+                        title: "Tr\u1ea1ng th\u00e1i hoa h\u1ed3ng",
                         type: "select",
                         condition: ["="],
                         options: [{
@@ -97018,10 +97018,10 @@
                             key: "ph\u00e1tTrung b\u00ecnh",
                             value: 1
                         }, {
-                            key: "\u5df2ph\u00e1t",
+                            key: "\u0110\u00e3 ph\u00e1t",
                             value: 2
                         }, {
-                            key: "\u65e0\u6548",
+                            key: "Kh\u00f4ng h\u1ee3p l\u1ec7",
                             value: 3
                         }]
                     }, {
@@ -97030,28 +97030,28 @@
                         condition: ["="]
                     }, {
                         key: "invite_user_id",
-                        title: "\u9080\u8bf7\u4ebaID",
+                        title: "ID ng\u01b0\u1eddi m\u1eddi",
                         condition: ["=", "!="]
                     }, {
                         key: "callback_no",
-                        title: "\u56de\u8c03\u5355\u53f7",
+                        title: "M\u00e3 callback",
                         condition: ["Gần đúng"]
                     }, {
                         key: "commission_balance",
-                        title: "\u4f63\u91d1S\u1ed1 ti\u1ec1n",
+                        title: "S\u1ed1 ti\u1ec1n hoa h\u1ed3ng",
                         condition: [">", "<", "=", "!=", ">=", "<="]
                     }]
                 }, g.a.createElement(l["a"], {
                     type: a.length > 0 ? "primary" : ""
                 }, g.a.createElement(d["a"], {
                     type: "filter"
-                }), " L\u1ecdc\u5668"))), g.a.createElement(R["a"], null, g.a.createElement(l["a"], {
+                }), " B\u1ed9 l\u1ecdc"))), g.a.createElement(R["a"], null, g.a.createElement(l["a"], {
                     style: {
                         marginLeft: 10
                     }
                 }, g.a.createElement(d["a"], {
                     type: "plus"
-                }), " Th\u00eam\u8ba2\u5355"))), g.a.createElement(o["a"], {
+                }), " Th\u00eam \u0111\u01a1n h\u00e0ng"))), g.a.createElement(o["a"], {
                     tableLayout: "auto",
                     dataSource: t,
                     pagination: s()({}, r, {
@@ -99543,7 +99543,7 @@
                     className: "fa-2x si si-bag text-primary d-none d-sm-inline-block mb-3"
                 }), l.a.createElement("div", {
                     className: "font-w600 text-uppercase"
-                }, "\u0110\u0103ng k\u00fd\u7ba1\u7406")))), l.a.createElement("div", {
+                }, "Qu\u1ea3n l\u00fd \u0111\u0103ng k\u00fd")))), l.a.createElement("div", {
                     className: "col-sm-6 col-xl-3 js-appear-enabled animated",
                     "data-toggle": "appear"
                 }, l.a.createElement("a", {
@@ -99634,7 +99634,7 @@
                           currency: 'VND'
                         }) : "0", " ", n.site.currency), l.a.createElement("p", {
                     class: "text-muted mb-0"
-                }, "Th\u00e1ng tr\u01b0\u1edbc\u4f63\u91d1\u652f\u51fa")), l.a.createElement("div", {
+                }, "Chi tr\u1ea3 hoa h\u1ed3ng th\u00e1ng tr\u01b0\u1edbc")), l.a.createElement("div", {
                     class: "px-4 px-sm-5 border-start"
                 }, l.a.createElement("p", {
                     class: "fs-3 text-dark mb-0"
@@ -101784,10 +101784,10 @@
         "use strict";
         t["a"] = {
             i18nText: {
-                "zh-CN": "\u7b80\u4f53Ti\u1ebfng Trung",
+                "zh-CN": "Ti\u1ebfng Trung gi\u1ea3n th\u1ec3",
                 "zh-TW": "Ti\u1ebfng Trung ph\u1ed3n th\u1ec3",
                 "en-US": "English",
-                "ja-JP": "ng\u00e0y\u672c\u8a9e",
+                "ja-JP": "Ti\u1ebfng Nh\u1eadt",
                 "vi-VN": "Ti\u1ebfng Vi\u1ec7t",
                 "ko-KR": "\ud55c\uad6d\uc5b4"
             },
@@ -101798,8 +101798,8 @@
                 year_price: "N\u0103m",
                 two_year_price: "2 n\u0103m",
                 three_year_price: "3 n\u0103m",
-                onetime_price: "\u4e00\u6b21\u6027",
-                reset_price: "\u0110\u1eb7t l\u1ea1i l\u01b0u l\u01b0\u1ee3ng\u5305",
+                onetime_price: "M\u1ed9t l\u1ea7n",
+                reset_price: "\u0110\u1eb7t l\u1ea1i g\u00f3i l\u01b0u l\u01b0\u1ee3ng",
                 extra_device: "Mua thêm thiết bị",
                 extra_data: "Mua thêm lưu lượng"
             },
@@ -101809,7 +101809,7 @@
                 3: "iOS",
                 4: "Android",
                 5: "Linux",
-                6: "\u8def\u7531\u5668"
+                6: "Router"
             },
             tutorialCategoryIcon: {
                 1: "fab fa-2x fa-windows",
@@ -101824,28 +101824,28 @@
                 1: "\u0110ang k\u00edch ho\u1ea1t",
                 2: "\u0110\u00e3 h\u1ee7y",
                 3: "\u0110\u00e3 ho\u00e0n th\u00e0nh",
-                4: "\u5df2\u6298\u62b5"
+                4: "\u0110\u00e3 b\u00f9 tr\u1eeb"
             },
             commissionStatusText: {
                 0: "Ch\u1edd x\u00e1c nh\u1eadn",
                 1: "ph\u00e1tTrung b\u00ecnh",
-                2: "\u5df2ph\u00e1t",
-                3: "\u5df2\u9a73\u56de"
+                2: "\u0110\u00e3 ph\u00e1t",
+                3: "\u0110\u00e3 t\u1eeb ch\u1ed1i"
             },
             ticketStatusText: {
                 0: "B\u1eadt",
-                1: "\u5f85Ph\u1ea3n h\u1ed3i",
-                2: "\u5f85\u7b54\u590d",
+                1: "Ch\u1edd ph\u1ea3n h\u1ed3i",
+                2: "Ch\u1edd ph\u1ea3n h\u1ed3i",
                 3: "T\u1eaft"
             },
             routeActionText: {
-                block: "\u7981\u6b62\u8bbf\u95ee(T\u00ean mi\u1ec1n\u0110\u00edch)",
-                block_ip: "\u7981\u6b62\u8bbf\u95ee(IP\u0110\u00edch)",
-                block_port: "\u7981\u6b62\u8bbf\u95ee(\u0110\u00edchC\u1ed5ng)",
-                protocol: "\u7981\u6b62\u8bbf\u95ee(Giao th\u1ee9c)",
-                dns: "\u6307\u5b9aDNSM\u00e1y ch\u1ee7th\u1ef1c hi\u1ec7n\u89e3\u6790",
-                route: "\u6307\u5b9a\u0110\u1ea7u raM\u00e1y ch\u1ee7(T\u00ean mi\u1ec1n\u0110\u00edch)",
-                route_ip: "\u6307\u5b9a\u0110\u1ea7u raM\u00e1y ch\u1ee7(IP\u0110\u00edch)",
+                block: "C\u1ea5m truy c\u1eadp (t\u00ean mi\u1ec1n \u0111\u00edch)",
+                block_ip: "C\u1ea5m truy c\u1eadp (IP \u0111\u00edch)",
+                block_port: "C\u1ea5m truy c\u1eadp (c\u1ed5ng \u0111\u00edch)",
+                protocol: "C\u1ea5m truy c\u1eadp (giao th\u1ee9c)",
+                dns: "Ch\u1ec9 \u0111\u1ecbnhDNSM\u00e1y ch\u1ee7th\u1ef1c hi\u1ec7nPh\u00e2n gi\u1ea3i",
+                route: "Ch\u1ec9 \u0111\u1ecbnh\u0110\u1ea7u raM\u00e1y ch\u1ee7(T\u00ean mi\u1ec1n\u0110\u00edch)",
+                route_ip: "Ch\u1ec9 \u0111\u1ecbnh\u0110\u1ea7u raM\u00e1y ch\u1ee7(IP\u0110\u00edch)",
                 default_out: "T\u00f9y ch\u1ec9nhM\u1eb7c \u0111\u1ecbnh\u0110\u1ea7u ra"
             }
         }
@@ -105521,7 +105521,7 @@
                 }), y.a.createElement(R["a"], {
                     id: "server",
                     maskClosable: !0,
-                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode" : "\u65b0\u5efaNode",
+                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode" : "T\u1ea1o Node m\u1edbi",
                     width: "80%",
                     visible: this.state.visible,
                     onClose: ()=>this.onShow()
@@ -105542,13 +105542,13 @@
                     onChange: e=>this.formChange("rate", e.target.value)
                 }))), y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "Node\u6807\u7b7e"), y.a.createElement(N["a"], {
+                }, y.a.createElement("label", null, "Nh\u00e3n Node"), y.a.createElement(N["a"], {
                     mode: "tags",
                     value: e.tags || [],
                     style: {
                         width: "100%"
                     },
-                    placeholder: "\u8f93\u5165\u540e\u56de\u8f66Th\u00eam\u6807\u7b7e",
+                    placeholder: "Nh\u1eadp r\u1ed3i Enter \u0111\u1ec3 th\u00eam nh\u00e3n",
                     onChange: e=>this.formChange("tags", e.length > 0 ? e : null)
                 })), y.a.createElement("div", {
                     className: "form-group"
@@ -105588,7 +105588,7 @@
                 }, y.a.createElement("div", {
                     className: "form-group col-md-12 col-xs-12"
                 }, y.a.createElement("label", null, "\u0110\u1ecba ch\u1ec9 node"), y.a.createElement(s["a"], {
-                    placeholder: "\u0110\u1ecba ch\u1ec9\u6216IP",
+                    placeholder: "\u0110\u1ecba ch\u1ec9 ho\u1eb7c IP",
                     value: e.host,
                     onChange: e=>this.formChange("host", e.target.value)
                 }))), y.a.createElement("div", {
@@ -105604,7 +105604,7 @@
                 })), y.a.createElement("div", {
                     className: "form-group col-md-4 col-xs-12"
                 }, y.a.createElement("label", null, "D\u1ecbch v\u1ee5C\u1ed5ng"), y.a.createElement(s["a"], {
-                    placeholder: "D\u1ecbch v\u1ee5ph\u00eda\u5f00\u653eC\u1ed5ng",
+                    placeholder: "C\u1ed5ng m\u1edf ph\u00eda d\u1ecbch v\u1ee5",
                     value: e.server_port,
                     onChange: e=>{
                         this.formChange("server_port", e.target.value)
@@ -105613,12 +105613,12 @@
                     className: "form-group col-md-4 col-xs-12"
                 }, y.a.createElement("label", null, y.a.createElement(u["a"], {
                     placement: "top",
-                    title: "\u4f7f\u7528\u81eaCh\u1eef k\u00fdCh\u1ee9ng ch\u1ec9\u9700\u8981Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt\uff0cng\u01b0\u1eddi d\u00f9ngm\u1edbi k\u1ebft n\u1ed1i \u0111\u01b0\u1ee3c"
-                }, "Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt ", y.a.createElement(m["a"], {
+                    title: "\u4f7f\u7528Ch\u1ee9ng ch\u1ec9 t\u1ef1 k\u00fdCh\u1ee9ng ch\u1ec9\u9700\u8981Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt\uff0cng\u01b0\u1eddi d\u00f9ngm\u1edbi k\u1ebft n\u1ed1i \u0111\u01b0\u1ee3c"
+                }, "Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt", y.a.createElement(m["a"], {
                     type: "question-circle"
                 }))), y.a.createElement(N["a"], {
                     value: parseInt(e.insecure) ? 1 : 0,
-                    placeholder: "Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt",
+                    placeholder: "Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt",
                     style: {
                         width: "100%"
                     },
@@ -105631,7 +105631,7 @@
                     value: 1
                 }, "C\u00f3")))), y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "M\u00e1y ch\u1ee7T\u00ean\u6307\u793a(sni)"), y.a.createElement(s["a"], {
+                }, y.a.createElement("label", null, "Ch\u1ec9 th\u1ecb t\u00ean m\u00e1y ch\u1ee7 (SNI)"), y.a.createElement(s["a"], {
                     placeholder: "Khi\u0110\u1ecba ch\u1ec9 nodev\u00e0Ch\u1ee9ng ch\u1ec9kh\u00f4ng kh\u1edbp, d\u00f9ng \u0111\u1ec3Ch\u1ee9ng ch\u1ec9x\u00e1c minh",
                     value: e.server_name,
                     onChange: e=>this.formChange("server_name", e.target.value)
@@ -105639,7 +105639,7 @@
                     className: "row"
                 }, (parseInt(e.version) == 1) && y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
-                }, y.a.createElement("label", null, "\u6df7\u6dc6\u65b9\u5f0fobfs"), y.a.createElement(N["a"], {
+                }, y.a.createElement("label", null, "C\u00e1ch obfuscation (obfs)"), y.a.createElement(N["a"], {
                     value: e.obfs,
                     style: {
                         width: "100%"
@@ -105648,18 +105648,18 @@
                 }, y.a.createElement(N["a"].Option, {
                     key: 0,
                     value: null
-                }, "\u65e0"), y.a.createElement(N["a"].Option, {
+                }, "Kh\u00f4ng"), y.a.createElement(N["a"].Option, {
                     key: 1,
                     value: "xplus"
                 }, "xplus"))), (parseInt(e.version) == 1 && e.obfs === "xplus") && y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
-                }, y.a.createElement("label", null, "\u6df7\u6dc6M\u1eadt kh\u1ea9uobfsParam"), y.a.createElement(s["a"], {
+                }, y.a.createElement("label", null, "ObfuscationM\u1eadt kh\u1ea9uobfsParam"), y.a.createElement(s["a"], {
                     value: e.obfs_password,
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ng\u751f\u6210",
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ngT\u1ea1o",
                     onChange: e=>this.formChange("obfs_password", e.target.value)
                 })), (parseInt(e.version) == 2) && y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
-                }, y.a.createElement("label", null, "\u6df7\u6dc6\u65b9\u5f0fobfs"), y.a.createElement(N["a"], {
+                }, y.a.createElement("label", null, "C\u00e1ch obfuscation (obfs)"), y.a.createElement(N["a"], {
                     value: e.obfs,
                     style: {
                         width: "100%"
@@ -105668,25 +105668,25 @@
                 }, y.a.createElement(N["a"].Option, {
                     key: 0,
                     value: null
-                }, "\u65e0"), y.a.createElement(N["a"].Option, {
+                }, "Kh\u00f4ng"), y.a.createElement(N["a"].Option, {
                     key: 1,
                     value: "salamander"
                 }, "salamander"))), (parseInt(e.version) == 2 && e.obfs === "salamander") && y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
-                }, y.a.createElement("label", null, "\u6df7\u6dc6M\u1eadt kh\u1ea9uobfs_password"), y.a.createElement(s["a"], {
+                }, y.a.createElement("label", null, "ObfuscationM\u1eadt kh\u1ea9uobfs_password"), y.a.createElement(s["a"], {
                     value: e.obfs_password,
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ng\u751f\u6210",
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ngT\u1ea1o",
                     onChange: e=>this.formChange("obfs_password", e.target.value)
                 }))), y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "\u4e0ah\u00e0ngB\u0103ng th\u00f4ng"), y.a.createElement(s["a"], {
+                }, y.a.createElement("label", null, "UploadB\u0103ng th\u00f4ng"), y.a.createElement(s["a"], {
                     addonAfter: "Mbps",
                     placeholder: "D\u1ecbch v\u1ee5ph\u00edaB\u0103ng th\u00f4ng g\u1eedi,\u0110\u1ec3 tr\u1ed1ng ho\u1eb7c \u0111i\u1ec1n 0 \u0111\u1ec3 d\u00f9ng BBR",
                     value: e.up_mbps,
                     onChange: e=>this.formChange("up_mbps", e.target.value)
                 })), y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "\u4e0bh\u00e0ngB\u0103ng th\u00f4ng"), y.a.createElement(s["a"], {
+                }, y.a.createElement("label", null, "DownloadB\u0103ng th\u00f4ng"), y.a.createElement(s["a"], {
                     addonAfter: "Mbps",
                     placeholder: "D\u1ecbch v\u1ee5ph\u00edaB\u0103ng th\u00f4ng nh\u1eadn,\u0110\u1ec3 tr\u1ed1ng ho\u1eb7c \u0111i\u1ec1n 0 \u0111\u1ec3 d\u00f9ng BBR",
                     value: e.down_mbps,
@@ -105699,7 +105699,7 @@
                     target: "_blank",
                     href: "https://docs.v2board.com/use/node.html#quan-he-node-cha-va-node-con",
                     rel: "noreferrer"
-                }, "Th\u00eam\u89e3\u7b54"))), y.a.createElement(N["a"], {
+                }, "Th\u00eam gi\u1ea3i \u0111\u00e1p"))), y.a.createElement(N["a"], {
                     value: e.parent_id || "",
                     onChange: e=>this.formChange("parent_id", e),
                     style: {
@@ -105707,7 +105707,7 @@
                     }
                 }, y.a.createElement(N["a"].Option, {
                     value: ""
-                }, "\u65e0"), n.map(t=>{
+                }, "Kh\u00f4ng"), n.map(t=>{
                     if ("hysteria" === t.type && t.id !== e.id)
                         return y.a.createElement(N["a"].Option, {
                             key: Math.random(),
@@ -105716,10 +105716,10 @@
                 }
                 ))), y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "\u8def\u7531\u7ec4"), y.a.createElement(N["a"], {
+                }, y.a.createElement("label", null, "Nh\u00f3m routing"), y.a.createElement(N["a"], {
                     mode: "multiple",
                     value: e.route_id || [],
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u8def\u7531\u7ec4",
+                    placeholder: "Vui l\u00f2ng ch\u1ecdnNh\u00f3m routing",
                     style: {
                         width: "100%"
                     },
@@ -105802,10 +105802,10 @@
                 }, y.a.createElement("label", null, "Server Name(SNI)"), y.a.createElement(s["a"], {
                     value: t,
                     onChange: e=>this.change("server_name", e.target.value),
-                    placeholder: tls == 2 ? "REALITY\u5fc5\u586b\uff0cv\u00e0Backend\u4fdd\u6301\u4e00\u81f4" : ""
+                    placeholder: tls == 2 ? "REALITY b\u1eaft bu\u1ed9c, ph\u1ea3i kh\u1edbp v\u1edbi Backend" : ""
                 })), tls == 1 && cert_apply && y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "Ch\u1ee9ng ch\u1ec9\u6a21\u5f0fCert Mode"), y.a.createElement(N["a"], {
+                }, y.a.createElement("label", null, "Ch\u1ebf \u0111\u1ed9 ch\u1ee9ng ch\u1ec9 (Cert Mode)"), y.a.createElement(N["a"], {
                     value: e.cert_mode ?? "self",
                     style: {
                         width: "100%"
@@ -105813,20 +105813,20 @@
                     onChange: e=>this.change("cert_mode", e)
                 }, y.a.createElement(N["a"].Option, {
                     value: "self"
-                }, "\u81eaCh\u1eef k\u00fd"), y.a.createElement(N["a"].Option, {
+                }, "Ch\u1ee9ng ch\u1ec9 t\u1ef1 k\u00fd"), y.a.createElement(N["a"].Option, {
                     value: "http"
-                }, "HTTP\u7533\u8bf7"), y.a.createElement(N["a"].Option, {
+                }, "\u0110\u0103ng k\u00fd HTTP"), y.a.createElement(N["a"].Option, {
                     value: "dns"
-                }, "DNS\u7533\u8bf7"), y.a.createElement(N["a"].Option, {
+                }, "\u0110\u0103ng k\u00fd DNS"), y.a.createElement(N["a"].Option, {
                     value: "none"
-                }, "\u65e0Ch\u1ee9ng ch\u1ec9(T\u1eaftTLS)"))), e.cert_mode == "dns" && cert_apply && y.a.createElement("div", {
+                }, "Kh\u00f4ngCh\u1ee9ng ch\u1ec9(T\u1eaftTLS)"))), e.cert_mode == "dns" && cert_apply && y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "DNS\u89e3\u6790\u63d0\u4f9b\u5546Provider ", y.a.createElement("a", {
+                }, y.a.createElement("label", null, "Nh\u00e0 cung c\u1ea5p DNS Provider", y.a.createElement("a", {
                     target: "_blank",
                     href: "https://go-acme.github.io/lego/dns/index.html",
                     rel: "noreferrer"
                 },
-                "\u586b\u5199\u53c2\u8003")), y.a.createElement(s["a"], {
+                "Tham kh\u1ea3o \u0111i\u1ec1n")), y.a.createElement(s["a"], {
                     value: e.provider,
                     onChange: e=>this.change("provider", e.target.value),
                     placeholder: "Vi\u1ebft theo\u0110\u1ecbnh d\u1ea1ngcloudflare"
@@ -105838,16 +105838,16 @@
                     placeholder: "Vi\u1ebft theo\u0110\u1ecbnh d\u1ea1ngCF_DNS_API_TOKEN=xxxxxxxN\u1ebfu c\u00f3 nhi\u1ec1um\u1ee5cD\u00f9ng d\u1ea5u ph\u1ea9y\u002c\u0111\u1ec3 ph\u00e2n c\u00e1ch"
                 })), tls == 1 && e.cert_mode != "none" && cert_apply && y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "Ch\u1ee9ng ch\u1ec9Kh\u00f3a c\u00f4ng khai\u6587\u4ef6\u0110\u1ecba ch\u1ec9Cert File Path"), y.a.createElement(s["a"], {
+                }, y.a.createElement("label", null, "Ch\u1ee9ng ch\u1ec9Kh\u00f3a c\u00f4ng khaiFile\u0110\u1ecba ch\u1ec9Cert File Path"), y.a.createElement(s["a"], {
                     value: e.cert_file,
                     onChange: e=>this.change("cert_file", e.target.value),
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ng\u5728/etc/v2node/th\u01b0 m\u1ee5cT\u1ef1 \u0111\u1ed9ng\u751f\u6210"
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ng\u5728/etc/v2node/th\u01b0 m\u1ee5cT\u1ef1 \u0111\u1ed9ngT\u1ea1o"
                 })), tls == 1 && e.cert_mode != "none" && cert_apply && y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "Ch\u1ee9ng ch\u1ec9Kh\u00f3a ri\u00eang t\u01b0\u6587\u4ef6\u0110\u1ecba ch\u1ec9Key File Path"), y.a.createElement(s["a"], {
+                }, y.a.createElement("label", null, "Ch\u1ee9ng ch\u1ec9Kh\u00f3a ri\u00eang t\u01b0File\u0110\u1ecba ch\u1ec9Key File Path"), y.a.createElement(s["a"], {
                     value: e.key_file,
                     onChange: e=>this.change("key_file", e.target.value),
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ng\u5728/etc/v2node/th\u01b0 m\u1ee5cT\u1ef1 \u0111\u1ed9ng\u751f\u6210"
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ng\u5728/etc/v2node/th\u01b0 m\u1ee5cT\u1ef1 \u0111\u1ed9ngT\u1ea1o"
                 })), tls == 2 && y.a.createElement("div", {
                     className: "form-group"
                 }, y.a.createElement("label", null, "Server Address"), y.a.createElement(s["a"], {
@@ -105882,19 +105882,19 @@
                 }, y.a.createElement("label", null, "Private Key"), y.a.createElement(s["a"], {
                     value: pv,
                     onChange: e=>this.change("private_key", e.target.value),
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ng\u751f\u6210"
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ngT\u1ea1o"
                 })), tls == 2 && y.a.createElement("div", {
                     className: "form-group"
                 }, y.a.createElement("label", null, "Public Key"), y.a.createElement(s["a"], {
                     value: pb,
                     onChange: e=>this.change("public_key", e.target.value),
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ng\u751f\u6210"
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ngT\u1ea1o"
                 })), tls == 2 && y.a.createElement("div", {
                     className: "form-group"
                 }, y.a.createElement("label", null, "ShortId"), y.a.createElement(s["a"], {
                     value: sd,
                     onChange: e=>this.change("short_id", e.target.value),
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ng\u751f\u6210"
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ngT\u1ea1o"
                 })), y.a.createElement("div", {
                     className: "form-group"
                 }, y.a.createElement("label", null, "FingerPrint"), y.a.createElement(N["a"], {
@@ -105903,7 +105903,7 @@
                         width: "100%"
                     },
                     onChange: e=>this.change("fingerprint", e),
-                    placeholder: "TLS\u6307\u7eb9M\u1eb7c \u0111\u1ecbnhChrome"
+                    placeholder: "D\u1ea5u v\u00e2n TLS m\u1eb7c \u0111\u1ecbnh Chrome"
                 }, y.a.createElement(N["a"].Option, {
                     key: 0,
                     value: "chrome"
@@ -106016,7 +106016,7 @@
                 }, y.a.createElement("label", null, "Ticket time"), y.a.createElement(s["a"], {
                     value: tt,
                     onChange: e=>this.change("ticket", e.target.value),
-                    placeholder: "\u6700\u957fCho ph\u00e9pTh\u1eddi gian"
+                    placeholder: "Th\u1eddi gian cho ph\u00e9p t\u1ed1i \u0111a"
                 }))), y.a.createElement("div", {
                     className: "form-group"
                 }, y.a.createElement("label", null, "Server Padding"), y.a.createElement(s["a"], {
@@ -106028,7 +106028,7 @@
                 }, y.a.createElement("label", null, "Private Key"), y.a.createElement(s["a"], {
                     value: pv,
                     onChange: e=>this.change("private_key", e.target.value),
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ng\u751f\u6210\uff0c\u9700\u6297\u91cf\u5b50\u52a0\u5bc6\u8bf7\u81eah\u00e0ng\u66ff\u6362"
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ngT\u1ea1o\uff0c\u9700\u6297L\u01b0\u1ee3ng\u5b50\u52a0\u5bc6\u8bf7\u81eah\u00e0ng\u66ff\u6362"
                 })), y.a.createElement("div", {
                     className: "form-group"
                 }, y.a.createElement("label", null, "Client Padding"), y.a.createElement(s["a"], {
@@ -106040,7 +106040,7 @@
                 }, y.a.createElement("label", null, "Password"), y.a.createElement(s["a"], {
                     value: pwd,
                     onChange: e=>this.change("password", e.target.value),
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ng\u751f\u6210\uff0c\u9700\u6297\u91cf\u5b50\u52a0\u5bc6\u8bf7\u81eah\u00e0ng\u66ff\u6362"
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ngT\u1ea1o\uff0c\u9700\u6297L\u01b0\u1ee3ng\u5b50\u52a0\u5bc6\u8bf7\u81eah\u00e0ng\u66ff\u6362"
                 }))))
             }
         }
@@ -106126,7 +106126,7 @@
                             }
                         }, null, 4),
                         ws: JSON.stringify({
-                            security: "auto",//不支持vless，vmess可选加密类型：auto、aes-128-gcm、chacha20-poly1305、none
+                            security: "auto",//不支持vless，vmess可选加密Loại：auto、aes-128-gcm、chacha20-poly1305、none
                             path: "/",
                             headers: {
                                 Host: "xtls.github.io"
@@ -106160,7 +106160,7 @@
                         href: "https://www.v2ray.com/chapter_02/05_transport.html"
                     }, y.a.createElement(m["a"], {
                         type: "link"
-                    }), "\u53c2\u8003")), y.a.createElement(F.a, {
+                    }), "Tham kh\u1ea3o")), y.a.createElement(F.a, {
                         placeholder: (null === r || void 0 === r ? void 0 : r[this.state.server.network]) || "",
                         mode: "json",
                         theme: "github",
@@ -106211,7 +106211,7 @@
                 }), y.a.createElement(R["a"], {
                     id: "server",
                     maskClosable: !0,
-                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode" : "\u65b0\u5efaNode",
+                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode" : "T\u1ea1o Node m\u1edbi",
                     width: "80%",
                     visible: this.state.visible,
                     onClose: ()=>this.onShow()
@@ -106232,13 +106232,13 @@
                     onChange: e=>this.formChange("rate", e.target.value)
                 }))), y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "Node\u6807\u7b7e"), y.a.createElement(N["a"], {
+                }, y.a.createElement("label", null, "Nh\u00e3n Node"), y.a.createElement(N["a"], {
                     mode: "tags",
                     value: e.tags || [],
                     style: {
                         width: "100%"
                     },
-                    placeholder: "\u8f93\u5165\u540e\u56de\u8f66Th\u00eam\u6807\u7b7e",
+                    placeholder: "Nh\u1eadp r\u1ed3i Enter \u0111\u1ec3 th\u00eam nh\u00e3n",
                     onChange: e=>this.formChange("tags", e.length > 0 ? e : null)
                 })), y.a.createElement("div", {
                     className: "form-group"
@@ -106267,7 +106267,7 @@
                     onChange: e=>this.formChange("host", e.target.value)
                 })), y.a.createElement("div", {
                     className: "form-group col-md-4 col-xs-12"
-                }, y.a.createElement("label", null, "B\u1ea3o m\u1eadt\u6027 ", parseInt(e.tls) != 0 && y.a.createElement("a", {
+                }, y.a.createElement("label", null, "B\u1ea3o m\u1eadt", parseInt(e.tls) != 0 && y.a.createElement("a", {
                     href: "javascript:void(0);",
                     onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eedaB\u1ea3o m\u1eadt\u6027C\u1ea5u h\u00ecnh", "tls_settings")
                 }, "Ch\u1ec9nh s\u1eedaC\u1ea5u h\u00ecnh")), y.a.createElement(N["a"], {
@@ -106279,7 +106279,7 @@
                 }, y.a.createElement(N["a"].Option, {
                     key: 0,
                     value: 0
-                }, "\u65e0"), y.a.createElement(N["a"].Option, {
+                }, "Kh\u00f4ng"), y.a.createElement(N["a"].Option, {
                     key: 1,
                     value: 1
                 }, "TLS"), y.a.createElement(N["a"].Option, {
@@ -106298,7 +106298,7 @@
                 })), y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 }, y.a.createElement("label", null, "D\u1ecbch v\u1ee5C\u1ed5ng"), y.a.createElement(s["a"], {
-                    placeholder: "\u975eNAT\u540ck\u1ebft n\u1ed1iC\u1ed5ng",
+                    placeholder: "C\u1ed5ng k\u1ebft n\u1ed1i kh\u00f4ng NAT",
                     value: e.server_port,
                     onChange: e=>this.formChange("server_port", e.target.value)
                 }))), y.a.createElement("div", {
@@ -106310,7 +106310,7 @@
                     onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eedaGiao th\u1ee9cC\u1ea5u h\u00ecnh", "network_settings")
                 }, "Ch\u1ec9nh s\u1eedaC\u1ea5u h\u00ecnh")), y.a.createElement(N["a"], {
                     value: e.network,
-                    placeholder: "\u9009\u62e9Giao th\u1ee9c truy\u1ec1n t\u1ea3i",
+                    placeholder: "Ch\u1ecdnGiao th\u1ee9c truy\u1ec1n t\u1ea3i",
                     style: {
                         width: "100%"
                     },
@@ -106333,32 +106333,32 @@
                     className: "form-group col-md-12 col-xs-12"
                 }, y.a.createElement("label", null, "Ph\u01b0\u01a1ng th\u1ee9c m\u00e3 h\u00f3a ", e.encryption && y.a.createElement("a", {
                     href: "javascript:void(0);",
-                    onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eeda\u52a0\u5bc6C\u1ea5u h\u00ecnh", "encryption_settings")
+                    onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eeda c\u1ea5u h\u00ecnh m\u00e3 h\u00f3a", "encryption_settings")
                 }, "Ch\u1ec9nh s\u1eedaC\u1ea5u h\u00ecnh")), y.a.createElement(N["a"], {
                     value: e.encryption,
-                    placeholder: "\u9009\u62e9Ph\u01b0\u01a1ng th\u1ee9c m\u00e3 h\u00f3a",
+                    placeholder: "Ch\u1ecdnPh\u01b0\u01a1ng th\u1ee9c m\u00e3 h\u00f3a",
                     style: {
                         width: "100%"
                     },
                     onChange: e=>this.formChange("encryption", e)
                 }, y.a.createElement(N["a"].Option, {
                     value: null
-                }, "\u65e0"), y.a.createElement(N["a"].Option, {
+                }, "Kh\u00f4ng"), y.a.createElement(N["a"].Option, {
                     value: "mlkem768x25519plus"
                 }, "MLKEM768X25519PLUS")))), y.a.createElement("div", {
                     className: "row"
                 }, y.a.createElement("div", {
                     className: "form-group col-md-12 col-xs-12"
-                }, y.a.createElement("label", null, "XTLS\u6d41\u63a7\u7b97\u6cd5"), y.a.createElement(N["a"], {
+                }, y.a.createElement("label", null, "Thu\u1eadt to\u00e1n ki\u1ec3m so\u00e1t lu\u1ed3ng XTLS"), y.a.createElement(N["a"], {
                     value: e.flow,
-                    placeholder: "\u9009\u62e9XTLS\u6d41\u63a7\u7b97\u6cd5",
+                    placeholder: "Ch\u1ecdn thu\u1eadt to\u00e1n ki\u1ec3m so\u00e1t lu\u1ed3ng XTLS",
                     style: {
                         width: "100%"
                     },
                     onChange: e=>this.formChange("flow", e)
                 }, y.a.createElement(N["a"].Option, {
                     value: null
-                }, "\u65e0"),e.network == "tcp" && y.a.createElement(N["a"].Option, {
+                }, "Kh\u00f4ng"),e.network == "tcp" && y.a.createElement(N["a"].Option, {
                     value: "xtls-rprx-vision"
                 }, "xtls-rprx-vision")))), y.a.createElement("div", {
                     className: "form-group"
@@ -106378,7 +106378,7 @@
                     }
                 }, y.a.createElement(N["a"].Option, {
                     value: ""
-                }, "\u65e0"), n.map(t=>{
+                }, "Kh\u00f4ng"), n.map(t=>{
                     if ("vless" === t.type && t.id !== e.id)
                         return y.a.createElement(N["a"].Option, {
                             key: Math.random(),
@@ -106387,10 +106387,10 @@
                 }
                 ))), y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "\u8def\u7531\u7ec4"), y.a.createElement(N["a"], {
+                }, y.a.createElement("label", null, "Nh\u00f3m routing"), y.a.createElement(N["a"], {
                     mode: "multiple",
                     value: e.route_id || [],
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u8def\u7531\u7ec4",
+                    placeholder: "Vui l\u00f2ng ch\u1ecdnNh\u00f3m routing",
                     style: {
                         width: "100%"
                     },
@@ -106497,7 +106497,7 @@
                 }), y.a.createElement(R["a"], {
                     id: "server",
                     maskClosable: !0,
-                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode": "\u65b0\u5efaNode",
+                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode": "T\u1ea1o Node m\u1edbi",
                     width: "80%",
                     visible: this.state.visible,
                     onClose: ()=>this.onShow()
@@ -106523,13 +106523,13 @@
                 }))), y.a.createElement("div", {
                     className: "form-group"
                 },
-                y.a.createElement("label", null, "Node\u6807\u7b7e"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "Nh\u00e3n Node"), y.a.createElement(N["a"], {
                     mode: "tags",
                     value: e.tags || [],
                     style: {
                         width: "100%"
                     },
-                    placeholder: "\u8f93\u5165\u540e\u56de\u8f66Th\u00eam\u6807\u7b7e",
+                    placeholder: "Nh\u1eadp r\u1ed3i Enter \u0111\u1ec3 th\u00eam nh\u00e3n",
                     onChange: e=>this.formChange("tags", e.length > 0 ? e: null)
                 })), y.a.createElement("div", {
                     className: "form-group"
@@ -106558,7 +106558,7 @@
                     className: "form-group col-md-12 col-xs-12"
                 },
                 y.a.createElement("label", null, "\u0110\u1ecba ch\u1ec9 node"), y.a.createElement(s["a"], {
-                    placeholder: "\u0110\u1ecba ch\u1ec9\u6216IP",
+                    placeholder: "\u0110\u1ecba ch\u1ec9 ho\u1eb7c IP",
                     value: e.host,
                     onChange: e=>this.formChange("host", e.target.value)
                 }))), y.a.createElement("div", {
@@ -106577,7 +106577,7 @@
                     className: "form-group col-md-4 col-xs-12"
                 },
                 y.a.createElement("label", null, "D\u1ecbch v\u1ee5C\u1ed5ng"), y.a.createElement(s["a"], {
-                    placeholder: "D\u1ecbch v\u1ee5ph\u00eda\u5f00\u653eC\u1ed5ng",
+                    placeholder: "C\u1ed5ng m\u1edf ph\u00eda d\u1ecbch v\u1ee5",
                     value: e.server_port,
                     onChange: e=>{
                         this.formChange("server_port", e.target.value)
@@ -106587,13 +106587,13 @@
                 },
                 y.a.createElement("label", null, y.a.createElement(u["a"], {
                     placement: "top",
-                    title: "\u4f7f\u7528\u81eaCh\u1eef k\u00fdCh\u1ee9ng ch\u1ec9\u9700\u8981Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt\uff0cng\u01b0\u1eddi d\u00f9ngm\u1edbi k\u1ebft n\u1ed1i \u0111\u01b0\u1ee3c"
+                    title: "\u4f7f\u7528Ch\u1ee9ng ch\u1ec9 t\u1ef1 k\u00fdCh\u1ee9ng ch\u1ec9\u9700\u8981Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt\uff0cng\u01b0\u1eddi d\u00f9ngm\u1edbi k\u1ebft n\u1ed1i \u0111\u01b0\u1ee3c"
                 },
-                "Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt ", y.a.createElement(m["a"], {
+                "Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt", y.a.createElement(m["a"], {
                     type: "question-circle"
                 }))), y.a.createElement(N["a"], {
                     value: parseInt(e.insecure) ? 1 : 0,
-                    placeholder: "Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt",
+                    placeholder: "Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt",
                     style: {
                         width: "100%"
                     },
@@ -106612,7 +106612,7 @@
                 }, y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 },
-                y.a.createElement("label", null, "\u7981\u7528SNI"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "T\u1eaft SNI"), y.a.createElement(N["a"], {
                     value: parseInt(e.disable_sni) ? 1 : 0,
                     style: {
                         width: "100%"
@@ -106630,7 +106630,7 @@
                 "C\u00f3"))), y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 },
-                y.a.createElement("label", null, "D\u1eef li\u1ec7u\u5305Trung b\u00ecnh\u7ee7\u6a21\u5f0f"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "G\u00f3i d\u1eef li\u1ec7u - ch\u1ebf \u0111\u1ed9 k\u1ebf th\u1eeba"), y.a.createElement(N["a"], {
                     value: e.udp_relay_mode ? e.udp_relay_mode : "native",
                     style: {
                         width: "100%"
@@ -106648,7 +106648,7 @@
                 "quic")))), !parseInt(e.disable_sni) && y.a.createElement("div", {
                     className: "form-group"
                 },
-                y.a.createElement("label", null, "M\u00e1y ch\u1ee7T\u00ean\u6307\u793a(sni)"), y.a.createElement(s["a"], {
+                y.a.createElement("label", null, "Ch\u1ec9 th\u1ecb t\u00ean m\u00e1y ch\u1ee7 (SNI)"), y.a.createElement(s["a"], {
                     placeholder: "Khi\u0110\u1ecba ch\u1ec9 nodev\u00e0Ch\u1ee9ng ch\u1ec9kh\u00f4ng kh\u1edbp, d\u00f9ng \u0111\u1ec3Ch\u1ee9ng ch\u1ec9x\u00e1c minh",
                     value: e.server_name,
                     onChange: e=>this.formChange("server_name", e.target.value)
@@ -106657,7 +106657,7 @@
                 }, y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 },
-                y.a.createElement("label", null, "\u62e5\u585e\u63a7\u5236\u7b97\u6cd5"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "Thu\u1eadt to\u00e1n ki\u1ec3m so\u00e1t t\u1eafc ngh\u1ebdn"), y.a.createElement(N["a"], {
                     value: e.congestion_control ? e.congestion_control : "cubic",
                     style: {
                         width: "100%"
@@ -106679,7 +106679,7 @@
                 "bbr"))), y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 },
-                y.a.createElement("label", null, "\u5ba2\u6237ph\u00edaB\u1eadt 0-RTT"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "Ph\u00eda client b\u1eadt 0-RTT"), y.a.createElement(N["a"], {
                     value: parseInt(e.zero_rtt_handshake) ? 1 : 0,
                     style: {
                         width: "100%"
@@ -106705,7 +106705,7 @@
                     href: "https://docs.v2board.com/use/node.html#quan-he-node-cha-va-node-con",
                     rel: "noreferrer"
                 },
-                "Th\u00eam\u89e3\u7b54"))), y.a.createElement(N["a"], {
+                "Th\u00eam gi\u1ea3i \u0111\u00e1p"))), y.a.createElement(N["a"], {
                     value: e.parent_id || "",
                     onChange: e=>this.formChange("parent_id", e),
                     style: {
@@ -106715,7 +106715,7 @@
                 y.a.createElement(N["a"].Option, {
                     value: ""
                 },
-                "\u65e0"), n.map(t=>{
+                "Kh\u00f4ng"), n.map(t=>{
                     if ("tuic" === t.type && t.id !== e.id) return y.a.createElement(N["a"].Option, {
                         key: Math.random(),
                         value: t.id
@@ -106724,10 +106724,10 @@
                 }))), y.a.createElement("div", {
                     className: "form-group"
                 },
-                y.a.createElement("label", null, "\u8def\u7531\u7ec4"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "Nh\u00f3m routing"), y.a.createElement(N["a"], {
                     mode: "multiple",
                     value: e.route_id || [],
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u8def\u7531\u7ec4",
+                    placeholder: "Vui l\u00f2ng ch\u1ecdnNh\u00f3m routing",
                     style: {
                         width: "100%"
                     },
@@ -106866,7 +106866,7 @@
                 }), y.a.createElement(R["a"], {
                     id: "server",
                     maskClosable: !0,
-                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode": "\u65b0\u5efaNode",
+                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode": "T\u1ea1o Node m\u1edbi",
                     width: "80%",
                     visible: this.state.visible,
                     onClose: ()=>this.onShow()
@@ -106892,13 +106892,13 @@
                 }))), y.a.createElement("div", {
                     className: "form-group"
                 },
-                y.a.createElement("label", null, "Node\u6807\u7b7e"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "Nh\u00e3n Node"), y.a.createElement(N["a"], {
                     mode: "tags",
                     value: e.tags || [],
                     style: {
                         width: "100%"
                     },
-                    placeholder: "\u8f93\u5165\u540e\u56de\u8f66Th\u00eam\u6807\u7b7e",
+                    placeholder: "Nh\u1eadp r\u1ed3i Enter \u0111\u1ec3 th\u00eam nh\u00e3n",
                     onChange: e=>this.formChange("tags", e.length > 0 ? e: null)
                 })), y.a.createElement("div", {
                     className: "form-group"
@@ -106927,7 +106927,7 @@
                     className: "form-group col-md-12 col-xs-12"
                 },
                 y.a.createElement("label", null, "\u0110\u1ecba ch\u1ec9 node"), y.a.createElement(s["a"], {
-                    placeholder: "\u0110\u1ecba ch\u1ec9\u6216IP",
+                    placeholder: "\u0110\u1ecba ch\u1ec9 ho\u1eb7c IP",
                     value: e.host,
                     onChange: e=>this.formChange("host", e.target.value)
                 }))), y.a.createElement("div", {
@@ -106946,7 +106946,7 @@
                     className: "form-group col-md-4 col-xs-12"
                 },
                 y.a.createElement("label", null, "D\u1ecbch v\u1ee5C\u1ed5ng"), y.a.createElement(s["a"], {
-                    placeholder: "D\u1ecbch v\u1ee5ph\u00eda\u5f00\u653eC\u1ed5ng",
+                    placeholder: "C\u1ed5ng m\u1edf ph\u00eda d\u1ecbch v\u1ee5",
                     value: e.server_port,
                     onChange: e=>{
                         this.formChange("server_port", e.target.value)
@@ -106956,13 +106956,13 @@
                 },
                 y.a.createElement("label", null, y.a.createElement(u["a"], {
                     placement: "top",
-                    title: "\u4f7f\u7528\u81eaCh\u1eef k\u00fdCh\u1ee9ng ch\u1ec9\u9700\u8981Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt\uff0cng\u01b0\u1eddi d\u00f9ngm\u1edbi k\u1ebft n\u1ed1i \u0111\u01b0\u1ee3c"
+                    title: "\u4f7f\u7528Ch\u1ee9ng ch\u1ec9 t\u1ef1 k\u00fdCh\u1ee9ng ch\u1ec9\u9700\u8981Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt\uff0cng\u01b0\u1eddi d\u00f9ngm\u1edbi k\u1ebft n\u1ed1i \u0111\u01b0\u1ee3c"
                 },
-                "Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt ", y.a.createElement(m["a"], {
+                "Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt", y.a.createElement(m["a"], {
                     type: "question-circle"
                 }))), y.a.createElement(N["a"], {
                     value: parseInt(e.insecure) ? 1 : 0,
-                    placeholder: "Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt",
+                    placeholder: "Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt",
                     style: {
                         width: "100%"
                     },
@@ -106979,7 +106979,7 @@
                 "C\u00f3")))), y.a.createElement("div", {
                     className: "form-group"
                 },
-                y.a.createElement("label", null, "M\u00e1y ch\u1ee7T\u00ean\u6307\u793a(sni)"), y.a.createElement(s["a"], {
+                y.a.createElement("label", null, "Ch\u1ec9 th\u1ecb t\u00ean m\u00e1y ch\u1ee7 (SNI)"), y.a.createElement(s["a"], {
                     placeholder: "Khi\u0110\u1ecba ch\u1ec9 nodev\u00e0Ch\u1ee9ng ch\u1ec9kh\u00f4ng kh\u1edbp, d\u00f9ng \u0111\u1ec3Ch\u1ee9ng ch\u1ec9x\u00e1c minh",
                     value: e.server_name,
                     onChange: e=>this.formChange("server_name", e.target.value)
@@ -106989,8 +106989,8 @@
                     className: "form-group col-md-12 col-xs-12"
                 }, y.a.createElement("label", null, y.a.createElement("a", {
                     href: "javascript:void(0);",
-                    onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eeda\u586b\u5145\u65b9\u6848", "padding_scheme")
-                }, "Ch\u1ec9nh s\u1eeda\u586b\u5145\u65b9\u6848")))), y.a.createElement("div", {
+                    onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eeda ph\u01b0\u01a1ng \u00e1n padding", "padding_scheme")
+                }, "Ch\u1ec9nh s\u1eeda ph\u01b0\u01a1ng \u00e1n padding")))), y.a.createElement("div", {
                     className: "form-group"
                 },
                 y.a.createElement("label", null, y.a.createElement(u["a"], {
@@ -107001,7 +107001,7 @@
                     href: "https://docs.v2board.com/use/node.html#quan-he-node-cha-va-node-con",
                     rel: "noreferrer"
                 },
-                "Th\u00eam\u89e3\u7b54"))), y.a.createElement(N["a"], {
+                "Th\u00eam gi\u1ea3i \u0111\u00e1p"))), y.a.createElement(N["a"], {
                     value: e.parent_id || "",
                     onChange: e=>this.formChange("parent_id", e),
                     style: {
@@ -107011,7 +107011,7 @@
                 y.a.createElement(N["a"].Option, {
                     value: ""
                 },
-                "\u65e0"), n.map(t=>{
+                "Kh\u00f4ng"), n.map(t=>{
                     if ("anytls" === t.type && t.id !== e.id) return y.a.createElement(N["a"].Option, {
                         key: Math.random(),
                         value: t.id
@@ -107020,10 +107020,10 @@
                 }))), y.a.createElement("div", {
                     className: "form-group"
                 },
-                y.a.createElement("label", null, "\u8def\u7531\u7ec4"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "Nh\u00f3m routing"), y.a.createElement(N["a"], {
                     mode: "multiple",
                     value: e.route_id || [],
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u8def\u7531\u7ec4",
+                    placeholder: "Vui l\u00f2ng ch\u1ecdnNh\u00f3m routing",
                     style: {
                         width: "100%"
                     },
@@ -107179,7 +107179,7 @@
                         href: "https://www.v2ray.com/chapter_02/05_transport.html"
                     }, y.a.createElement(m["a"], {
                         type: "link"
-                    }), "\u53c2\u8003")), y.a.createElement(F.a, {
+                    }), "Tham kh\u1ea3o")), y.a.createElement(F.a, {
                         placeholder: (null == r || void 0 === r ? void 0 : r[this.state.server.network]) || "",
                         mode: "json",
                         theme: "github",
@@ -107285,7 +107285,7 @@
                 }), y.a.createElement(R["a"], {
                     id: "server",
                     maskClosable: !0,
-                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode": "\u65b0\u5efaNode",
+                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode": "T\u1ea1o Node m\u1edbi",
                     width: "80%",
                     visible: this.state.visible,
                     onClose: ()=>this.onShow()
@@ -107311,13 +107311,13 @@
                 }))), y.a.createElement("div", {
                     className: "form-group"
                 },
-                y.a.createElement("label", null, "Node\u6807\u7b7e"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "Nh\u00e3n Node"), y.a.createElement(N["a"], {
                     mode: "tags",
                     value: e.tags || [],
                     style: {
                         width: "100%"
                     },
-                    placeholder: "\u8f93\u5165\u540e\u56de\u8f66Th\u00eam\u6807\u7b7e",
+                    placeholder: "Nh\u1eadp r\u1ed3i Enter \u0111\u1ec3 th\u00eam nh\u00e3n",
                     onChange: e=>this.formChange("tags", e.length > 0 ? e: null)
                 })), y.a.createElement("div", {
                     className: "form-group"
@@ -107346,15 +107346,15 @@
                     className: "form-group col-md-6 col-xs-12"
                 },
                 y.a.createElement("label", null, "k\u1ebft n\u1ed1i\u0110\u1ecba ch\u1ec9"), y.a.createElement(s["a"], {
-                    placeholder: "\u0110\u1ecba ch\u1ec9\u6216IP",
+                    placeholder: "\u0110\u1ecba ch\u1ec9 ho\u1eb7c IP",
                     value: e.host,
                     onChange: e=>this.formChange("host", e.target.value)
                 })),
                 y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 },
-                y.a.createElement("label", null, "\u76d1\u542c\u0110\u1ecba ch\u1ec9"), y.a.createElement(s["a"], {
-                    placeholder: "\u0110\u1ecba ch\u1ec9\u6216IPM\u1eb7c \u0111\u1ecbnh\u4e3a0.0.0.0",
+                y.a.createElement("label", null, "\u0110\u1ecba ch\u1ec9 l\u1eafng nghe"), y.a.createElement(s["a"], {
+                    placeholder: "\u0110\u1ecba ch\u1ec9 ho\u1eb7c IPM\u1eb7c \u0111\u1ecbnh\u4e3a0.0.0.0",
                     value: e.listen_ip,
                     onChange: e=>this.formChange("listen_ip", e.target.value)
                 }))), y.a.createElement("div", {
@@ -107373,7 +107373,7 @@
                     className: "form-group col-md-6 col-xs-12"
                 },
                 y.a.createElement("label", null, "D\u1ecbch v\u1ee5C\u1ed5ng"), y.a.createElement(s["a"], {
-                    placeholder: "D\u1ecbch v\u1ee5ph\u00eda\u5f00\u653eC\u1ed5ng",
+                    placeholder: "C\u1ed5ng m\u1edf ph\u00eda d\u1ecbch v\u1ee5",
                     value: e.server_port,
                     onChange: e=>{
                         this.formChange("server_port", e.target.value)
@@ -107411,7 +107411,7 @@
                     value: "vmess"
                 }, "VMess"))), e.protocol != null && e.protocol != "shadowsocks" && y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
-                }, y.a.createElement("label", null, "B\u1ea3o m\u1eadt\u6027 ", (parseInt(e.tls) != 0 || e.protocol == "anytls" || e.protocol == "hysteria2" || e.protocol == "trojan" || e.protocol == "tuic") && y.a.createElement("a", {
+                }, y.a.createElement("label", null, "B\u1ea3o m\u1eadt", (parseInt(e.tls) != 0 || e.protocol == "anytls" || e.protocol == "hysteria2" || e.protocol == "trojan" || e.protocol == "tuic") && y.a.createElement("a", {
                     href: "javascript:void(0);",
                     onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eedaB\u1ea3o m\u1eadt\u6027C\u1ea5u h\u00ecnh", "tls_settings")
                 }, "Ch\u1ec9nh s\u1eedaC\u1ea5u h\u00ecnh")), y.a.createElement(N["a"], {
@@ -107423,7 +107423,7 @@
                 }, (e.protocol == "vless" || e.protocol == "vmess") && y.a.createElement(N["a"].Option, {
                     key: 0,
                     value: 0
-                }, "\u65e0"), y.a.createElement(N["a"].Option, {
+                }, "Kh\u00f4ng"), y.a.createElement(N["a"].Option, {
                     key: 1,
                     value: 1
                 }, "TLS"), e.protocol == "vless" && y.a.createElement(N["a"].Option, {
@@ -107438,7 +107438,7 @@
                     onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eedaGiao th\u1ee9cC\u1ea5u h\u00ecnh", "network_settings")
                 }, "Ch\u1ec9nh s\u1eedaC\u1ea5u h\u00ecnh")), y.a.createElement(N["a"], {
                     value: e.network ?? "tcp",
-                    placeholder: "\u9009\u62e9Giao th\u1ee9c truy\u1ec1n t\u1ea3i",
+                    placeholder: "Ch\u1ecdnGiao th\u1ee9c truy\u1ec1n t\u1ea3i",
                     style: {
                         width: "100%"
                     },
@@ -107447,7 +107447,7 @@
                     value: "tcp"
                 }, "TCP"), y.a.createElement(N["a"].Option, {
                     value: "http"
-                }, "HTTP\u4f2a\u88c5")))), e.protocol != null && e.protocol != "hysteria2" && e.protocol != "anytls" && e.protocol != "shadowsocks" && e.protocol != "tuic" && y.a.createElement("div", {
+                }, "Gi\u1ea3 m\u1ea1o HTTP")))), e.protocol != null && e.protocol != "hysteria2" && e.protocol != "anytls" && e.protocol != "shadowsocks" && e.protocol != "tuic" && y.a.createElement("div", {
                     className: "row"
                 }, y.a.createElement("div", {
                     className: "form-group col-md-12 col-xs-12"
@@ -107456,7 +107456,7 @@
                     onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eedaGiao th\u1ee9cC\u1ea5u h\u00ecnh", "network_settings")
                 }, "Ch\u1ec9nh s\u1eedaC\u1ea5u h\u00ecnh")), y.a.createElement(N["a"], {
                     value: e.network ?? "tcp",
-                    placeholder: "\u9009\u62e9Giao th\u1ee9c truy\u1ec1n t\u1ea3i",
+                    placeholder: "Ch\u1ecdnGiao th\u1ee9c truy\u1ec1n t\u1ea3i",
                     style: {
                         width: "100%"
                     },
@@ -107477,12 +107477,12 @@
                     className: "form-group col-md-12 col-xs-12"
                 }, y.a.createElement("label", null, y.a.createElement("a", {
                     href: "javascript:void(0);",
-                    onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eeda\u586b\u5145\u65b9\u6848", "padding_scheme")
-                }, "Ch\u1ec9nh s\u1eeda\u586b\u5145\u65b9\u6848")))), e.protocol == "hysteria2" && y.a.createElement("div", {
+                    onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eeda ph\u01b0\u01a1ng \u00e1n padding", "padding_scheme")
+                }, "Ch\u1ec9nh s\u1eeda ph\u01b0\u01a1ng \u00e1n padding")))), e.protocol == "hysteria2" && y.a.createElement("div", {
                     className: "row"
                 }, y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
-                }, y.a.createElement("label", null, "\u6df7\u6dc6\u65b9\u5f0fobfs"), y.a.createElement(N["a"], {
+                }, y.a.createElement("label", null, "C\u00e1ch obfuscation (obfs)"), y.a.createElement(N["a"], {
                     value: e.obfs,
                     style: {
                         width: "100%"
@@ -107491,25 +107491,25 @@
                 }, y.a.createElement(N["a"].Option, {
                     key: 0,
                     value: null
-                }, "\u65e0"), y.a.createElement(N["a"].Option, {
+                }, "Kh\u00f4ng"), y.a.createElement(N["a"].Option, {
                     key: 1,
                     value: "salamander"
                 }, "salamander"))), e.obfs === "salamander" && y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
-                }, y.a.createElement("label", null, "\u6df7\u6dc6M\u1eadt kh\u1ea9uobfs_password"), y.a.createElement(s["a"], {
+                }, y.a.createElement("label", null, "ObfuscationM\u1eadt kh\u1ea9uobfs_password"), y.a.createElement(s["a"], {
                     value: e.obfs_password,
-                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ng\u751f\u6210",
+                    placeholder: "\u0110\u1ec3 tr\u1ed1ngT\u1ef1 \u0111\u1ed9ngT\u1ea1o",
                     onChange: e=>this.formChange("obfs_password", e.target.value)
                 }))), e.protocol == "hysteria2" && y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "\u4e0ah\u00e0ngB\u0103ng th\u00f4ng"), y.a.createElement(s["a"], {
+                }, y.a.createElement("label", null, "UploadB\u0103ng th\u00f4ng"), y.a.createElement(s["a"], {
                     addonAfter: "Mbps",
                     placeholder: "D\u1ecbch v\u1ee5ph\u00edaB\u0103ng th\u00f4ng g\u1eedi,\u0110\u1ec3 tr\u1ed1ng ho\u1eb7c \u0111i\u1ec1n 0 \u0111\u1ec3 d\u00f9ng BBR",
                     value: e.up_mbps,
                     onChange: e=>this.formChange("up_mbps", e.target.value)
                 })), e.protocol == "hysteria2" && y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "\u4e0bh\u00e0ngB\u0103ng th\u00f4ng"), y.a.createElement(s["a"], {
+                }, y.a.createElement("label", null, "DownloadB\u0103ng th\u00f4ng"), y.a.createElement(s["a"], {
                     addonAfter: "Mbps",
                     placeholder: "D\u1ecbch v\u1ee5ph\u00edaB\u0103ng th\u00f4ng nh\u1eadn,\u0110\u1ec3 tr\u1ed1ng ho\u1eb7c \u0111i\u1ec1n 0 \u0111\u1ec3 d\u00f9ng BBR",
                     value: e.down_mbps,
@@ -107519,7 +107519,7 @@
                 }, y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 },
-                y.a.createElement("label", null, "\u7981\u7528SNI"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "T\u1eaft SNI"), y.a.createElement(N["a"], {
                     value: parseInt(e.disable_sni) ? 1 : 0,
                     style: {
                         width: "100%"
@@ -107537,7 +107537,7 @@
                 "C\u00f3"))), y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 },
-                y.a.createElement("label", null, "D\u1eef li\u1ec7u\u5305Trung b\u00ecnh\u7ee7\u6a21\u5f0f"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "G\u00f3i d\u1eef li\u1ec7u - ch\u1ebf \u0111\u1ed9 k\u1ebf th\u1eeba"), y.a.createElement(N["a"], {
                     value: e.udp_relay_mode ? e.udp_relay_mode : "native",
                     style: {
                         width: "100%"
@@ -107557,7 +107557,7 @@
                 }, y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 },
-                y.a.createElement("label", null, "\u62e5\u585e\u63a7\u5236\u7b97\u6cd5"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "Thu\u1eadt to\u00e1n ki\u1ec3m so\u00e1t t\u1eafc ngh\u1ebdn"), y.a.createElement(N["a"], {
                     value: e.congestion_control ? e.congestion_control : "cubic",
                     style: {
                         width: "100%"
@@ -107579,7 +107579,7 @@
                 "bbr"))), y.a.createElement("div", {
                     className: "form-group col-md-6 col-xs-12"
                 },
-                y.a.createElement("label", null, "\u5ba2\u6237ph\u00edaB\u1eadt 0-RTT"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "Ph\u00eda client b\u1eadt 0-RTT"), y.a.createElement(N["a"], {
                     value: parseInt(e.zero_rtt_handshake) ? 1 : 0,
                     style: {
                         width: "100%"
@@ -107596,7 +107596,7 @@
                 },
                 "C\u00f3")))), e.protocol == "shadowsocks" && y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "\u52a0\u5bc6\u7b97\u6cd5"), y.a.createElement(N["a"], {
+                }, y.a.createElement("label", null, "Thu\u1eadt to\u00e1n m\u00e3 h\u00f3a"), y.a.createElement(N["a"], {
                     value: e.cipher ?? "aes-128-gcm",
                     onChange: e=>this.formChange("cipher", e),
                     style: {
@@ -107620,32 +107620,32 @@
                     className: "form-group col-md-12 col-xs-12"
                 }, y.a.createElement("label", null, "Ph\u01b0\u01a1ng th\u1ee9c m\u00e3 h\u00f3a ", e.encryption && y.a.createElement("a", {
                     href: "javascript:void(0);",
-                    onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eeda\u52a0\u5bc6C\u1ea5u h\u00ecnh", "encryption_settings")
+                    onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eeda c\u1ea5u h\u00ecnh m\u00e3 h\u00f3a", "encryption_settings")
                 }, "Ch\u1ec9nh s\u1eedaC\u1ea5u h\u00ecnh")), y.a.createElement(N["a"], {
                     value: e.encryption,
-                    placeholder: "\u9009\u62e9Ph\u01b0\u01a1ng th\u1ee9c m\u00e3 h\u00f3a",
+                    placeholder: "Ch\u1ecdnPh\u01b0\u01a1ng th\u1ee9c m\u00e3 h\u00f3a",
                     style: {
                         width: "100%"
                     },
                     onChange: e=>this.formChange("encryption", e)
                 }, y.a.createElement(N["a"].Option, {
                     value: null
-                }, "\u65e0"), y.a.createElement(N["a"].Option, {
+                }, "Kh\u00f4ng"), y.a.createElement(N["a"].Option, {
                     value: "mlkem768x25519plus"
                 }, "MLKEM768X25519PLUS")))), e.protocol == "vless" && y.a.createElement("div", {
                     className: "row"
                 }, y.a.createElement("div", {
                     className: "form-group col-md-12 col-xs-12"
-                }, y.a.createElement("label", null, "XTLS\u6d41\u63a7\u7b97\u6cd5"), y.a.createElement(N["a"], {
+                }, y.a.createElement("label", null, "Thu\u1eadt to\u00e1n ki\u1ec3m so\u00e1t lu\u1ed3ng XTLS"), y.a.createElement(N["a"], {
                     value: e.flow,
-                    placeholder: "\u9009\u62e9XTLS\u6d41\u63a7\u7b97\u6cd5",
+                    placeholder: "Ch\u1ecdn thu\u1eadt to\u00e1n ki\u1ec3m so\u00e1t lu\u1ed3ng XTLS",
                     style: {
                         width: "100%"
                     },
                     onChange: e=>this.formChange("flow", e)
                 }, y.a.createElement(N["a"].Option, {
                     value: null
-                }, "\u65e0"), y.a.createElement(N["a"].Option, {
+                }, "Kh\u00f4ng"), y.a.createElement(N["a"].Option, {
                     value: "xtls-rprx-vision"
                 }, "xtls-rprx-vision")))), y.a.createElement("div", {
                     className: "form-group"
@@ -107658,7 +107658,7 @@
                     href: "https://docs.v2board.com/use/node.html#quan-he-node-cha-va-node-con",
                     rel: "noreferrer"
                 },
-                "Th\u00eam\u89e3\u7b54"))), y.a.createElement(N["a"], {
+                "Th\u00eam gi\u1ea3i \u0111\u00e1p"))), y.a.createElement(N["a"], {
                     value: e.parent_id || "",
                     onChange: e=>this.formChange("parent_id", e),
                     style: {
@@ -107668,7 +107668,7 @@
                 y.a.createElement(N["a"].Option, {
                     value: ""
                 },
-                "\u65e0"), n.map(t=>{
+                "Kh\u00f4ng"), n.map(t=>{
                     if ("v2node" === t.type && t.id !== e.id) return y.a.createElement(N["a"].Option, {
                         key: Math.random(),
                         value: t.id
@@ -107677,10 +107677,10 @@
                 }))), y.a.createElement("div", {
                     className: "form-group"
                 },
-                y.a.createElement("label", null, "\u8def\u7531\u7ec4"), y.a.createElement(N["a"], {
+                y.a.createElement("label", null, "Nh\u00f3m routing"), y.a.createElement(N["a"], {
                     mode: "multiple",
                     value: e.route_id || [],
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u8def\u7531\u7ec4",
+                    placeholder: "Vui l\u00f2ng ch\u1ecdnNh\u00f3m routing",
                     style: {
                         width: "100%"
                     },
@@ -107693,7 +107693,7 @@
                     e.remarks)
                 }))), y.a.createElement("div", {
                     className: "form-group"
-                }, y.a.createElement("label", null, "\u4e00\u952e\u5b89\u88c5\u6307\u4ee4"), y.a.createElement(s["a"].TextArea, {
+                }, y.a.createElement("label", null, "L\u1ec7nh c\u00e0i \u0111\u1eb7t m\u1ed9t click"), y.a.createElement(s["a"].TextArea, {
                     value: e.install_command,
                     rows: 4,
                     readOnly: true,
@@ -107914,7 +107914,7 @@
                         return y.a.createElement("span", null, this.getTypeTag(t.type, t.parent_id ? e + " => " + t.parent_id : e))
                     }
                 }, {
-                    title: "\u663e\u9690",
+                    title: "Hi\u1ec7n/\u1ea8n",
                     dataIndex: "show",
                     key: "show",
                     render: (e,t)=>{
@@ -107929,11 +107929,11 @@
                         placement: "top",
                         title: y.a.createElement("div", null, y.a.createElement(h["a"], {
                             status: "error"
-                        }), " \u672a\u8fd0h\u00e0ng", y.a.createElement("br", null), y.a.createElement(h["a"], {
+                        }), " Ch\u01b0a ch\u1ea1y", y.a.createElement("br", null), y.a.createElement(h["a"], {
                             status: "warning"
                         }), "Kh\u00f4ng ai s\u1eed d\u1ee5ng\u6216D\u1ecbch v\u1ee5ph\u00edaB\u00e1o l\u1ed7i", y.a.createElement("br", null), y.a.createElement(h["a"], {
                             status: "processing"
-                        }), " \u8fd0h\u00e0ngB\u00ecnh th\u01b0\u1eddng", y.a.createElement("br", null))
+                        }), "\u0110ang ch\u1ea1y b\u00ecnh th\u01b0\u1eddng", y.a.createElement("br", null))
                     }, "Node ", y.a.createElement(m["a"], {
                         type: "question-circle"
                     }))),
@@ -107962,8 +107962,8 @@
                 }, {
                     title: y.a.createElement("span", null, y.a.createElement(u["a"], {
                         placement: "top",
-                        title: "\u6839\u636eD\u1ecbch v\u1ee5ph\u00edab\u00e1o c\u00e1ot\u1ea7n su\u1ea5t quy\u1ebft \u0111\u1ecbnh"
-                    }, "\u4eba\u6570 ", y.a.createElement(m["a"], {
+                        title: "D\u1ef1a theoD\u1ecbch v\u1ee5ph\u00edab\u00e1o c\u00e1ot\u1ea7n su\u1ea5t quy\u1ebft \u0111\u1ecbnh"
+                    }, "S\u1ed1 ng\u01b0\u1eddi", y.a.createElement(m["a"], {
                         type: "question-circle"
                     }))),
                     dataIndex: "online",
@@ -107979,7 +107979,7 @@
                 }, {
                     title: y.a.createElement(u["a"], {
                         placement: "top",
-                        title: "\u4f7f\u7528\u7684L\u01b0u l\u01b0\u1ee3ng\u5c06nh\u00e2n v\u1edbiH\u1ec7 s\u1ed1th\u1ef1c hi\u1ec7n\u6263\u9664"
+                        title: "\u4f7f\u7528c\u1ee7aL\u01b0u l\u01b0\u1ee3ng\u5c06nh\u00e2n v\u1edbiH\u1ec7 s\u1ed1th\u1ef1c hi\u1ec7n\u6263\u9664"
                     }, "H\u1ec7 s\u1ed1 ", y.a.createElement(m["a"], {
                         type: "question-circle"
                     })),
@@ -108061,7 +108061,7 @@
                 }, y.a.createElement(l["a"], null, y.a.createElement(m["a"], {
                     type: "plus"
                 }))), y.a.createElement(s["a"], {
-                    placeholder: "\u8f93\u5165\u4efb\u610fT\u1eeb kh\u00f3aT\u00ecm ki\u1ebfm",
+                    placeholder: "Nh\u1eadp t\u1eeb kh\u00f3a b\u1ea5t k\u1ef3 \u0111\u1ec3 t\u00ecm",
                     style: {
                         width: 200
                     },
@@ -108139,7 +108139,7 @@
                                 style: {
                                     cursor: "move"
                                 },
-                                title: "\u62d6\u52a8Th\u1ee9 t\u1ef1"
+                                title: "K\u00e9o \u0111\u1ec3 s\u1eafp x\u1ebfp"
                             }))
                         }
                     }, {
@@ -112289,7 +112289,7 @@
                         visible: !0
                     })
                 }), f.a.createElement(g["a"], {
-                    title: "".concat(this.state.route.id ? "Ch\u1ec9nh s\u1eeda\u8def\u7531" : "T\u1ea1o m\u1edbi\u8def\u7531"),
+                    title: "".concat(this.state.route.id ? "Ch\u1ec9nh s\u1eedaRouting" : "T\u1ea1o m\u1edbiRouting"),
                     visible: this.state.visible,
                     onCancel: ()=>this.setState({
                         visible: !1
@@ -112317,11 +112317,11 @@
                     className: "form-group"
                 }, f.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u5339\u914dGi\u00e1 tr\u1ecb", f.a.createElement("a", {
+                }, "Gi\u00e1 tr\u1ecb kh\u1edbp", f.a.createElement("a", {
                         href: "https://xtls.github.io/config/routing.html#ruleobject"
                     }, f.a.createElement(a["a"], {
                         type: "link"
-                    }), "\u586b\u5199\u53c2\u8003")), f.a.createElement(y["a"].TextArea, {
+                    }), "Tham kh\u1ea3o \u0111i\u1ec1n")), f.a.createElement(y["a"].TextArea, {
                     rows: 5,
                     placeholder: (()=> {
                         const action = this.state.route.action;
@@ -112352,9 +112352,9 @@
                     className: "form-group"
                 }, f.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u52a8\u4f5c"), f.a.createElement("div", null, f.a.createElement(v["a"], {
+                }, "H\u00e0nh \u0111\u1ed9ng"), f.a.createElement("div", null, f.a.createElement(v["a"], {
                     value: this.state.route.action,
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u52a8\u4f5c",
+                    placeholder: "Vui l\u00f2ng ch\u1ecdnH\u00e0nh \u0111\u1ed9ng",
                     style: {
                         width: "100%"
                     },
@@ -112384,7 +112384,7 @@
                 }, f.a.createElement("label", {
                     for: "example-text-input-alt"
                 }, "DNSM\u00e1y ch\u1ee7"), f.a.createElement(y["a"], {
-                    placeholder: "Vui l\u00f2ng nh\u1eadpd\u00f9ng \u0111\u1ec3\u89e3\u6790\u7684DNSM\u00e1y ch\u1ee7\u0110\u1ecba ch\u1ec9",
+                    placeholder: "Vui l\u00f2ng nh\u1eadpd\u00f9ng \u0111\u1ec3Ph\u00e2n gi\u1ea3ic\u1ee7aDNSM\u00e1y ch\u1ee7\u0110\u1ecba ch\u1ec9",
                     value: this.state.route.action_value,
                     onChange: e=>{
                         this.setState({
@@ -112401,7 +112401,7 @@
                         href: "https://xtls.github.io/config/outbound.html"
                     }, f.a.createElement(a["a"], {
                         type: "link"
-                    }), "\u586b\u5199\u53c2\u8003")), f.a.createElement(y["a"].TextArea, {
+                    }), "Tham kh\u1ea3o \u0111i\u1ec1n")), f.a.createElement(y["a"].TextArea, {
                     rows: 8,
                     placeholder: JSON.stringify({
                         tag: "ss_out",
@@ -112475,15 +112475,15 @@
                     dataIndex: "remarks",
                     key: "remarks"
                 }, {
-                    title: "\u5339\u914dS\u1ed1 l\u01b0\u1ee3ng",
+                    title: "S\u1ed1 l\u01b0\u1ee3ng kh\u1edbp",
                     dataIndex: "match",
                     key: "match",
                     render: e=>{
                         var t;
-                        return e.length == 0 ? "\u65e0Quy t\u1eafc\u65f6M\u1eb7c \u0111\u1ecbnh" : "\u5339\u914d ".concat("string" === typeof e ? null === (t = e.split(",").filter(e=>!!e)) || void 0 === t ? void 0 : t.length : e.length, " m\u1ee5cQuy t\u1eafc")
+                        return e.length == 0 ? "M\u1eb7c \u0111\u1ecbnh khi kh\u00f4ng c\u00f3 quy t\u1eafc" : "Kh\u1edbp".concat("string" === typeof e ? null === (t = e.split(",").filter(e=>!!e)) || void 0 === t ? void 0 : t.length : e.length, " m\u1ee5cQuy t\u1eafc")
                     }
                 }, {
-                    title: "\u52a8\u4f5c",
+                    title: "H\u00e0nh \u0111\u1ed9ng",
                     dataIndex: "action",
                     key: "action",
                     render: e=>{
@@ -112509,7 +112509,7 @@
                     }
                 }];
                 return f.a.createElement(d["a"], i()({}, this.props, {
-                    title: "\u8def\u7531\u7ba1\u7406"
+                    title: "Qu\u1ea3n l\u00fd routing"
                 }), f.a.createElement("div", {
                     className: "d-flex justify-content-between align-items-center"
                 }), f.a.createElement(m["a"], {
@@ -112526,7 +112526,7 @@
                     onClick: ()=>this.modalVisible()
                 }, f.a.createElement(s["a"], {
                     type: "plus"
-                }), " Th\u00eam\u8def\u7531"))), f.a.createElement(o["a"], {
+                }), " Th\u00eam routing"))), f.a.createElement(o["a"], {
                     tableLayout: "auto",
                     columns: r,
                     dataSource: t,
@@ -114662,7 +114662,7 @@
                         href: "https://www.v2ray.com/chapter_02/05_transport.html"
                     }, f.a.createElement(a["a"], {
                         type: "link"
-                    }), "\u53c2\u8003")), f.a.createElement(q.a, {
+                    }), "Tham kh\u1ea3o")), f.a.createElement(q.a, {
                         placeholder: (null === o || void 0 === o ? void 0 : o[this.state.server.network]) || "",
                         mode: "json",
                         theme: "github",
@@ -114701,7 +114701,7 @@
                 }), f.a.createElement(r["a"], {
                     id: "server",
                     maskClosable: !0,
-                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode" : "\u65b0\u5efaNode",
+                    title: e.id ? "Ch\u1ec9nh s\u1eedaNode" : "T\u1ea1o Node m\u1edbi",
                     width: "80%",
                     visible: this.state.visible,
                     onClose: ()=>this.onShow()
@@ -114722,13 +114722,13 @@
                     onChange: e=>this.formChange("rate", e.target.value)
                 }))), f.a.createElement("div", {
                     className: "form-group"
-                }, f.a.createElement("label", null, "Node\u6807\u7b7e"), f.a.createElement(s["a"], {
+                }, f.a.createElement("label", null, "Nh\u00e3n Node"), f.a.createElement(s["a"], {
                     mode: "tags",
                     value: e.tags || [],
                     style: {
                         width: "100%"
                     },
-                    placeholder: "\u8f93\u5165\u540e\u56de\u8f66Th\u00eam\u6807\u7b7e",
+                    placeholder: "Nh\u1eadp r\u1ed3i Enter \u0111\u1ec3 th\u00eam nh\u00e3n",
                     onChange: e=>this.formChange("tags", e.length > 0 ? e : null)
                 })), f.a.createElement("div", {
                     className: "form-group"
@@ -114752,7 +114752,7 @@
                 }, f.a.createElement("div", {
                     className: "form-group col-md-12 col-xs-12"
                 }, f.a.createElement("label", null, "\u0110\u1ecba ch\u1ec9 node"), f.a.createElement(l["a"], {
-                    placeholder: "\u0110\u1ecba ch\u1ec9\u6216IP",
+                    placeholder: "\u0110\u1ecba ch\u1ec9 ho\u1eb7c IP",
                     value: e.host,
                     onChange: e=>this.formChange("host", e.target.value)
                 }))), f.a.createElement("div", {
@@ -114768,7 +114768,7 @@
                 })), f.a.createElement("div", {
                     className: "form-group col-md-4 col-xs-12"
                 }, f.a.createElement("label", null, "D\u1ecbch v\u1ee5C\u1ed5ng"), f.a.createElement(l["a"], {
-                    placeholder: "D\u1ecbch v\u1ee5ph\u00eda\u5f00\u653eC\u1ed5ng",
+                    placeholder: "C\u1ed5ng m\u1edf ph\u00eda d\u1ecbch v\u1ee5",
                     value: e.server_port,
                     onChange: e=>{
                         this.formChange("server_port", e.target.value)
@@ -114777,12 +114777,12 @@
                     className: "form-group col-md-4 col-xs-12"
                 }, f.a.createElement("label", null, f.a.createElement(o["a"], {
                     placement: "top",
-                    title: "\u4f7f\u7528\u81eaCh\u1eef k\u00fdCh\u1ee9ng ch\u1ec9\u9700\u8981Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt\uff0cng\u01b0\u1eddi d\u00f9ngm\u1edbi k\u1ebft n\u1ed1i \u0111\u01b0\u1ee3c"
-                }, "Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt ", f.a.createElement(a["a"], {
+                    title: "\u4f7f\u7528Ch\u1ee9ng ch\u1ec9 t\u1ef1 k\u00fdCh\u1ee9ng ch\u1ec9\u9700\u8981Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt\uff0cng\u01b0\u1eddi d\u00f9ngm\u1edbi k\u1ebft n\u1ed1i \u0111\u01b0\u1ee3c"
+                }, "Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt", f.a.createElement(a["a"], {
                     type: "question-circle"
                 }))), f.a.createElement(s["a"], {
                     value: parseInt(e.allow_insecure) ? 1 : 0,
-                    placeholder: "Cho ph\u00e9p\u4e0dB\u1ea3o m\u1eadt",
+                    placeholder: "Cho ph\u00e9p kh\u00f4ng b\u1ea3o m\u1eadt",
                     style: {
                         width: "100%"
                     },
@@ -114795,7 +114795,7 @@
                     value: 1
                 }, "C\u00f3")))), f.a.createElement("div", {
                     className: "form-group"
-                }, f.a.createElement("label", null, "M\u00e1y ch\u1ee7T\u00ean\u6307\u793a(sni)"), f.a.createElement(l["a"], {
+                }, f.a.createElement("label", null, "Ch\u1ec9 th\u1ecb t\u00ean m\u00e1y ch\u1ee7 (SNI)"), f.a.createElement(l["a"], {
                     placeholder: "Khi\u0110\u1ecba ch\u1ec9 nodev\u00e0Ch\u1ee9ng ch\u1ec9kh\u00f4ng kh\u1edbp, d\u00f9ng \u0111\u1ec3Ch\u1ee9ng ch\u1ec9x\u00e1c minh",
                     value: e.server_name,
                     onChange: e=>this.formChange("server_name", e.target.value)
@@ -114808,7 +114808,7 @@
                     onClick: ()=>this.showChildDrawer("Ch\u1ec9nh s\u1eedaGiao th\u1ee9cC\u1ea5u h\u00ecnh", "network_settings")
                 }, "Ch\u1ec9nh s\u1eedaC\u1ea5u h\u00ecnh")), f.a.createElement(s["a"], {
                     value: e.network,
-                    placeholder: "\u9009\u62e9Giao th\u1ee9c truy\u1ec1n t\u1ea3i",
+                    placeholder: "Ch\u1ecdnGiao th\u1ee9c truy\u1ec1n t\u1ea3i",
                     style: {
                         width: "100%"
                     },
@@ -114827,7 +114827,7 @@
                     target: "_blank",
                     href: "https://docs.v2board.com/use/node.html#quan-he-node-cha-va-node-con",
                     rel: "noreferrer"
-                }, "Th\u00eam\u89e3\u7b54"))), f.a.createElement(s["a"], {
+                }, "Th\u00eam gi\u1ea3i \u0111\u00e1p"))), f.a.createElement(s["a"], {
                     value: e.parent_id || "",
                     onChange: e=>this.formChange("parent_id", e),
                     style: {
@@ -114835,7 +114835,7 @@
                     }
                 }, f.a.createElement(s["a"].Option, {
                     value: ""
-                }, "\u65e0"), n.map(t=>{
+                }, "Kh\u00f4ng"), n.map(t=>{
                     if ("trojan" === t.type && t.id !== e.id)
                         return f.a.createElement(s["a"].Option, {
                             key: Math.random(),
@@ -114844,10 +114844,10 @@
                 }
                 ))), f.a.createElement("div", {
                     className: "form-group"
-                }, f.a.createElement("label", null, "\u8def\u7531\u7ec4"), f.a.createElement(s["a"], {
+                }, f.a.createElement("label", null, "Nh\u00f3m routing"), f.a.createElement(s["a"], {
                     mode: "multiple",
                     value: e.route_id || [],
-                    placeholder: "Vui l\u00f2ng ch\u1ecdn\u8def\u7531\u7ec4",
+                    placeholder: "Vui l\u00f2ng ch\u1ecdnNh\u00f3m routing",
                     style: {
                         width: "100%"
                     },
@@ -115641,7 +115641,7 @@
                             case 1:
                                 return "S\u1ed1 ti\u1ec1n";
                             case 2:
-                                return "\u65f6\u957f";
+                                return "Th\u1eddi l\u01b0\u1ee3ng";
                             case 3:
                                 return "L\u01b0u l\u01b0\u1ee3ng";
                             case 4:
@@ -115653,7 +115653,7 @@
                         }
                     }
                 }, {
-                    title: "\u6570Gi\u00e1 tr\u1ecb",
+                    title: "Gi\u00e1 tr\u1ecb s\u1ed1",
                     dataIndex: "value",
                     key: "value",
                     render: (e,t)=>{
@@ -115664,13 +115664,13 @@
                                     currency: 'VND'
                                 }) + " đ";
                             case 2:
-                                return e + " \u5929";
+                                return e + " Ng\u00e0y";
                             case 3:
                                 return e + " GB";
                             case 4:
                                 return "-";
                             case 5:
-                                return e + " \u5929";
+                                return e + " Ng\u00e0y";
                             default:
                                 return e;
                         }
@@ -115700,11 +115700,11 @@
                         }, e)
                     }
                 }, {
-                    title: "\u5269\u4f59\u6b21\u6570",
+                    title: "S\u1ed1 l\u1ea7n c\u00f2n l\u1ea1i",
                     dataIndex: "limit_use",
                     key: "limit_use",
                     render: e=>{
-                        return b.a.createElement(d["a"], null, null !== e ? e : "\u65e0\u9650")
+                        return b.a.createElement(d["a"], null, null !== e ? e : "V\u00f4 h\u1ea1n")
                     }
                 }, {
                     title: "Th\u1eddi h\u1ea1n hi\u1ec7u l\u1ef1c",
@@ -115738,7 +115738,7 @@
                             onClick: ()=>{
                                 h["a"].confirm({
                                     title: "C\u1ea3nh b\u00e1o",
-                                    content: "X\u00e1c nh\u1eadn\u8981X\u00f3a\u8be5m\u1ee5c\u9879\u76ee\u5417\uff1f",
+                                    content: "B\u1ea1n c\u00f3 ch\u1eafc mu\u1ed1n x\u00f3a m\u1ee5c n\u00e0y?",
                                     onOk: ()=>this.drop(n),
                                     okText: "X\u00e1c nh\u1eadn",
                                     cancelText: "H\u1ee7y"
@@ -115750,7 +115750,7 @@
                     }
                 }];
                 return b.a.createElement(w["a"], i()({}, this.props, {
-                    title: "Th\u1ebb qu\u00e0 t\u1eb7ng\u7ba1\u7406"
+                    title: "Qu\u1ea3n l\u00fd th\u1ebb qu\u00e0 t\u1eb7ng"
                 }), b.a.createElement(O["a"], {
                     loading: n
                 }, b.a.createElement("div", {
@@ -115838,11 +115838,11 @@
                         }
                     }, b.a.createElement(a["a"].Option, {
                         value: 1
-                    }, "\u589e\u52a0S\u1ed1 d\u01b0 t\u00e0i kho\u1ea3n"), b.a.createElement(a["a"].Option, {
+                    }, "T\u0103ng s\u1ed1 d\u01b0 t\u00e0i kho\u1ea3n"), b.a.createElement(a["a"].Option, {
                         value: 2
-                    }, "\u589e\u52a0\u0110\u0103ng k\u00fd\u65f6\u957f"), b.a.createElement(a["a"].Option, {
+                    }, "T\u0103ng th\u1eddi h\u1ea1n \u0111\u0103ng k\u00fd"), b.a.createElement(a["a"].Option, {
                         value: 3
-                    }, "\u589e\u52a0G\u00f3i d\u1ecbch v\u1ee5L\u01b0u l\u01b0\u1ee3ng"), b.a.createElement(a["a"].Option, {
+                    }, "T\u0103ng l\u01b0u l\u01b0\u1ee3ng g\u00f3i d\u1ecbch v\u1ee5"), b.a.createElement(a["a"].Option, {
                         value: 4
                     }, "\u0110\u1eb7t l\u1ea1iG\u00f3i d\u1ecbch v\u1ee5L\u01b0u l\u01b0\u1ee3ng"), b.a.createElement(a["a"].Option, {
                         value: 5
@@ -115852,19 +115852,19 @@
                             case 1:
                                 return "đ";
                             case 2:
-                                return "\u5929";
+                                return "Ng\u00e0y";
                             case 3:
                                 return "GB";
                             case 4:
                                 return "";
                             case 5:
-                                return "\u5929";
+                                return "Ng\u00e0y";
                             default:
                                 return "";
                         }
                     })(),
                     disabled: this.state.submit.type === 4,
-                    placeholder: this.state.submit.type === 5 ? "\u4e00\u6b21\u6027G\u00f3i d\u1ecbch v\u1ee5\u8f93\u51650" : "Vui l\u00f2ng nh\u1eadpGi\u00e1 tr\u1ecb",
+                    placeholder: this.state.submit.type === 5 ? "G\u00f3i m\u1ed9t l\u1ea7n - nh\u1eadp 0" : "Vui l\u00f2ng nh\u1eadpGi\u00e1 tr\u1ecb",
                     value: this.state.submit.type === 4 ? 0 : this.state.submit.value,
                     onChange: e=>{
                         this.setState({
@@ -115877,7 +115877,7 @@
                     className: "form-group"
                 }, b.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u6307\u5b9a\u0110\u0103ng k\u00fd"), b.a.createElement("div", null, b.a.createElement(a["a"], {
+                }, "Ch\u1ec9 \u0111\u1ecbnh \u0111\u0103ng k\u00fd"), b.a.createElement("div", null, b.a.createElement(a["a"], {
                     value: this.state.submit.plan_id,
                     onChange: e=>{
                         this.setState({
@@ -115887,7 +115887,7 @@
                         })
                     },
                     mode: "single",
-                    placeholder: "\u6307\u5b9a\u0110\u0103ng k\u00fd",
+                    placeholder: "Ch\u1ec9 \u0111\u1ecbnh \u0111\u0103ng k\u00fd",
                     style: {
                         width: "100%"
                     }
@@ -115927,7 +115927,7 @@
                     className: "form-group"
                 }, b.a.createElement("label", {
                     for: "example-text-input-alt"
-                }, "\u6700\u5927S\u1ed1 l\u1ea7n s\u1eed d\u1ee5ng"), b.a.createElement(s["a"], {
+                }, "S\u1ed1 l\u1ea7n s\u1eed d\u1ee5ng t\u1ed1i \u0111a"), b.a.createElement(s["a"], {
                     placeholder: "Gi\u1edbi h\u1ea1n s\u1ed1 l\u1ea7n s\u1eed d\u1ee5ng t\u1ed1i \u0111a. D\u00f9ng h\u1ebft s\u1ebd kh\u00f4ng s\u1eed d\u1ee5ng \u0111\u01b0\u1ee3c (\u0111\u1ec3 tr\u1ed1ng = kh\u00f4ng gi\u1edbi h\u1ea1n)",
                     value: this.state.submit.limit_use,
                     onChange: e=>{
@@ -115941,8 +115941,8 @@
                     className: "form-group"
                 }, b.a.createElement("label", {
                     htmlFor: "example-text-input-alt"
-                }, "\u751f\u6210S\u1ed1 l\u01b0\u1ee3ng"), b.a.createElement(s["a"], {
-                    placeholder: "\u8f93\u5165S\u1ed1 l\u01b0\u1ee3ngT\u1ea1o h\u00e0ng lo\u1ea1t",
+                }, "S\u1ed1 l\u01b0\u1ee3ng t\u1ea1o"), b.a.createElement(s["a"], {
+                    placeholder: "Nh\u1eadp s\u1ed1 l\u01b0\u1ee3ng \u0111\u1ec3 t\u1ea1o h\u00e0ng lo\u1ea1t",
                     value: this.state.submit.generate_count,
                     onChange: e=>{
                         this.setState({
